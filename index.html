@@ -12,56 +12,82 @@
 	<h1 class="PluginName">ngVerify</h2>
 	<p class="Version">ver: 0.1.0</p>
 
-	<!-- 表单验证 -->
-	<form name="loginForm" verifyform>
-		<div class="form-group">
-		    <label for="exampleInputEmail1">Email address </label>
-			<!-- 只需要写上 ng-verify -->
-		    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="input your email"
-			 ng-verify
-			>
-		</div>
-		<div class="form-group">
-		    <label for="exampleInputPassword1">Password </label>
-			<!-- 自定义字符长度 -->
-		    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="3 to 10 chars"
-			 ng-verify="{min:3, max:10}"
-			>
-		</div>
-		<div class="form-group">
-		    <label for="phone">phone</label>
-			<!-- 默认支持的type类型 -->
-		    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
-			 ng-verify="{min:11,required:false}"
-			>
-		</div>
-		<div class="form-group">
-		    <label for="pattern">pattern</label>
-			<!-- 自定义正则 -->
-		    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
-			 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false}"
-			>
-		</div>
-		<div class="form-group">
-		    <label for="select">select</label>
-			<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
-		    <select id="select" class="form-control" ng-verify="{option:0}">
-		    	<option>请选择</option>
-		    	<option>1</option>
-		    	<option>2</option>
-		    	<option>3</option>
-		    </select>
-		</div>
-		<button type="submit" class="btn btn-block btn-primary" ng-verify="{formName:'loginForm'}">提交</button>
-	</form>
+	<div ng-controller="testCtrl">
+		<!-- 表单验证 -->
+		<form id="testform" name="loginForm" verify>
+			<div class="form-group">
+			    <label for="Email">Email address </label>
+				<!-- 只需要写上 ng-verify -->
+			    <input type="email" class="form-control" id="Email" placeholder="input your email"
+				 ng-verify
+				>
+			</div>
+			<div class="form-group">
+			    <label for="Password">Password </label>
+				<!-- 自定义字符长度 -->
+			    <input type="password" class="form-control" id="Password" placeholder="3 to 10 chars"
+				 ng-verify="{min:3, max:10}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="phone">phone</label>
+				<!-- 默认支持的type类型 -->
+			    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
+				 ng-verify="{min:11,required:false}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="pattern">pattern</label>
+				<!-- 自定义正则 -->
+			    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
+				 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="select">select</label>
+				<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
+			    <select id="select" class="form-control" ng-verify="{option:0}">
+			    	<option>请选择</option>
+			    	<option>1</option>
+			    	<option>2</option>
+			    	<option>3</option>
+			    </select>
+			</div>
+			<!-- 表单范围内的提交按钮, 将type设置为submit, 或是传入formName:'loginForm' -->
+			<input type="submit" class="btn btn-block btn-primary" ng-verify value="提交">
+		</form>
+
+		<!-- 绑定一个指令范围外的按钮, formName:'loginForm', 设置 control:false 可以使他可以不会因为校验失败而禁用 -->
+		<button type="button" class="btn btn-warning" ng-verify="{formName:'loginForm', control:false}">验证整个表单</button>
+
+		<!-- 测试多表单是否冲突 -->
+		<!-- <form id="testform2" name="loginForm2" verify>
+			<div class="form-group">
+			    <label for="form2">string</label>
+			    <input type="text" class="form-control" id="form2" placeholder="input string"
+				 ng-verify
+				>
+			</div>
+			<button type="submit" class="btn btn-block btn-primary" ng-verify="{formName:'loginForm2'}">提交</button>
+		</form> -->
+	</div>
+	
 </body>
 </html>
 
-<script src="js/angular-1.3.0.js"></script>
+<!-- qtip提示部分，正式版将会剔除 -->
 <script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
+
+<script src="js/angular-1.3.0.js"></script>
 <script src="js/ngVerify.js"></script>
 <script>
 	// 使用ngVerify前，先依赖注入
-	angular.module('APP',['ngVerify']);
+	var app = angular.module('APP',['ngVerify']);
+
+	// 测试用控制器
+	app.controller('testCtrl',function ($scope) {
+		// console.log($scope);
+	})
+
 </script>
