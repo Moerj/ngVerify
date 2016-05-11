@@ -1,0 +1,25 @@
+.PluginName {
+    text-align: center;
+    color: #C9E2F7;
+    opacity: .5;
+}
+.Version{
+    text-align: center;
+    color: #999
+}
+
+form {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+label {
+    width: 100%;
+}
+
+label span {
+    color: #ee9285;
+    float: right;
+}

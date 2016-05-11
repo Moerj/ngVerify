@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="APP">
+<head>
+	<meta charset="UTF-8">
+	<title>指令与表单验证</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link href="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/ngVerify.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<h1 class="PluginName">ngVerify</h2>
+	<p class="Version">ver: 0.1.0</p>
+
+	<!-- 表单验证 -->
+	<form name="loginForm" verifyform>
+		<div class="form-group">
+		    <label for="exampleInputEmail1">Email address </label>
+			<!-- 只需要写上 ng-verify -->
+		    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="input your email"
+			 ng-verify
+			>
+		</div>
+		<div class="form-group">
+		    <label for="exampleInputPassword1">Password </label>
+			<!-- 自定义字符长度 -->
+		    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="3 to 10 chars"
+			 ng-verify="{min:3, max:10}"
+			>
+		</div>
+		<div class="form-group">
+		    <label for="phone">phone</label>
+			<!-- 默认支持的type类型 -->
+		    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
+			 ng-verify="{min:11,required:false}"
+			>
+		</div>
+		<div class="form-group">
+		    <label for="pattern">pattern</label>
+			<!-- 自定义正则 -->
+		    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
+			 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false}"
+			>
+		</div>
+		<div class="form-group">
+		    <label for="select">select</label>
+			<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
+		    <select id="select" class="form-control" ng-verify="{option:0}">
+		    	<option>请选择</option>
+		    	<option>1</option>
+		    	<option>2</option>
+		    	<option>3</option>
+		    </select>
+		</div>
+		<button type="submit" class="btn btn-block btn-primary" ng-verify="{formName:'loginForm'}">提交</button>
+	</form>
+</body>
+</html>
+
+<script src="js/angular-1.3.0.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
+<script src="js/ngVerify.js"></script>
+<script>
+	// 使用ngVerify前，先依赖注入
+	angular.module('APP',['ngVerify']);
+</script>
