@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="APP">
+<head>
+	<meta charset="UTF-8">
+	<title>指令与表单验证</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link href="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/ngVerify.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<h1 class="PluginName">ngVerify</h2>
+	<p class="Version">ver: 0.1.1</p>
+
+	<div ng-controller="testCtrl">
+		<!-- 表单验证 -->
+		<form id="testform" name="loginForm" verify>
+			<div class="form-group">
+			    <label for="Email">Email address </label>
+				<!-- 只需要写上 ng-verify -->
+			    <input type="email" class="form-control" id="Email" placeholder="input your email"
+				 ng-verify
+				>
+			</div>
+			<div class="form-group">
+			    <label for="Password">Password </label>
+				<!-- 自定义字符长度 -->
+			    <input type="password" class="form-control" id="Password" placeholder="3 to 10 chars"
+				 ng-verify="{min:3, max:10}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="phone">phone</label>
+				<!-- 默认支持的type类型 -->
+			    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
+				 ng-verify="{min:11,required:false}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="pattern">pattern</label>
+				<!-- 自定义正则,并自定义错误消息 -->
+			    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
+				 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文'}"
+				>
+			</div>
+			<div class="form-group">
+			    <label for="select">select</label>
+				<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
+			    <select id="select" class="form-control" ng-verify="{option:0}">
+			    	<option>请选择</option>
+			    	<option>1</option>
+			    	<option>2</option>
+			    	<option>3</option>
+			    </select>
+			</div>
+			<!-- 表单范围内的提交按钮, control:'loginForm' -->
+			<a class="btn btn-block btn-primary" ng-verify="{control:'loginForm'}" >提交</a>
+		</form>
+
+		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
+		<button type="button" class="btn btn-warning" ng-verify="{control:'loginForm', disabled:false}" ng-click="check()">验证整个表单</button>
+
+		<!-- 测试多表单是否冲突 -->
+		<!-- <form id="testform2" name="loginForm2" verify>
+			<div class="form-group">
+			    <label for="form2">string</label>
+			    <input type="text" class="form-control" id="form2" placeholder="input string"
+				 ng-verify
+				>
+			</div>
+			<button type="submit" class="btn btn-block btn-primary" ng-verify="{control:'loginForm2'}">提交</button>
+		</form> -->
+	</div>
+
+</body>
+</html>
+
+<!-- qtip提示部分，正式版将会剔除 -->
+<script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
+
+<script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.min.js"></script>
+<script src="https://github.com/Moerj/ngVerify/blob/master/js/ngVerify.js"></script>
+<script type="text/javascript">
+	// 使用ngVerify前，先依赖注入
+	var app = angular.module('APP',['ngVerify']);
+
+	// 测试用控制器
+	app.controller('testCtrl',function ($scope) {
+
+		// 这里的$scope只是控制器上的，和表单上verify指令的$scope无关
+		// console.log($scope);
+
+		// 想要拿到表单上的$scope 使用方法:
+		// verify.scope('loginForm')
+
+		$scope.check = function () {
+			var re = verify.check('loginForm');
+			console.log('你检测了表单的验证，返回给你一个对象：');
+		    console.warn(re);
+		}
+	})
+</script>
