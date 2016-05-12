@@ -7,13 +7,6 @@
 	<link href="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
-
-	<!-- qtip提示部分，正式版将会剔除 -->
-	<script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
-	<script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
-
-	<script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.min.js"></script>
-	<script src="./js/ngVerify.js" charset="utf-8"></script>
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
@@ -82,8 +75,13 @@
 </body>
 </html>
 
+<!-- qtip提示部分，正式版将会剔除 -->
+<script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
 
-<script>
+<script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.min.js"></script>
+<script src="./js/ngVerify.js"></script>
+<script type="text/javascript">
 	// 使用ngVerify前，先依赖注入
 	var app = angular.module('APP',['ngVerify']);
 
