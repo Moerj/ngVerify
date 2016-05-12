@@ -62,21 +62,27 @@ select下拉菜单属性，指定的option表示选中会校验不通过
 
 ### control
 绑定一个form范围外的按钮, control:'loginForm'
-	<form name="myform">
+
+	<!-- 表单内的按钮会自动控制 -->
+	<form name="myform" verify>
 		...
 	</form>
 	
 	<button ng-verify="{control:'myform'}">表单外的按钮</button>
 
+
 ### disabled
 设置 disabled:false 可以使他可以不会因为校验失败而禁用，点击它可以会标记出错误的表单。
+
 	<button ng-verify="{disabled:false}">按钮</button>
 
 
 ### verify.check()
 检测一个verify表单是否验证通过，返回Boolean和errorArry
+
 	verify.check('formName')
 
 ### verify.scope()
 获取一个verify表单的$scope作用域
+
 	verify.scope('formName')
