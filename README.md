@@ -37,6 +37,8 @@ qtip提示方式在正式版中就会去除
 email
 number
 phone
+url
+string
 
 
 ### length(min,max)
