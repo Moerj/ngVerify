@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 0.1.0</p>
+	<p class="Version">ver: 0.1.1</p>
 
 	<div ng-controller="testCtrl">
 		<!-- 表单验证 -->
@@ -18,7 +18,12 @@
 			<div class="form-group">
 			    <label for="Email">Email address </label>
 				<!-- 只需要写上 ng-verify -->
-			    <input type="email" class="form-control" id="Email" placeholder="input your email"
+				<style>
+					.hide{
+						display: none;
+					}
+				</style>
+			    <input type="email" class="form-control hide" id="Email" placeholder="input your email"
 				 ng-verify
 				>
 			</div>

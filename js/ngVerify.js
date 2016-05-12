@@ -74,7 +74,7 @@
                     var $scope = verify.scope(obj.control)
 
                     if ($scope == undefined) {
-                        console.error('外部的按钮找不到作用域，可能你指定的name有多个元素在使用');
+                        console.error('$scope获取失败');
                         console.error(iElm);
                         return;
                     }
@@ -213,13 +213,16 @@
      * @return  Boolean   代表元素是否通过验证
      */
     function ISVALID(iElm) {
+        if(iElm[0].style.display == 'none'){
+            return true;//隐藏元素直接校验通过
+        }
+
         var val = iElm.val();; //元素的值
         var pat; //正则规则
         var OPTS = iElm.OPTS;
         var iAttrs = iElm.iAttrs;
 
         // 非表单元素验证
-        // var el = iElm[0].nodeName
         if (iElm[0].value == undefined) {
             // 非表单元素
             val = iElm.text();
@@ -267,10 +270,13 @@
                     pat = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
                     break;
                 case 'phone':
-                    pat = /^[1][3][0-9]{9}$/;
+                    pat = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
                     break;
-                case 'telephone':
-                    pat = /^[0][1-9]{2,3}-[0-9]{5,10}$/;
+                case 'url':
+                    pat = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+                    break;
+                case 'string':
+                    pat = /a-zA-Z/;
                     break;
             }
         }
@@ -316,7 +322,7 @@
     /**
      * [全局验证方法]
      * 用于验证指定表单是否通过
-     * @param  formName: name
+     * @param  String   formName: name
      * @return Boolean
      */
     window.verify = ({
