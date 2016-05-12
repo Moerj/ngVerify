@@ -10,6 +10,7 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 <br>
 ## Getting Started
 在使用前，你需要引入angular、jQuery、qtip2
+  
 qtip提示方式在正式版中就会去除
 
 	require('angular');
@@ -43,24 +44,29 @@ string
 
 ### length(min,max)
 定制校验字符长度
+
 	<input type="text" ng-verify="min:3,max:6">
 
 ### pattern
 自定义正则，这样会优先以你的正则进行校验
+
 	<input type="text" ng-verify="pattern:/a-zA-Z/">
 
 ### errmsg
 自定义错误消息，当自定义正则校验不通过时，提示你传入的错误消息，默认会提示“类型错误”。
 
+	<input type="text" ng-verify="pattern:/a-zA-Z/, errmsg:'只能输入字符串'">
+
 
 ### option
 select下拉菜单属性，指定的option表示选中会校验不通过
+
 	<select ng-verify="{option:0}">
-    	<option>请选择</option>
-    	<option>1</option>
-    	<option>2</option>
-    	<option>3</option>
-    </select>
+		<option>请选择</option>
+    		<option>1</option>
+    		<option>2</option>
+    		<option>3</option>
+	</select>
 
 ### control
 绑定一个form范围外的按钮, control:'loginForm'
