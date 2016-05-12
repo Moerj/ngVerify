@@ -38,9 +38,9 @@
 			</div>
 			<div class="form-group">
 			    <label for="pattern">pattern</label>
-				<!-- 自定义正则 -->
+				<!-- 自定义正则,并自定义错误消息 -->
 			    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
-				 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false}"
+				 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文'}"
 				>
 			</div>
 			<div class="form-group">
@@ -53,12 +53,12 @@
 			    	<option>3</option>
 			    </select>
 			</div>
-			<!-- 表单范围内的提交按钮, 将type设置为submit, 或是传入formName:'loginForm' -->
-			<input type="submit" class="btn btn-block btn-primary" ng-verify value="提交">
+			<!-- 表单范围内的提交按钮, control:'loginForm' -->
+			<a class="btn btn-block btn-primary" ng-verify="{control:'loginForm'}" >提交</a>
 		</form>
 
-		<!-- 绑定一个指令范围外的按钮, formName:'loginForm', 设置 control:false 可以使他可以不会因为校验失败而禁用 -->
-		<button type="button" class="btn btn-warning" ng-verify="{formName:'loginForm', control:false}">验证整个表单</button>
+		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
+		<button type="button" class="btn btn-warning" ng-verify="{control:'loginForm', disabled:false}" ng-click="check()">验证整个表单</button>
 
 		<!-- 测试多表单是否冲突 -->
 		<!-- <form id="testform2" name="loginForm2" verify>
@@ -68,10 +68,10 @@
 				 ng-verify
 				>
 			</div>
-			<button type="submit" class="btn btn-block btn-primary" ng-verify="{formName:'loginForm2'}">提交</button>
+			<button type="submit" class="btn btn-block btn-primary" ng-verify="{control:'loginForm2'}">提交</button>
 		</form> -->
 	</div>
-	
+
 </body>
 </html>
 
@@ -87,7 +87,17 @@
 
 	// 测试用控制器
 	app.controller('testCtrl',function ($scope) {
-		// console.log($scope);
-	})
 
+		// 这里的$scope只是控制器上的，和表单上verify指令的$scope无关
+		// console.log($scope);
+
+		// 想要拿到表单上的$scope 使用方法:
+		// verify.scope('loginForm')
+
+		$scope.check = function () {
+			var re = verify.check('loginForm');
+			console.log('你检测了表单的验证，返回给你一个对象：');
+		    console.warn(re);
+		}
+	})
 </script>

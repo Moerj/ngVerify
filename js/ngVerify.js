@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.0
+ * ngVerify v0.1.1
  *
  * License: MIT
  * Designed and built by Moer
@@ -31,19 +31,22 @@
                 $scope.verify_submit = function () {
                     // console.log('验证所有表单');
                     var els = $scope.verify_elems;
-                    for (var i = 0; i < els.length; i++) {
-                        if (!ISVALID(els[i])) {
-                            els[i].addClass(els[i].OPTS.errorClass);
+                    var re = checkAll(els);
+                    if (re.hasError) {
+                        for (var i = 0; i < re.errEls.length; i++) {
+                            re.errEls[i].addClass(els[i].OPTS.errorClass);
                         }
                     }
                 }
-
             },
-            link: function(scope, iElm) {
+            link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
 
-                // 给form的DOM对象上绑定scope
-                iElm[0]._verifyScope = scope;
+                // 给form的nodelist对象上绑定$scope
+                iElm[0]._verifyScope = $scope;
+                // 绑定校验，返回布尔值
+                iElm[0]._verifyCheck = checkAll($scope.verify_elems);
+                // console.log(iElm[0]);
             }
         }
     })
@@ -67,11 +70,9 @@
                         console.error(iElm);
                     }
 
-                    // 根据传递进来的父元素的name属性拿到dom对象
-                    var form = document.getElementsByName(obj.formName)
-                    // console.log(form);
-                    // 获取对应的父指令作用域$scope
-                    var $scope = form[0]._verifyScope;
+                    //获取对应的父指令作用域$scope
+                    var $scope = verify.scope(obj.control)
+
                     if ($scope == undefined) {
                         console.error('外部的按钮找不到作用域，可能你指定的name有多个元素在使用');
                         console.error(iElm);
@@ -83,15 +84,15 @@
         }
     })
 
-    /*
+    /**
         验证配置
 
-        @参数:
+        @param
         $scope  父指令的作用域
         iElm    指令元素
         iAttrs  元素属性
 
-        @返回值: null
+        @return null
     */
     function Init($scope, iElm, iAttrs) {
         // console.log($scope);
@@ -116,7 +117,7 @@
             min: iAttrs.minlength,
             max: iAttrs.maxlength,
             errorClass: 'verifyError',
-            control: true //校验为成功时是否锁定提交按钮
+            disabled: true //校验为成功时是否锁定提交按钮
         }
 
         // 合并默认和自定义配置参数
@@ -134,24 +135,31 @@
         // 元素初始化数据
         iElm.OPTS = OPTS;
         iElm.iAttrs = iAttrs;
-        if (OPTS.formName || iAttrs.type=='submit') {
+        if (OPTS.control) {
             // iElm 是提交按钮
             // $scope.verify_subBtn = iElm;
             $scope.verify_subBtn.push(iElm);
 
             // 没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
-            if (OPTS.control) {
+            if (OPTS.disabled) {
                 iElm.attr('disabled', 'disabled');
             }
 
             //提交时检测所有表单
             iElm.bind('click', function() {
-                var re = checkAll($scope.verify_elems);
+                // var re = checkAll($scope.verify_elems);
                 // console.log(re);
-                if (re.hasError) {
+                // if (re.hasError) {
                     $scope.verify_submit();
-                }
+                // }
             })
+            // iElm.bind('verify', function() {
+            //     var re = checkAll($scope.verify_elems);
+            //     // console.log(re);
+            //     if (re.hasError) {
+            //         $scope.verify_submit();
+            //     }
+            // })
 
         } else {
             // iElm 是需验证的表单元素
@@ -193,16 +201,16 @@
     // 禁用/启用相关的提交按钮
     function DisableButtons(btns, isDisable) {
         for (var i = 0; i < btns.length; i++) {
-            if (btns[i].OPTS.control) {
+            if (btns[i].OPTS.disabled) {
                 btns[i].attr('disabled', isDisable)
             }
         }
     }
 
-    /*
-     * 验证元素
-     * @参数   iElm验证的元素   OPTS目标元素接收的指令配置
-     * @返回值  布尔   代表元素是否通过验证
+    /**
+     * 验证一个元素
+     * @param   iElm验证的元素   OPTS目标元素接收的指令配置
+     * @return  Boolean   代表元素是否通过验证
      */
     function ISVALID(iElm) {
         var val = iElm.val();; //元素的值
@@ -273,7 +281,7 @@
             // 验证正则
             if (val.match(pat) == null) {
                 // console.warn('正则匹配错误');
-                OPTS.title = '输入类型错误'
+                OPTS.title = OPTS.errmsg ? OPTS.errmsg : '输入类型错误'
                 return false;
             } else {
                 // console.info('正则匹配')
@@ -284,10 +292,11 @@
         return true;
     }
 
-    /*
-        检测所有元素是否验证成功
-        @return {blooean, Arry}
-    */
+    /**
+     * 检测所有元素是否验证成功
+     * @param els 传入需要验证的元素组
+     * @return {blooean, Arry}
+     */
     function checkAll(els) {
         var RE = {
             hasError: false,
@@ -304,6 +313,39 @@
         return RE;
     }
 
+    /**
+     * [全局验证方法]
+     * 用于验证指定表单是否通过
+     * @param  formName: name
+     * @return Boolean
+     */
+    window.verify = ({
+        scope: function (formName) {
+            var forms = document.getElementsByName(formName);
+            var obj;//获取一个对象，它是form上的scope作用域
 
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i]._verifyScope) {
+                    // console.log(forms[i]);
+                    obj = forms[i]._verifyScope;
+                    break;
+                }
+            }
+            return obj;
+        },
+        check: function (formName) {
+            var forms = document.getElementsByName(formName);
+            var obj;//绑定在nodelist上的方法，即 @function checkAll()
+
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i]._verifyCheck) {
+                    // console.log(forms[i]);
+                    obj = forms[i]._verifyCheck;
+                    break;
+                }
+            }
+            return obj;
+        }
+    })
 
 })(angular)
