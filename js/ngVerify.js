@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.1
+ * ngVerify v0.1.3
  *
  * License: MIT
  * Designed and built by Moer
@@ -16,7 +16,6 @@
     // 父指令，写在form标签上
     verifyModle.directive('verify', function() {
         return {
-            // scope: true,
             scope:{},
             controller: function($scope, $element, $attrs) {
                 this.getscope = function() {　　　　　　　　　　
@@ -32,11 +31,9 @@
                     // console.log('验证所有表单');
                     var els = $scope.verify_elems;
                     var re = checkAll(els);
-                    if (re.hasError) {
-                        for (var i = 0; i < re.errEls.length; i++) {
-                            // re.errEls[i].addClass(els[i].OPTS.errorClass);
-                            sign(re.errEls[i], els[i].OPTS.errorClass, true)
-                        }
+                    for (var i = 0; i < re.errEls.length; i++) {
+                        sign(re.errEls[i], els[i].OPTS.errorClass, true)
+                        tipMsg(re.errEls[i])
                     }
                 }
             },
@@ -45,9 +42,6 @@
 
                 // 给form的nodelist对象上绑定$scope
                 iElm[0]._verifyScope = $scope;
-                // 绑定校验，返回布尔值
-                iElm[0]._verifyCheck = checkAll($scope.verify_elems);
-                // console.log(iElm[0]);
             }
         }
     })
@@ -167,41 +161,6 @@
             // 将元素绑定到scope数组上
             $scope.verify_elems.push(iElm);
 
-            // 元素验证事件
-            // iElm.bind(inEvent, function() {
-            //     if (!ISVALID(iElm)) { //验证不通过
-            //         $(iElm).qtip({ //提示错误信息
-            //             content: {
-            //                 text: OPTS.title
-            //             },
-            //             show: {
-            //                 ready: true, // 加载完就显示提示
-            //                 event: false // 无触发事件
-            //             },
-            //             hide: {
-            //                 event: 'keyup change'
-            //             }
-            //         });
-            //         // 将元素标红
-            //         sign(iElm, OPTS.errorClass, true);
-            //
-            //         // 禁用掉控制按钮
-            //         DisableButtons($scope.verify_subBtn, true)
-            //     }
-            // })
-            // .bind(outEvent, function() {
-            //     if (ISVALID(iElm)) {
-            //         // 取消标红
-            //         sign(iElm, OPTS.errorClass, false);
-            //
-            //         // 检测所有
-            //         var re = checkAll($scope.verify_elems);
-            //         if (!re.hasError) {
-            //             DisableButtons($scope.verify_subBtn, false)
-            //         }
-            //     }
-            // })
-
             // 绑定元素验证事件
             // 直接获取element绑定的方法调用就可以了
             bindVaild(iElm, {inEvent,outEvent}, $scope);
@@ -221,28 +180,18 @@
         }
     }
 
-    // 绑定触发验证的事件
+    /** 绑定触发验证的事件
+        @param
+        iElm        obj    dom元素对象
+        bindEvent   obj    需要绑定的事件对象集合
+        $scope      主指令的scope作用域
+    */
     function bindVaild(iElm, bindEvent, $scope) {
-        // console.log(typeof iElm[0]);
-        // var dom = iElm[0];
-        // if (dom == undefined) {
-        //     dom = iElm;
-        // }
         iElm.bind(bindEvent.inEvent, function() {
-        // addEvent(dom, bindEvent.inEvent,function(){
             if (!ISVALID(iElm)) { //验证不通过
-                $(iElm).qtip({ //提示错误信息
-                    content: {
-                        text: iElm.OPTS.title
-                    },
-                    show: {
-                        ready: true, // 加载完就显示提示
-                        event: false // 无触发事件
-                    },
-                    hide: {
-                        event: 'keyup change'
-                    }
-                });
+                // 调用提示信息
+                tipMsg(iElm);
+
                 // 将元素标红
                 sign(iElm, iElm.OPTS.errorClass, true);
 
@@ -251,7 +200,6 @@
             }
         })
         .bind(bindEvent.outEvent, function() {
-        // addEvent(dom, bindEvent.outEvent,function(){
             if (ISVALID(iElm)) {
                 // 取消标红
                 sign(iElm, iElm.OPTS.errorClass, false);
@@ -263,6 +211,24 @@
                 }
             }
         })
+    }
+
+    /** 提示错误信息
+        @param iElm  obj  dom元素对象
+    */
+    function tipMsg(iElm) {
+        $(iElm).qtip({ //提示错误信息
+            content: {
+                text: iElm.OPTS.title
+            },
+            show: {
+                ready: true, // 加载完就显示提示
+                event: false // 无触发事件
+            },
+            hide: {
+                event: 'keyup change'
+            }
+        });
     }
 
     /** 标记未通过验证的元素
@@ -279,11 +245,10 @@
             }
             iElm = parent;
         }
-        // console.log(iElm);
         if (sign) {
-            iElm.addClass(className)
+            iElm.addClass(className);
         }else{
-            iElm.removeClass(className)
+            iElm.removeClass(className);
         }
     }
 
@@ -296,8 +261,7 @@
         }
     }
 
-    /**
-     * 验证一个元素
+    /** 验证一个元素
      * @param   iElm验证的元素   OPTS目标元素接收的指令配置
      * @return  Boolean   代表元素是否通过验证
      */
@@ -402,8 +366,7 @@
         return true;
     }
 
-    /**
-     * 检测所有元素是否验证成功
+    /** 检测所有元素是否验证成功
      * @param els 传入需要验证的元素组
      * @return {blooean, Arry}
      */
@@ -414,8 +377,6 @@
         };
         for (var i = 0; i < els.length; i++) {
             if (!ISVALID(els[i])) {
-                //    console.log('this el has error !');
-                //    console.log(els[i]);
                 RE.errEls.push(els[i])
             }
         }
@@ -423,13 +384,13 @@
         return RE;
     }
 
-    /**
-     * [全局验证方法]
-     * 用于验证指定表单是否通过
+    /** 全局暴露的公共方法
      * @param  String   formName: name
      * @return Boolean
      */
     window.verify = ({
+
+        // 获取主指令的scope
         scope: function (formName) {
             var forms = document.getElementsByName(formName);
             var obj;//获取一个对象，它是form上的scope作用域
@@ -443,15 +404,15 @@
             }
             return obj;
         },
+
+        // 检测一个form表单校验是否通过
         check: function (formName) {
             var forms = document.getElementsByName(formName);
             var obj;//绑定在nodelist上的方法，即 @function checkAll()
 
             for (var i = 0; i < forms.length; i++) {
-                if (forms[i]._verifyCheck) {
-                    // console.log(forms[i]);
-                    obj = forms[i]._verifyCheck;
-                    break;
+                if (forms[i]._verifyScope) {
+                    obj = checkAll(verify.scope(forms[i].name).verify_elems);
                 }
             }
             return obj;
