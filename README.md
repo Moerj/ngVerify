@@ -10,15 +10,15 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 <br>
 ## Getting Started
 在使用前，你需要引入angular、jQuery、qtip2
-  
+
 qtip提示方式在正式版中就会去除
 
 	require('angular');
-	
+
 	require('ngVerify');
-	
+
 	var app = angular.module('APP',['ngVerify']);
-	
+
 	//给form设置一个verify指令
 	<form verify>
 		<input type="text" ng-verify> //给表单元素设置ng-verify
@@ -26,8 +26,7 @@ qtip提示方式在正式版中就会去除
   	</form>
 
 
-<br> 
-## API
+<br>
 
 ### defualt
 只需要使用ng-verify，会更具type类型校验非空验证和类型
@@ -35,13 +34,17 @@ qtip提示方式在正式版中就会去除
 
 ### type
 设置表单元素type类型，目前支持的type类型：
-email
-number
-phone
-url
-string
 
+email  
+number  
+phone  
+url  
+string  
+radio  
+checkbox  
+select  
 
+## API  
 ### length(min,max)
 定制校验字符长度
 
@@ -52,7 +55,7 @@ string
 
 	<input type="text" ng-verify="pattern:/a-zA-Z/">
 
-### errmsg
+### errmsg (defualt: '此项为必填')
 自定义错误消息，当自定义正则校验不通过时，提示你传入的错误消息，默认会提示“类型错误”。
 
 	<input type="text" ng-verify="pattern:/a-zA-Z/, errmsg:'只能输入字符串'">
@@ -75,11 +78,11 @@ select下拉菜单属性，指定的option表示选中会校验不通过
 	<form name="myform" verify>
 		...
 	</form>
-	
+
 	<button ng-verify="{control:'myform'}">表单外的按钮</button>
 
 
-### disabled
+### disabled (defualt: true)
 设置 disabled:false 可以使他可以不会因为校验失败而禁用，点击它可以会标记出错误的表单。
 
 	<button ng-verify="{disabled:false}">按钮</button>

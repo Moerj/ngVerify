@@ -79,15 +79,11 @@
         }
     })
 
-    /**
-        验证配置
-
+    /** 初始化验证配置
         @param
         $scope  父指令的作用域
         iElm    指令元素
         iAttrs  元素属性
-
-        @return null
     */
     function Init($scope, iElm, iAttrs) {
         // console.log($scope);
