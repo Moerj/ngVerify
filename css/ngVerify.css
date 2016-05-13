@@ -1,3 +1,7 @@
+
 .verifyError{
-    border-color: #d9534f !important;
+    border: #d9534f !important;
+
+    /*非input元素靠box-shadow来渲染错误*/
+    box-shadow: 0 0 0 1px #d9534f !important;
 }

@@ -18,6 +18,9 @@ form {
 label {
     width: 100%;
 }
+label.radio-inline,label.checkbox-inline{
+    width: auto;
+}
 
 label span {
     color: #ee9285;

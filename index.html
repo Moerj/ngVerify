@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>指令与表单验证</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link href="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/bootstarp.min.css">
+	<link rel="stylesheet" href="lib/jquery.qtip.css" >
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -53,6 +53,38 @@
 			    	<option>3</option>
 			    </select>
 			</div>
+			<div class="form-group">
+				<label >checkbox</label>
+				<!-- checkbox多选，请确保所有checkbox被一个div包起 -->
+				<!-- 如果要用label修饰checkbox请统一所有都用 -->
+				<!-- 确保每组checkbox的name属性相同，ng-verify指令只需要在任意一个checkbox上 -->
+				<label class="checkbox-inline">
+					<input type="checkbox" name="checkbox" > 1
+				</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" name="checkbox" > 2
+				</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" name="checkbox"  ng-verify> 3
+				</label>
+			</div>
+			<div class="form-group">
+				<label >radio</label>
+				<!-- radio多选，请确保所有radio被一个div包起 -->
+				<!-- 如果要用label修饰radio请统一所有都用 -->
+				<!-- 确保每组radio的name属性相同，ng-verify指令只需要在任意一个radio上 -->
+				<label class="radio-inline">
+					<input type="radio" name="radio" > 1
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="radio" > 2
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="radio" ng-verify> 3
+				</label>
+			</div>
+
+
 			<!-- 表单范围内的提交按钮, control:'loginForm' -->
 			<a class="btn btn-block btn-primary" ng-verify="{control:'loginForm'}" >提交</a>
 		</form>
@@ -76,10 +108,10 @@
 </html>
 
 <!-- qtip提示部分，正式版将会剔除 -->
-<script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/qtip2/3.0.2/jquery.qtip.min.js"></script>
+<script src="lib/juqery-v2.2.3.js"></script>
+<script src="lib/jquery.qtip.js"></script>
 
-<script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.min.js"></script>
+<script src="lib/angular-v1.5.5.js"></script>
 <script src="js/ngVerify.js"></script>
 <script type="text/javascript">
 	// 使用ngVerify前，先依赖注入
@@ -92,7 +124,7 @@
 		// console.log($scope);
 
 		// 想要拿到表单上的$scope 使用方法:
-		// verify.scope('loginForm')
+		// var verifyScope = verify.scope('loginForm')
 
 		$scope.check = function () {
 			var re = verify.check('loginForm');

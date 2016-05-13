@@ -34,7 +34,8 @@
                     var re = checkAll(els);
                     if (re.hasError) {
                         for (var i = 0; i < re.errEls.length; i++) {
-                            re.errEls[i].addClass(els[i].OPTS.errorClass);
+                            // re.errEls[i].addClass(els[i].OPTS.errorClass);
+                            sign(re.errEls[i], els[i].OPTS.errorClass, true)
                         }
                     }
                 }
@@ -147,54 +148,142 @@
 
             //提交时检测所有表单
             iElm.bind('click', function() {
-                // var re = checkAll($scope.verify_elems);
-                // console.log(re);
-                // if (re.hasError) {
-                    $scope.verify_submit();
-                // }
+                $scope.verify_submit();
             })
-            // iElm.bind('verify', function() {
-            //     var re = checkAll($scope.verify_elems);
-            //     // console.log(re);
-            //     if (re.hasError) {
-            //         $scope.verify_submit();
+
+        } else {// iElm 是需验证的表单元素
+            var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
+            var inEvent,outEvent = '';
+
+            // 特殊类型的触发类型和错误渲染不同
+            if (isbox) {
+                inEvent = 'blur';
+                outEvent = 'change';
+            }else{
+                inEvent = 'blur';
+                outEvent = 'change keyup';
+            }
+
+            // 将元素绑定到scope数组上
+            $scope.verify_elems.push(iElm);
+
+            // 元素验证事件
+            // iElm.bind(inEvent, function() {
+            //     if (!ISVALID(iElm)) { //验证不通过
+            //         $(iElm).qtip({ //提示错误信息
+            //             content: {
+            //                 text: OPTS.title
+            //             },
+            //             show: {
+            //                 ready: true, // 加载完就显示提示
+            //                 event: false // 无触发事件
+            //             },
+            //             hide: {
+            //                 event: 'keyup change'
+            //             }
+            //         });
+            //         // 将元素标红
+            //         sign(iElm, OPTS.errorClass, true);
+            //
+            //         // 禁用掉控制按钮
+            //         DisableButtons($scope.verify_subBtn, true)
+            //     }
+            // })
+            // .bind(outEvent, function() {
+            //     if (ISVALID(iElm)) {
+            //         // 取消标红
+            //         sign(iElm, OPTS.errorClass, false);
+            //
+            //         // 检测所有
+            //         var re = checkAll($scope.verify_elems);
+            //         if (!re.hasError) {
+            //             DisableButtons($scope.verify_subBtn, false)
+            //         }
             //     }
             // })
 
-        } else {
-            // iElm 是需验证的表单元素
-            $scope.verify_elems.push(iElm);
-            // 元素验证事件
-            iElm.bind('blur', function() {
-                    if (!ISVALID(iElm)) { //验证不通过
-                        $(iElm).qtip({ //提示错误信息
-                            content: {
-                                text: OPTS.title
-                            },
-                            show: {
-                                ready: true, // 加载完就显示提示
-                                event: false // 无触发事件
-                            },
-                            hide: {
-                                event: 'keyup change'
-                            }
-                        });
-                        // 将元素标红
-                        iElm.addClass(OPTS.errorClass);
-                        DisableButtons($scope.verify_subBtn, true)
+            // 绑定元素验证事件
+            // 直接获取element绑定的方法调用就可以了
+            bindVaild(iElm, {inEvent,outEvent}, $scope);
+
+            // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
+            if (isbox) {
+                var iElms = document.getElementsByName(iAttrs.name);
+                for (var i = 0; i < iElms.length; i++) {
+                    iElms[i].addEventListener(inEvent,function(){
+                        iElm.trigger(inEvent)
+                    })
+                    iElms[i].addEventListener(outEvent,function(){
+                        iElm.trigger(outEvent)
+                    })
+                }
+            }
+        }
+    }
+
+    // 绑定触发验证的事件
+    function bindVaild(iElm, bindEvent, $scope) {
+        // console.log(typeof iElm[0]);
+        // var dom = iElm[0];
+        // if (dom == undefined) {
+        //     dom = iElm;
+        // }
+        iElm.bind(bindEvent.inEvent, function() {
+        // addEvent(dom, bindEvent.inEvent,function(){
+            if (!ISVALID(iElm)) { //验证不通过
+                $(iElm).qtip({ //提示错误信息
+                    content: {
+                        text: iElm.OPTS.title
+                    },
+                    show: {
+                        ready: true, // 加载完就显示提示
+                        event: false // 无触发事件
+                    },
+                    hide: {
+                        event: 'keyup change'
                     }
-                })
-                .bind('change keyup', function() {
-                    if (ISVALID(iElm)) {
-                        // 取消标红
-                        iElm.removeClass(OPTS.errorClass);
-                        // 检测所有
-                        var re = checkAll($scope.verify_elems);
-                        if (!re.hasError) {
-                            DisableButtons($scope.verify_subBtn, false)
-                        }
-                    }
-                })
+                });
+                // 将元素标红
+                sign(iElm, iElm.OPTS.errorClass, true);
+
+                // 禁用掉控制按钮
+                DisableButtons($scope.verify_subBtn, true)
+            }
+        })
+        .bind(bindEvent.outEvent, function() {
+        // addEvent(dom, bindEvent.outEvent,function(){
+            if (ISVALID(iElm)) {
+                // 取消标红
+                sign(iElm, iElm.OPTS.errorClass, false);
+
+                // 检测所有
+                var re = checkAll($scope.verify_elems);
+                if (!re.hasError) {
+                    DisableButtons($scope.verify_subBtn, false)
+                }
+            }
+        })
+    }
+
+    /** 标记未通过验证的元素
+        @param
+        iElm        DomObj      需要标记的元素
+        className   String      标记的类名
+        sing        Boolean     是标记还是取消
+    */
+    function sign(iElm, className, sign){
+        if (iElm[0].type == 'checkbox' || iElm[0].type == 'radio') {
+            var parent = iElm.parent();
+            if (parent[0].localName == 'label') {
+                parent = parent.parent();
+            }
+            iElm = parent;
+        }
+        // console.log(iElm);
+        if (sign) {
+            iElm.addClass(className)
+        }else{
+            iElm.removeClass(className)
         }
     }
 
@@ -213,11 +302,12 @@
      * @return  Boolean   代表元素是否通过验证
      */
     function ISVALID(iElm) {
+        //隐藏元素直接校验通过
         if(iElm[0].style.display == 'none'){
-            return true;//隐藏元素直接校验通过
+            return true;
         }
 
-        var val = iElm.val();; //元素的值
+        var val = iElm[0].value; //元素的值
         var pat; //正则规则
         var OPTS = iElm.OPTS;
         var iAttrs = iElm.iAttrs;
@@ -228,6 +318,20 @@
             val = iElm.text();
             // console.warn('检测到非表单元素:');
             // console.log(iElm[0]);
+        }
+
+        // checkbox复选框、radio单选
+        if (iAttrs.type == 'checkbox' || iAttrs.type == 'radio') {
+            var elName = iElm.attr('name');
+            // 拿到同name的checkbox,这里没有做其他元素同name判断，待优化
+            var els = document.getElementsByName(elName);
+            for (var i = 0; i < els.length; i++) {
+                if (els[i].checked) {
+                    return true;
+                }
+            }
+            OPTS.title = '至少选择一项'
+            return false;
         }
 
         // 非空验证
