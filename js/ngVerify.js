@@ -36,6 +36,15 @@
                         tipMsg(re.errEls[i])
                     }
                 }
+
+                // 页面切换后, 销毁qtip
+                $scope.$on('$stateChangeStart', function(){
+                    var verifyElems = $scope.verify_elems;
+                    angular.forEach(verifyElems, function(el, key) {
+                        $(el).qtip('destroy');
+                    });
+
+                });
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
@@ -222,6 +231,7 @@
                 event: false // 无触发事件
             },
             hide: {
+                // inactive: 5000, //不活动xx毫秒后隐藏
                 event: 'keyup change'
             }
         });
