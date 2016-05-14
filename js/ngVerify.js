@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.3
+ * ngVerify v0.1.4
  *
  * License: MIT
  * Designed and built by Moer
@@ -117,11 +117,20 @@
             min: iAttrs.minlength,
             max: iAttrs.maxlength,
             errorClass: 'verifyError',
-            disabled: true //校验为成功时是否锁定提交按钮
+            disabled: true, //校验为成功时是否锁定提交按钮
+            least: 1    //checkbox默认最少勾选数
+        }
+
+        // 传入错误参数警告并做容错处理
+        if (iAttrs.type == 'radio' && OPTS.least) {
+            console.warn('least不是radio元素的有效参数，不过程序已自动容错处理。');
+            console.warn(iElm);
+            OPTS.least = DEFAULT.least;
         }
 
         // 合并默认和自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
+
 
         // 写入属性
         iElm.attr({
@@ -137,7 +146,6 @@
         iElm.iAttrs = iAttrs;
         if (OPTS.control) {
             // iElm 是提交按钮
-            // $scope.verify_subBtn = iElm;
             $scope.verify_subBtn.push(iElm);
 
             // 没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
@@ -295,12 +303,17 @@
             var elName = iElm.attr('name');
             // 拿到同name的checkbox,这里没有做其他元素同name判断，待优化
             var els = document.getElementsByName(elName);
+            var checked = 0;
             for (var i = 0; i < els.length; i++) {
                 if (els[i].checked) {
-                    return true;
+                    // return true;
+                    checked++;
                 }
             }
-            OPTS.title = '至少选择一项'
+            if (checked>=OPTS.least) {
+                return true;
+            }
+            OPTS.title = '至少选择'+OPTS.least+'项'
             return false;
         }
 

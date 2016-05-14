@@ -1,4 +1,4 @@
-# ngVerify
+# ngVerify v0.1.4
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -70,6 +70,19 @@ select下拉菜单属性，指定的option表示选中会校验不通过
     		<option>2</option>
     		<option>3</option>
 	</select>
+
+### least (defualt: 1)
+checkbox最少勾选数，指定至少勾选几项才会通过验证
+
+	<div>
+		<label >checkbox</label>
+		<!-- checkbox多选，请确保所有checkbox被一个div包起 -->
+		<!-- 如果要用label修饰checkbox请统一所有都用 -->
+		<!-- 确保每组checkbox的name属性相同，ng-verify指令只需要在任意一个checkbox上 -->
+		<input type="checkbox" name="checkbox" > Captain America
+		<input type="checkbox" name="checkbox" > Iron Man
+		<input type="checkbox" name="checkbox"  ng-verify="{least:2}"> Hulk
+	</div>
 
 ### control
 绑定一个form范围外的按钮, control:'loginForm'
