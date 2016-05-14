@@ -183,7 +183,11 @@
             $scope.verify_elems.push(iElm);
 
             // 绑定元素验证事件
-            bindVaild(iElm, {inEvent,outEvent}, $scope);
+            var bindEvent = {
+                "inEvent" : inEvent ,
+                "outEvent" : outEvent
+            };
+            bindVaild(iElm, bindEvent, $scope);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
             if (isbox) {
