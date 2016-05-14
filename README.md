@@ -1,4 +1,4 @@
-# ngVerify v0.1.4
+# ngVerify v0.1.5
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -9,9 +9,9 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 
 <br>
 ## Getting Started
-在使用前，你需要引入angular、jQuery、qtip2
+在使用前，你需要引入angular、(jQuery+qtip2)
 
-qtip提示方式在正式版中就会去除
+qtip提示方式在正式版中将会去除，因此jQuery也会被去除。
 
 	require('angular');
 
@@ -29,7 +29,7 @@ qtip提示方式在正式版中就会去除
 <br>
 
 ### defualt
-只需要使用ng-verify，会更具type类型校验非空验证和类型
+只需要使用ng-verify，会根据type类型校验非空验证和类型
 	<input type="text" ng-verify>
 
 ### type
@@ -96,14 +96,14 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ### disabled (defualt: true)
-设置 disabled:false 提交按钮不会因为校验失败而禁用，点击它可以会标记出错误的表单。
+设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。
 
 	<button ng-verify="{disabled:false}">按钮</button>
 
 
 ## API  
 ### verify.check()
-检测一个verify表单是否验证通过，返回Boolean和errorArry
+检测一个verify表单是否验证通过，返回Boolean和errorArry(未校验通过的元素组)
 
 	verify.check('formName')
 
