@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.4
+ * ngVerify v0.1.5
  *
  * License: MIT
  * Designed and built by Moer
@@ -139,13 +139,10 @@
         // 合并默认和自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
 
-        // 写入属性
+        // 增加属性，控制输入长短
         iElm.attr({
-            /* 增加angular属性 */
-            required: OPTS.required, //是否必填
             maxlength: OPTS.max,
-            minlength: OPTS.min,
-            'ng-pattern': OPTS.pattern //正则
+            minlength: OPTS.min
         })
 
         // 元素初始化数据
