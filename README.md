@@ -44,7 +44,7 @@ radio
 checkbox  
 select  
 
-## API  
+## OPTIONS  
 ### length(min,max)
 定制校验字符长度
 
@@ -96,11 +96,12 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ### disabled (defualt: true)
-设置 disabled:false 可以使他可以不会因为校验失败而禁用，点击它可以会标记出错误的表单。
+设置 disabled:false 提交按钮不会因为校验失败而禁用，点击它可以会标记出错误的表单。
 
 	<button ng-verify="{disabled:false}">按钮</button>
 
 
+## API  
 ### verify.check()
 检测一个verify表单是否验证通过，返回Boolean和errorArry
 
