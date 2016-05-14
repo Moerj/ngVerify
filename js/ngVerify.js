@@ -61,28 +61,37 @@
             require: "?^verify",
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
+                var pScope;//父指令的$scope
+
                 if (pCtrl!=undefined) {//提交按钮在作用域内
-                    var $scope = pCtrl.getscope(); //拿到父指令的scope
-                    Init($scope, iElm, iAttrs);
+                    pScope = pCtrl.getscope();
+                    Init(pScope, iElm, iAttrs);
 
                 }else{//提交按钮在作用域外（父指令外面）
-                    var obj = iAttrs.ngVerify;
+                    var opts = iAttrs.ngVerify; //按钮上传入的配置参数
+
                     try {
-                        obj = eval("(" + iAttrs.ngVerify + ")");
+                        opts = eval("(" + opts + ")");
                     } catch (e) {
-                        console.log('以下按钮需指向关联的form.name');
+                        console.log('元素绑定的验证参数有语法错误：');
                         console.error(iElm);
+                        return;
+                    }
+                    if (!opts.control) {
+                        console.log('按钮需指向关联的form.name');
+                        console.error(iElm);
+                        return;
                     }
 
                     //获取对应的父指令作用域$scope
-                    var $scope = verify.scope(obj.control)
+                    pScope = verify.scope(opts.control)
 
-                    if ($scope == undefined) {
+                    if (pScope == undefined) {
                         console.error('$scope获取失败');
                         console.error(iElm);
                         return;
                     }
-                    Init($scope, iElm, iAttrs);
+                    Init(pScope, iElm, iAttrs);
                 }
             }
         }
@@ -95,7 +104,6 @@
         iAttrs  元素属性
     */
     function Init($scope, iElm, iAttrs) {
-        // console.log($scope);
         var OPTS = iAttrs.ngVerify; //自定义验证参数
         if (OPTS == '') {
             OPTS = {};
@@ -103,7 +111,7 @@
             try {
                 OPTS = eval("(" + iAttrs.ngVerify + ")");
             } catch (e) {
-                console.log('以下元素绑定的验证参数有语法错误：');
+                console.log('元素绑定的验证参数有语法错误：');
                 console.error(iElm);
             }
         }
@@ -123,14 +131,13 @@
 
         // 传入错误参数警告并做容错处理
         if (iAttrs.type == 'radio' && OPTS.least) {
-            console.warn('least不是radio元素的有效参数，不过程序已自动容错处理。');
+            console.warn('least不是radio元素的有效参数!');
             console.warn(iElm);
             OPTS.least = DEFAULT.least;
         }
 
         // 合并默认和自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
-
 
         // 写入属性
         iElm.attr({
@@ -150,12 +157,16 @@
 
             // 没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
             if (OPTS.disabled) {
-                iElm.attr('disabled', 'disabled');
+                // iElm.prop('disabled',true)
+                iElm.attr('disabled', true)
             }
 
             //提交时检测所有表单
-            iElm.bind('click', function() {
-                $scope.verify_submit();
+            iElm.bind('click', function(e) {
+                e.stopPropagation();
+                if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
+                    $scope.verify_submit();
+                }
             })
 
         } else {// iElm 是需验证的表单元素
@@ -175,7 +186,6 @@
             $scope.verify_elems.push(iElm);
 
             // 绑定元素验证事件
-            // 直接获取element绑定的方法调用就可以了
             bindVaild(iElm, {inEvent,outEvent}, $scope);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
@@ -280,6 +290,7 @@
      * @return  Boolean   代表元素是否通过验证
      */
     function ISVALID(iElm) {
+
         //隐藏元素直接校验通过
         if(iElm[0].style.display == 'none'){
             return true;
@@ -319,7 +330,12 @@
 
         // 非空验证
         if (OPTS.required && val == '') {
-            OPTS.title = '不能为空'
+            // 注意：type='number' 输入字符e时，val仍然为空值，这时的空校验提示为tip1
+            if (iAttrs.type == 'number') {
+                OPTS.title = '需输入数字';   //tip1
+            }else{
+                OPTS.title = '不能为空'     //tip2
+            }
             return false;
         } else if (!OPTS.required && val == '') {
             return true;
