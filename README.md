@@ -1,4 +1,4 @@
-# ngVerify v0.1.6
+# ngVerify v0.1.5
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -22,8 +22,8 @@ qtip提示方式在正式版中将会去除，因此jQuery也会被去除。
 
 	var app = angular.module('APP',['ngVerify']);
 
-	//给form设置一个verify-scope指令
-	<form verify-scope>
+	//给form设置一个verify指令
+	<form verify>
 		<input type="text" ng-verify> //给表单元素设置ng-verify
 		<button ng-verify>Submit</button> //提交按钮也是
   	</form>
@@ -105,19 +105,12 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ## API  
-依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
-
-	//依赖注入ngVerify后，可以调用一些公共方法
-	app.controller('yourCtrl',function(ngVerify){
-		...
-	})
-
-### ngVerify.check()
+### verify.check()
 检测一个verify表单是否验证通过，返回Boolean和errorArry(未校验通过的元素组)
 
-	ngVerify.check('formName')
+	verify.check('formName')
 
-### ngVerify.scope()
+### verify.scope()
 获取一个verify表单的$scope作用域
 
-	ngVerify.scope('formName')
+	verify.scope('formName')
