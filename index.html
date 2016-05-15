@@ -10,11 +10,11 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 0.1.4</p>
+	<p class="Version">ver: 0.1.6</p>
 
 	<div ng-controller="testCtrl">
 		<!-- 表单验证 -->
-		<form id="testform" name="loginForm" verify>
+		<form id="testform" name="loginForm" verify-scope>
 			<div class="form-group">
 			    <label for="Email">Email address </label>
 				<!-- 只需要写上 ng-verify -->
@@ -116,8 +116,8 @@
 	// 使用ngVerify前，先依赖注入
 	var app = angular.module('APP',['ngVerify']);
 
-	// 测试用控制器
-	app.controller('testCtrl',function ($scope) {
+	// 测试用控制器,调用公共方法的地方注入ngVerify
+	app.controller('testCtrl',function ($scope, ngVerify) {
 
 		// 这里的$scope只是控制器上的，和表单上verify指令的$scope无关
 		// console.log($scope);
@@ -126,8 +126,9 @@
 		// var verifyScope = verify.scope('loginForm')
 
 		$scope.check = function () {
-			var re = verify.check('loginForm');
 			console.log('你检测了表单的验证，返回给你一个对象：');
+			// var re = verify.check('loginForm');
+			var re = ngVerify.check('loginForm');
 		    console.warn(re);
 		}
 	})
