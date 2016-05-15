@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.5
+ * ngVerify v0.1.6
  *
  * License: MIT
  * Designed and built by Moer
@@ -11,10 +11,47 @@
 
 
 
-    var verifyModle = angular.module('ngVerify', []);
+    var m = angular.module('ngVerify', []);
+
+    m.provider('ngVerify', function () {
+        this.$get = function(){
+            var publicMethods = {
+                /** 全局暴露的公共方法
+                 * @param  String   formName: name
+                 * @return Boolean
+                 */
+                scope: function (formName) {
+                    var forms = document.getElementsByName(formName);
+                    var obj;//获取一个对象，它是form上的scope作用域
+
+                    for (var i = 0; i < forms.length; i++) {
+                        if (forms[i]._verifyScope) {
+                            obj = forms[i]._verifyScope;
+                            break;
+                        }
+                    }
+                    return obj;
+                },
+                // 检测一个form表单校验是否通过
+                check: function (formName) {
+                    var forms = document.getElementsByName(formName);
+                    var obj;//绑定在nodelist上的方法，即 @function checkAll()
+
+                    for (var i = 0; i < forms.length; i++) {
+                        if (forms[i]._verifyScope) {
+                            obj = checkAll(publicMethods.scope(forms[i].name).verify_elems);
+                        }
+                    }
+                    return obj;
+                }
+            }
+
+            return publicMethods;
+        }
+    });
 
     // 父指令，写在form标签上
-    verifyModle.directive('verify', function() {
+    m.directive('verifyScope', function() {
         return {
             scope:{},
             controller: function($scope, $element, $attrs) {
@@ -45,20 +82,22 @@
                     });
 
                 });
+
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
 
                 // 给form的nodelist对象上绑定$scope
                 iElm[0]._verifyScope = $scope;
+
             }
         }
     })
 
     // 子指令，写在需要校验的表单元素和表单提交按钮上
-    verifyModle.directive('ngVerify', function() {
+    m.directive('ngVerify', function(ngVerify) {
         return {
-            require: "?^verify",
+            require: "?^verifyScope",
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
                 var pScope;//父指令的$scope
@@ -84,7 +123,7 @@
                     }
 
                     //获取对应的父指令作用域$scope
-                    pScope = verify.scope(opts.control)
+                    pScope = ngVerify.scope(opts.control)
 
                     if (pScope == undefined) {
                         console.error('$scope获取失败');
@@ -420,39 +459,6 @@
         return RE;
     }
 
-    /** 全局暴露的公共方法
-     * @param  String   formName: name
-     * @return Boolean
-     */
-    window.verify = ({
 
-        // 获取主指令的scope
-        scope: function (formName) {
-            var forms = document.getElementsByName(formName);
-            var obj;//获取一个对象，它是form上的scope作用域
-
-            for (var i = 0; i < forms.length; i++) {
-                if (forms[i]._verifyScope) {
-                    // console.log(forms[i]);
-                    obj = forms[i]._verifyScope;
-                    break;
-                }
-            }
-            return obj;
-        },
-
-        // 检测一个form表单校验是否通过
-        check: function (formName) {
-            var forms = document.getElementsByName(formName);
-            var obj;//绑定在nodelist上的方法，即 @function checkAll()
-
-            for (var i = 0; i < forms.length; i++) {
-                if (forms[i]._verifyScope) {
-                    obj = checkAll(verify.scope(forms[i].name).verify_elems);
-                }
-            }
-            return obj;
-        }
-    })
 
 })(angular)
