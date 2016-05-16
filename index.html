@@ -5,6 +5,7 @@
 	<title>指令与表单验证</title>
 	<link rel="stylesheet" href="lib/bootstarp.min.css">
 	<link rel="stylesheet" href="lib/jquery.qtip.css" >
+	<link rel="stylesheet" href="lib/angular-datepicker.css">
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -12,9 +13,16 @@
 	<h1 class="PluginName">ngVerify</h2>
 	<p class="Version">ver: 0.1.7</p>
 
-	<div ng-controller="testCtrl">
+	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
 		<form id="testform" name="loginForm" verify-scope>
+			<div class="form-group">
+				<label for="pickerMinDate">Time picker </label>
+				<input class="form-control" date-time name="pickerMinDate" ng-model="dates.today" id="pickerMinDate"
+				min-date="minDate" view="date" min-view="hours" placeholder="click here input"
+				 ng-verify
+				>
+			</div>
 			<div class="form-group">
 			    <label for="Email">Email address </label>
 				<!-- 只需要写上 ng-verify -->
@@ -90,18 +98,8 @@
 		</form>
 
 		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
-		<button type="button" class="btn btn-warning" ng-verify="{control:'loginForm', disabled:false}" ng-click="check()">验证整个表单</button>
+		<button type="button" class="btn btn-warning outsideBtn" ng-verify="{control:'loginForm', disabled:false}" ng-click="check()">验证整个表单</button>
 
-		<!-- 测试多表单是否冲突 -->
-		<!-- <form id="testform2" name="loginForm2" verify>
-			<div class="form-group">
-			    <label for="form2">string</label>
-			    <input type="text" class="form-control" id="form2" placeholder="input string"
-				 ng-verify
-				>
-			</div>
-			<button type="submit" class="btn btn-block btn-primary" ng-verify="{control:'loginForm2'}">提交</button>
-		</form> -->
 	</div>
 
 </body>
@@ -109,13 +107,14 @@
 
 <!-- qtip提示部分，正式版将会剔除 -->
 <script src="lib/juqery-v2.2.3.js"></script>
-<script src="lib/jquery.qtip.js"></script>
-
 <script src="lib/angular-v1.5.5.js"></script>
+<script src="lib/jquery.qtip.js"></script>
+<script src="lib/angular-datepicker.js"></script>
+
 <script src="js/ngVerify.js"></script>
 <script type="text/javascript">
 	// 使用ngVerify前，先依赖注入
-	var app = angular.module('APP',['ngVerify']);
+	var app = angular.module('APP',['ngVerify','datePicker']);
 
 	// 测试用控制器,调用公共方法的地方注入ngVerify
 	app.controller('testCtrl',function ($scope, ngVerify) {

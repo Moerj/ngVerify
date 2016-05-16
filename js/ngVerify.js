@@ -198,8 +198,9 @@
             // iElm 是提交按钮
             $scope.verify_subBtn.push(iElm);
 
-            // 没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
-            if (OPTS.disabled) {
+            // 1.没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
+            // 2.加载页面是先验证一次所有表单是否已经符合
+            if (OPTS.disabled && checkAll($scope.verify_elems).hasError) {
                 // iElm.prop('disabled',true)
                 iElm.attr('disabled', true)
             }
@@ -222,8 +223,8 @@
                 outEvent = 'change';
             }else{
                 inEvent = 'blur';
-                outEvent = 'change keyup';
-                // 'input propertychange'
+                outEvent = 'change keyup input';
+                // 'input propertychange' //input值改变事件
             }
 
             // 将元素绑定到scope数组上
@@ -270,7 +271,6 @@
                     iElm.trigger('change')
                 }
             });
-            // return;
         }
         iElm.bind(bindEvent.inEvent, function() {
             if (!ISVALID(iElm)) { //验证不通过

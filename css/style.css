@@ -1,3 +1,9 @@
+.container{
+    width: 400px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
 .PluginName {
     text-align: center;
     color: #C9E2F7;
@@ -7,13 +13,12 @@
     text-align: center;
     color: #999
 }
-
-form {
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    padding: 20px;
+.outsideBtn{
+    position: absolute;
+    left: 0;
+    top: 50%;
 }
+
 
 label {
     width: 100%;
