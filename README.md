@@ -1,4 +1,4 @@
-# ngVerify v0.1.6
+# ngVerify v0.1.7
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -121,3 +121,8 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 获取一个verify表单的$scope作用域
 
 	ngVerify.scope('formName')
+
+### lase updated
+修正了2个bug：
+	初始进入页面，全部验证通过，但提交按钮仍然禁用
+	timepicker类的组件验证无法触发
