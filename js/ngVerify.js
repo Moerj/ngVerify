@@ -104,7 +104,6 @@
 
                 if (pCtrl!=undefined) {//提交按钮在作用域内
                     pScope = pCtrl.getscope();
-                    Init(pScope, iElm, iAttrs);
 
                 }else{//提交按钮在作用域外（父指令外面）
                     var opts = iAttrs.ngVerify; //按钮上传入的配置参数
@@ -130,8 +129,16 @@
                         console.error(iElm);
                         return;
                     }
-                    Init(pScope, iElm, iAttrs);
                 }
+
+                // 元素绑定scope
+                iElm.scope = scope;
+                iElm.$scope = pScope;
+
+                // 初始化元素
+                Init(pScope, iElm, iAttrs);
+
+
             }
         }
     })
@@ -216,6 +223,7 @@
             }else{
                 inEvent = 'blur';
                 outEvent = 'change keyup';
+                // 'input propertychange'
             }
 
             // 将元素绑定到scope数组上
@@ -226,7 +234,7 @@
                 "inEvent" : inEvent ,
                 "outEvent" : outEvent
             };
-            bindVaild(iElm, bindEvent, $scope);
+            bindVaild(iElm, bindEvent);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
             if (isbox) {
@@ -249,7 +257,21 @@
         bindEvent   obj    需要绑定的事件对象集合
         $scope      主指令的scope作用域
     */
-    function bindVaild(iElm, bindEvent, $scope) {
+    function bindVaild(iElm, bindEvent) {
+        var $scope = iElm.$scope;
+        var scope = iElm.scope;
+        var iAttrs = iElm.iAttrs;
+        if (iAttrs.ngModel) {
+            // console.log(iAttrs.ngModel);
+            // 如果元素上有ng-module, 监听它的值，写入到value中
+            scope.$watch(iAttrs.ngModel,function(newValue,oldValue, scope){
+                if (newValue) {
+                    iElm.attr('value',newValue)
+                    iElm.trigger('change')
+                }
+            });
+            // return;
+        }
         iElm.bind(bindEvent.inEvent, function() {
             if (!ISVALID(iElm)) { //验证不通过
                 // 调用提示信息
@@ -264,6 +286,7 @@
         })
         .bind(bindEvent.outEvent, function() {
             if (ISVALID(iElm)) {
+                // console.log('验证通过');
                 // 取消标红
                 sign(iElm, iElm.OPTS.errorClass, false);
 
@@ -289,7 +312,7 @@
                 event: false // 无触发事件
             },
             hide: {
-                // inactive: 5000, //不活动xx毫秒后隐藏
+                inactive: 3000, //不活动xx毫秒后隐藏
                 event: 'keyup change'
             }
         });
