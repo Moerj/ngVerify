@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.8 beta
+ * ngVerify v1.0
  *
  * License: MIT
  * Designed and built by Moer
@@ -18,7 +18,7 @@
 }
 .verifyError:focus{
     border-color: transparent !important;
-    box-shadow: 0 0 3px 1px #d9534f !important;
+    box-shadow: 0 0 2px 1px #d9534f !important;
 }
 
 /*错误消息容器*/
@@ -37,7 +37,7 @@
     margin-top: 8px;
     position: relative;
     background-color: #fff;
-    transition: 1s;
+    transition: .4s;
     transform: translate3d(0,-20px,0) scale3d(0,0,1);
     position: absolute;
     left: 0;
