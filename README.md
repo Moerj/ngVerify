@@ -123,5 +123,5 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 	ngVerify.scope('formName')
 
-### lase updated
+### laset updated
 不再依赖jQeruy和qtip2
