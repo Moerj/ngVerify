@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.7
+ * ngVerify v0.1.8 beta
  *
  * License: MIT
  * Designed and built by Moer
@@ -70,18 +70,9 @@
                     var re = checkAll(els);
                     for (var i = 0; i < re.errEls.length; i++) {
                         sign(re.errEls[i], els[i].OPTS.errorClass, true)
-                        tipMsg(re.errEls[i])
+                        // tipMsg(re.errEls[i], true)
                     }
                 }
-
-                // 页面切换后, 销毁qtip
-                $scope.$on('$stateChangeStart', function(){
-                    var verifyElems = $scope.verify_elems;
-                    angular.forEach(verifyElems, function(el, key) {
-                        $(el).qtip('destroy');
-                    });
-
-                });
 
             },
             link: function($scope, iElm) {
@@ -215,15 +206,36 @@
 
         } else {// iElm 是需验证的表单元素
             var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
-            var inEvent,outEvent = '';
+            var vaildEvent = '';
+
+            // 原生js 创建errmsg容器
+            // var container = iElm[0].parentNode;
+            // if (isbox && container.localName == 'label') {
+            //     container = container.parentNode;
+            // }
+            // var errtip = document.createElement("p");
+            // errtip.setAttribute("class", "verifyErrorTip");
+            // errtip.innerHTML = OPTS.title;
+            // container.appendChild(errtip);
+            // var errtipArrow = document.createElement("i");
+            // errtip.appendChild(errtipArrow);
+
+            // 创建errmsg容器
+            var container = iElm.parent();
+            if (isbox && container[0].localName == 'label') {
+                container = container.parent();
+            }
+            var errtip = '<div class="verifyWrap"><p class="verifyErrorTip"><span></span><i></i></p></div>';
+            container.append(errtip);
+
+            // 将错误提示元素绑定在iElm
+            iElm.errtip = container.find('.verifyErrorTip');
 
             // 特殊类型的触发类型和错误渲染不同
             if (isbox) {
-                inEvent = 'blur';
-                outEvent = 'change';
+                vaildEvent = 'change';
             }else{
-                inEvent = 'blur';
-                outEvent = 'change keyup input';
+                vaildEvent = 'change keyup';
                 // 'input propertychange' //input值改变事件
             }
 
@@ -231,22 +243,23 @@
             $scope.verify_elems.push(iElm);
 
             // 绑定元素验证事件
-            var bindEvent = {
-                "inEvent" : inEvent ,
-                "outEvent" : outEvent
-            };
-            bindVaild(iElm, bindEvent);
+            bindVaild(iElm, vaildEvent);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
             if (isbox) {
                 var iElms = document.getElementsByName(iAttrs.name);
                 for (var i = 0; i < iElms.length; i++) {
-                    iElms[i].addEventListener(inEvent,function(){
-                        iElm.trigger(inEvent)
-                    })
-                    iElms[i].addEventListener(outEvent,function(){
-                        iElm.trigger(outEvent)
-                    })
+                    if (iElms[i]!=iElm[0]) {
+                        iElms[i].addEventListener('focus',function(){
+                            iElm.triggerHandler('focus')
+                        })
+                        iElms[i].addEventListener('blur',function(){
+                            iElm.triggerHandler('blur')
+                        })
+                        iElms[i].addEventListener(vaildEvent,function(){
+                            iElm.triggerHandler(vaildEvent)
+                        })
+                    }
                 }
             }
         }
@@ -258,12 +271,11 @@
         bindEvent   obj    需要绑定的事件对象集合
         $scope      主指令的scope作用域
     */
-    function bindVaild(iElm, bindEvent) {
+    function bindVaild(iElm, vaildEvent) {
         var $scope = iElm.$scope;
         var scope = iElm.scope;
         var iAttrs = iElm.iAttrs;
         if (iAttrs.ngModel) {
-            // console.log(iAttrs.ngModel);
             // 如果元素上有ng-module, 监听它的值，写入到value中
             scope.$watch(iAttrs.ngModel,function(newValue,oldValue, scope){
                 if (newValue) {
@@ -272,10 +284,19 @@
                 }
             });
         }
-        iElm.bind(bindEvent.inEvent, function() {
+        iElm.bind('focus',function () {
+            if (iElm.hasError || iElm.hasClass(iElm.OPTS.errorClass)) { //验证不通过
+                // 提示信息
+                tipMsg(iElm, true);
+            }
+        })
+        .bind('blur', function() {
             if (!ISVALID(iElm)) { //验证不通过
-                // 调用提示信息
-                tipMsg(iElm);
+                iElm.hasError = true;
+
+                // 提示信息
+                // tipMsg(iElm, !iElm.hasClass(iElm.OPTS.errorClass));
+                tipMsg(iElm, false);
 
                 // 将元素标红
                 sign(iElm, iElm.OPTS.errorClass, true);
@@ -284,9 +305,13 @@
                 DisableButtons($scope.verify_subBtn, true)
             }
         })
-        .bind(bindEvent.outEvent, function() {
-            if (ISVALID(iElm)) {
-                // console.log('验证通过');
+        .bind(vaildEvent, function() {
+            if (ISVALID(iElm)) { //验证通过
+                iElm.hasError = false;
+
+                // 关闭提示
+                tipMsg(iElm, false);
+
                 // 取消标红
                 sign(iElm, iElm.OPTS.errorClass, false);
 
@@ -302,20 +327,10 @@
     /** 提示错误信息
         @param iElm  obj  dom元素对象
     */
-    function tipMsg(iElm) {
-        $(iElm).qtip({ //提示错误信息
-            content: {
-                text: iElm.OPTS.title
-            },
-            show: {
-                ready: true, // 加载完就显示提示
-                event: false // 无触发事件
-            },
-            hide: {
-                inactive: 3000, //不活动xx毫秒后隐藏
-                event: 'keyup change'
-            }
-        });
+    function tipMsg(iElm, isShow) {
+        var errtip = iElm.errtip;
+        errtip.find('span').text(iElm.OPTS.title);
+        errtip.toggleClass('verifyShowErr',isShow);
     }
 
     /** 标记未通过验证的元素
@@ -331,13 +346,13 @@
                 parent = parent.parent();
             }
             iElm = parent;
+
+            // 复组元素边框为虚线
+            iElm.toggleClass(className+'Dash', sign)
         }
-        if (sign) {
-            iElm.addClass(className);
-        }else{
-            iElm.removeClass(className);
-        }
+        iElm.toggleClass(className, sign)
     }
+
 
     // 禁用/启用相关的提交按钮
     function DisableButtons(btns, isDisable) {
