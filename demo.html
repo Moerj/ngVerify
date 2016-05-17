@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>指令与表单验证</title>
 	<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link href="http://cdn.bootcss.com/angular-js-bootstrap-datetimepicker/1.2.4.1/datetimepicker.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,13 +16,6 @@
 	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
 		<form id="testform" name="loginForm" verify-scope>
-			<div class="form-group">
-				<label for="pickerMinDate">Time picker </label>
-				<input class="form-control" date-time name="pickerMinDate" ng-model="dates.today" id="pickerMinDate"
-				min-date="minDate" view="date" min-view="hours" placeholder="click here input"
-				 ng-verify
-				>
-			</div>
 			<div class="form-group">
 			    <label for="Email">Email address </label>
 				<!-- 只需要写上 ng-verify -->
@@ -105,6 +99,7 @@
 
 
 <script src="http://cdn.bootcss.com/angular.js/1.5.5/angular.min.js"></script>
+<script src="http://cdn.bootcss.com/angular-js-bootstrap-datetimepicker/1.2.4.1/datetimepicker.min.js"></script>
 <script type="text/javascript">
 	/**
 	 * ngVerify v1.0

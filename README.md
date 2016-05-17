@@ -1,4 +1,4 @@
-# ngVerify v0.1.7
+# ngVerify v1.0
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -12,9 +12,7 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 
 <br>
 ## Getting Started
-在使用前，你需要引入angular、(jQuery+qtip2)
-
-qtip提示方式在正式版中将会去除，因此jQuery也会被去除。
+在使用前，你需要引入angular
 
 	require('angular');
 
@@ -24,8 +22,8 @@ qtip提示方式在正式版中将会去除，因此jQuery也会被去除。
 
 	//给form设置一个verify-scope指令
 	<form verify-scope>
-		<input type="text" ng-verify> //给表单元素设置ng-verify
-		<button ng-verify>Submit</button> //提交按钮也是
+		<input type="text" ng-verify > //给表单元素设置ng-verify
+		<button ng-verify >Submit</button> //提交按钮也是
   	</form>
 
 
@@ -33,7 +31,7 @@ qtip提示方式在正式版中将会去除，因此jQuery也会被去除。
 
 ### defualt
 只需要使用ng-verify，会根据type类型校验非空验证和类型
-	<input type="text" ng-verify>
+	<input type="text" ng-verify >
 
 ### type
 设置表单元素type类型，目前支持的type类型：
@@ -48,26 +46,29 @@ checkbox
 select  
 
 ## OPTIONS  
+### required (defualt: true)
+false允许空值通过校验
+
 ### length(min,max)
 定制校验字符长度
 
-	<input type="text" ng-verify="min:3,max:6">
+	<input type="text" ng-verify="{min:3,max:6}" >
 
 ### pattern
 自定义正则，这样会优先以你的正则进行校验
 
-	<input type="text" ng-verify="pattern:/a-zA-Z/">
+	<input type="text" ng-verify="pattern:/a-zA-Z/" >
 
 ### errmsg (defualt: '此项为必填')
 自定义错误消息，当自定义正则校验不通过时，提示你传入的错误消息，默认会提示“类型错误”。
 
-	<input type="text" ng-verify="pattern:/a-zA-Z/, errmsg:'只能输入字符串'">
+	<input type="text" ng-verify="pattern:/a-zA-Z/, errmsg:'只能输入字符串'" >
 
 
 ### option
 select下拉菜单属性，指定的option表示选中会校验不通过
 
-	<select ng-verify="{option:0}">
+	<select ng-verify="{option:0}" >
 		<option>请选择</option>
     		<option>1</option>
     		<option>2</option>
@@ -95,13 +96,13 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 		...
 	</form>
 
-	<button ng-verify="{control:'myform'}">表单外的按钮</button>
+	<button ng-verify="{control:'myform'}" >表单外的按钮</button>
 
 
 ### disabled (defualt: true)
 设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。
 
-	<button ng-verify="{disabled:false}">按钮</button>
+	<button ng-verify="{disabled:false}" >按钮</button>
 
 
 ## API  
@@ -123,6 +124,4 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	ngVerify.scope('formName')
 
 ### lase updated
-修正了2个bug：
-	初始进入页面，全部验证通过，但提交按钮仍然禁用
-	timepicker类的组件验证无法触发
+不再依赖jQeruy和qtip2
