@@ -62,7 +62,7 @@ false允许空值通过校验
 ### errmsg (defualt: '此项为必填')
 自定义错误消息，当自定义正则校验不通过时，提示你传入的错误消息，默认会提示“类型错误”。
 
-	<input type="text" ng-verify="pattern:/a-zA-Z/, errmsg:'只能输入字符串'" >
+	<input type="text" ng-verify="{pattern:/a-zA-Z/, errmsg:'只能输入字符串'}" >
 
 
 ### option
