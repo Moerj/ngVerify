@@ -228,8 +228,21 @@
             var errtip = '<div class="verifyWrap"><p class="verifyErrorTip"><span></span><i></i></p></div>';
             container.append(errtip);
 
+            // find('#id')
+            // angular.element(document.querySelector('#id'))
+
+            //find('.classname'), assumes you already have the starting elem to search from
+            // angular.element(elem.querySelector('.classname'))
+
             // 将错误提示元素绑定在iElm
-            iElm.errtip = container.find('.verifyErrorTip');
+            iElm.errtip = {
+
+                container: angular.element(container[0].querySelector('.verifyErrorTip')),
+
+                message: angular.element(container[0].querySelector('.verifyErrorTip span'))
+
+            }
+
 
             // 特殊类型的触发类型和错误渲染不同
             if (isbox) {
@@ -280,7 +293,7 @@
             scope.$watch(iAttrs.ngModel,function(newValue,oldValue, scope){
                 if (newValue) {
                     iElm.attr('value',newValue)
-                    iElm.trigger('change')
+                    iElm.triggerHandler('change')
                 }
             });
         }
@@ -328,9 +341,10 @@
         @param iElm  obj  dom元素对象
     */
     function tipMsg(iElm, isShow) {
+        console.log(iElm);
         var errtip = iElm.errtip;
-        errtip.find('span').text(iElm.OPTS.title);
-        errtip.toggleClass('verifyShowErr',isShow);
+        errtip.message.text(iElm.OPTS.title);
+        errtip.container.toggleClass('verifyShowErr',isShow);
     }
 
     /** 标记未通过验证的元素

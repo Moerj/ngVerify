@@ -18,7 +18,7 @@
 }
 .verifyError:focus{
     border-color: transparent !important;
-    box-shadow: 0 0 3px 1px #d9534f !important;
+    box-shadow: 0 0 2px 1px #d9534f !important;
 }
 
 /*错误消息容器*/
