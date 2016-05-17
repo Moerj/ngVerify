@@ -1,5 +1,5 @@
 /**
- * ngVerify v0.1.8 beta
+ * ngVerify v1.0
  *
  * License: MIT
  * Designed and built by Moer
@@ -92,28 +92,32 @@
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
                 var pScope;//父指令的$scope
-
-                if (pCtrl!=undefined) {//提交按钮在作用域内
-                    pScope = pCtrl.getscope();
-
-                }else{//提交按钮在作用域外（父指令外面）
-                    var opts = iAttrs.ngVerify; //按钮上传入的配置参数
-
+                var OPTS = iAttrs.ngVerify; //自定义验证参数
+                if (OPTS == '') {
+                    OPTS = {};
+                } else {
                     try {
-                        opts = eval("(" + opts + ")");
+                        OPTS = eval("(" + iAttrs.ngVerify + ")");
                     } catch (e) {
                         console.log('元素绑定的验证参数有语法错误：');
                         console.error(iElm);
                         return;
                     }
-                    if (!opts.control) {
+                }
+
+                if (pCtrl!=undefined) {//提交按钮在作用域内
+                    pScope = pCtrl.getscope();
+
+                }else{//提交按钮在作用域外（父指令外面）
+
+                    if (!OPTS.control) {
                         console.log('按钮需指向关联的form.name');
                         console.error(iElm);
                         return;
                     }
 
                     //获取对应的父指令作用域$scope
-                    pScope = ngVerify.scope(opts.control)
+                    pScope = ngVerify.scope(OPTS.control)
 
                     if (pScope == undefined) {
                         console.error('$scope获取失败');
@@ -122,12 +126,14 @@
                     }
                 }
 
-                // 元素绑定scope
-                iElm.scope = scope;
+                // 元素绑定相关参数
                 iElm.$scope = pScope;
+                iElm.scope = scope;
+                iElm.iAttrs = iAttrs;
+                iElm.OPTS = OPTS;
 
                 // 初始化元素
-                Init(pScope, iElm, iAttrs);
+                Init(iElm);
 
 
             }
@@ -140,18 +146,10 @@
         iElm    指令元素
         iAttrs  元素属性
     */
-    function Init($scope, iElm, iAttrs) {
-        var OPTS = iAttrs.ngVerify; //自定义验证参数
-        if (OPTS == '') {
-            OPTS = {};
-        } else {
-            try {
-                OPTS = eval("(" + iAttrs.ngVerify + ")");
-            } catch (e) {
-                console.log('元素绑定的验证参数有语法错误：');
-                console.error(iElm);
-            }
-        }
+    function Init(iElm) {
+        var $scope = iElm.$scope;
+        var iAttrs = iElm.iAttrs;
+        var OPTS = iElm.OPTS;
 
         // 默认配置
         var DEFAULT = {
@@ -184,7 +182,6 @@
 
         // 元素初始化数据
         iElm.OPTS = OPTS;
-        iElm.iAttrs = iAttrs;
         if (OPTS.control) {
             // iElm 是提交按钮
             $scope.verify_subBtn.push(iElm);
@@ -207,18 +204,6 @@
         } else {// iElm 是需验证的表单元素
             var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
             var vaildEvent = '';
-
-            // 原生js 创建errmsg容器
-            // var container = iElm[0].parentNode;
-            // if (isbox && container.localName == 'label') {
-            //     container = container.parentNode;
-            // }
-            // var errtip = document.createElement("p");
-            // errtip.setAttribute("class", "verifyErrorTip");
-            // errtip.innerHTML = OPTS.title;
-            // container.appendChild(errtip);
-            // var errtipArrow = document.createElement("i");
-            // errtip.appendChild(errtipArrow);
 
             // 创建errmsg容器
             var container = iElm.parent();
@@ -341,7 +326,6 @@
         @param iElm  obj  dom元素对象
     */
     function tipMsg(iElm, isShow) {
-        console.log(iElm);
         var errtip = iElm.errtip;
         errtip.message.text(iElm.OPTS.title);
         errtip.container.toggleClass('verifyShowErr',isShow);
@@ -366,7 +350,6 @@
         }
         iElm.toggleClass(className, sign)
     }
-
 
     // 禁用/启用相关的提交按钮
     function DisableButtons(btns, isDisable) {

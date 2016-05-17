@@ -3,15 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>指令与表单验证</title>
+
 	<link rel="stylesheet" href="lib/bootstarp.min.css">
-	<!-- <link rel="stylesheet" href="lib/jquery.qtip.css" > -->
 	<link rel="stylesheet" href="lib/angular-datepicker.css">
+
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 0.1.7</p>
+	<p class="Version">ver: 1.0</p>
+	<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 
 	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
@@ -105,9 +107,7 @@
 </html>
 
 <!-- qtip提示部分，正式版将会剔除 -->
-<!-- <script src="lib/juqery-v2.2.3.js"></script> -->
 <script src="lib/angular-v1.5.5.js"></script>
-<!-- <script src="lib/jquery.qtip.js"></script> -->
 <script src="lib/angular-datepicker.js"></script>
 
 <script src="js/ngVerify.js"></script>
@@ -126,7 +126,6 @@
 
 		$scope.check = function () {
 			console.log('你检测了表单的验证，返回给你一个对象：');
-			// var re = verify.check('loginForm');
 			var re = ngVerify.check('loginForm');
 		    console.warn(re);
 		}
