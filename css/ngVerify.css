@@ -10,15 +10,15 @@
 /*标红*/
 .verifyError{
     /* 元素靠box-shadow来渲染边框,可以保证input和非input渲染统一 */
-    border:1px solid #d9534f;
+    border:1px solid #d9534f !important;
     border-radius: 5px;
 }
 .verifyErrorDash{
-    border-style: dashed;
+    border-style: dashed !important;
 }
 .verifyError:focus{
-    border-color: transparent;
-    box-shadow: 0 0 3px 1px #d9534f;
+    border-color: transparent !important;
+    box-shadow: 0 0 3px 1px #d9534f !important;
 }
 
 /*错误消息容器*/
