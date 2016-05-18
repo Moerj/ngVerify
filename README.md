@@ -1,4 +1,4 @@
-# ngVerify v1.0
+# ngVerify v1.1
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
