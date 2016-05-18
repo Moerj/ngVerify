@@ -36,27 +36,27 @@
 			    <label for="Password">Password </label>
 				<!-- 自定义字符长度 -->
 			    <input type="password" class="form-control" id="Password" placeholder="3 to 10 chars"
-				 ng-verify="{min:3, max:10}"
+				 ng-verify="min:3, max:10"
 				>
 			</div>
 			<div class="form-group">
 			    <label for="phone">phone</label>
 				<!-- 默认支持的type类型 -->
 			    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
-				 ng-verify="{min:11,required:false}"
+				 ng-verify="min:11, required:false"
 				>
 			</div>
 			<div class="form-group">
 			    <label for="pattern">pattern</label>
 				<!-- 自定义正则,并自定义错误消息 -->
 			    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
-				 ng-verify="{pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文'}"
+				 ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' "
 				>
 			</div>
 			<div class="form-group">
 			    <label for="select">select</label>
 				<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
-			    <select id="select" class="form-control" ng-verify="{option:0}">
+			    <select id="select" class="form-control" ng-verify="option:0">
 			    	<option>请选择</option>
 			    	<option>1</option>
 			    	<option>2</option>
@@ -75,7 +75,7 @@
 					<input type="checkbox" name="checkbox" > Iron Man
 				</label>
 				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox"  ng-verify="{least:2}"> Hulk
+					<input type="checkbox" name="checkbox"  ng-verify="least:2"> Hulk
 				</label>
 			</div>
 			<div class="form-group">
@@ -99,7 +99,7 @@
 		</form>
 
 		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
-		<button type="button" class="btn btn-warning outsideBtn" ng-verify="{control:'loginForm', disabled:false}" ng-click="check()">验证整个表单</button>
+		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false" ng-click="check()">验证整个表单</button>
 
 	</div>
 
@@ -127,13 +127,13 @@
 		// angular.element(document).ready(function() {
 		// 	console.log('页面加载完成，自动检测表单的验证，返回一个对象：');
 		// 	var re = ngVerify.check('loginForm',true);
-		// 	console.warn(re);
+		// 	console.info(re);
 		// });
 
 		$scope.check = function () {
 			console.log('你检测了表单的验证，返回给你一个对象：');
 			var re = ngVerify.check('loginForm');
-		    console.warn(re);
+		    console.info(re);
 		}
 
 	})

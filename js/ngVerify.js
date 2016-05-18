@@ -83,15 +83,17 @@
                     }
                 }
 
-                var OPTS = $attrs.verifyScope;
-                if (OPTS != '') {
-                    try {
-                        $scope.verify_OPTS = eval("(" + OPTS + ")");
-                    } catch (e) {
-                        console.log('元素绑定的参数有语法错误：');
-                        console.error($element);
-                    }
-                }
+                // var OPTS = $attrs.verifyScope;
+                // if (OPTS != '') {
+                //     try {
+                //         $scope.verify_OPTS = eval("(" + OPTS + ")");
+                //     } catch (e) {
+                //         console.log('元素绑定的参数有语法错误：');
+                //         console.error($element);
+                //     }
+                // }
+
+                $scope.verify_OPTS = formatOpt($attrs.verifyScope, $element);
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
@@ -106,18 +108,20 @@
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
                 var pScope;//父指令的$scope
-                var OPTS = iAttrs.ngVerify; //自定义验证参数
-                if (OPTS == '') {
-                    OPTS = {};
-                } else {
-                    try {
-                        OPTS = eval("(" + iAttrs.ngVerify + ")");
-                    } catch (e) {
-                        console.log('元素绑定的验证参数有语法错误：');
-                        console.error(iElm);
-                        return;
-                    }
-                }
+
+                // var OPTS = iAttrs.ngVerify; //自定义验证参数
+                // if (OPTS == '') {
+                //     OPTS = {};
+                // } else {
+                //     try {
+                //         OPTS = eval("(" + iAttrs.ngVerify + ")");
+                //     } catch (e) {
+                //         console.log('元素绑定的验证参数有语法错误：');
+                //         console.error(iElm);
+                //         return;
+                //     }
+                // }
+                var OPTS = formatOpt(iAttrs.ngVerify, iElm);
 
                 if (pCtrl!=undefined) {
                     pScope = pCtrl.getscope();
@@ -153,6 +157,27 @@
             }
         }
     })
+
+    /** 格式化配置参数
+     * @param
+        str     String    格式化前的配置参数
+        iElm    DomObj    标记出现错误的元素
+
+     * @return
+        Object          格式化好的配置对象
+     */
+    function formatOpt(str, iElm) {
+        if ( str.charAt(0)!="{" ) {
+            str = '{' + str + '}';
+        }
+
+        try {
+            return eval("(" + str + ")");
+        } catch (e) {
+            console.error('ngVerify opts has error:');
+            console.error(iElm);
+        }
+    }
 
     /** 初始化验证配置
         @param
