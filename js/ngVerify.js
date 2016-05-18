@@ -161,7 +161,8 @@
             max: iAttrs.maxlength,
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
-            least: 1    //checkbox默认最少勾选数
+            least: 1,    //checkbox默认最少勾选数
+            tipStyle: 1 //错误提示样式
         }
 
         // 传入错误参数警告并做容错处理
@@ -205,12 +206,13 @@
             var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
             var vaildEvent = '';
 
+            // 错误提示容器初始化
             // 创建errmsg容器
             var container = iElm.parent();
             if (isbox && container[0].localName == 'label') {
                 container = container.parent();
             }
-            var errtip = '<div class="verifyWrap"><p class="verifyErrorTip"><span></span><i></i></p></div>';
+            var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span></span><i></i></p></div>';
             container.append(errtip);
 
             // find('#id')
@@ -222,9 +224,9 @@
             // 将错误提示元素绑定在iElm
             iElm.errtip = {
 
-                container: angular.element(container[0].querySelector('.verifyErrorTip')),
+                container: angular.element(container[0].querySelector('.verifyTips > p')),
 
-                message: angular.element(container[0].querySelector('.verifyErrorTip span'))
+                message: angular.element(container[0].querySelector('.verifyTips > p > span'))
 
             }
 
@@ -328,7 +330,7 @@
     function tipMsg(iElm, isShow) {
         var errtip = iElm.errtip;
         errtip.message.text(iElm.OPTS.title);
-        errtip.container.toggleClass('verifyShowErr',isShow);
+        errtip.container.toggleClass('showTip-'+iElm.OPTS.tipStyle,isShow);
     }
 
     /** 标记未通过验证的元素

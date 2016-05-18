@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * ngVerify v1.0
  *
@@ -6,27 +7,22 @@
  * github   https://github.com/Moerj/ngVerify
  *
  */
-
 /*标红*/
-.verifyError{
-    /* 元素靠box-shadow来渲染边框,可以保证input和非input渲染统一 */
-    border:1px solid #d9534f !important;
-    border-radius: 5px;
-}
-.verifyErrorDash{
-    border-style: dashed !important;
-}
-.verifyError:focus{
+.verifyError {
+  /* 元素靠box-shadow来渲染边框,可以保证input和非input渲染统一 */
+  border: 1px solid #d9534f !important;
+  border-radius: 5px; }
+  .verifyError:focus {
     border-color: transparent !important;
-    box-shadow: 0 0 2px 1px #d9534f !important;
-}
+    box-shadow: 0 0 2px 1px #d9534f !important; }
+
+.verifyErrorDash {
+  border-style: dashed !important; }
 
 /*错误消息容器*/
-.verifyWrap{
-    position: relative;
-    /*overflow: hidden;*/
-}
-.verifyErrorTip{
+.verifyTips {
+  position: relative; }
+  .verifyTips .tipStyle, .verifyTips .tipStyle-1, .verifyTips .tipStyle-2 {
     display: inline-block;
     visibility: hidden;
     opacity: 0;
@@ -37,35 +33,44 @@
     margin-top: 8px;
     position: relative;
     background-color: #fff;
+    -webkit-transition: .4s;
     transition: .4s;
-    transform: translate3d(0,-20px,0) scale3d(0,0,1);
+    -webkit-transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
+    transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
     position: absolute;
-    left: 0;
-}
-.verifyErrorTip i{
-    border-color: transparent transparent #d9534f transparent;
-    border-width: 7px;
-    border-style: solid;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -14px;
-    left: 10px;
-}
-.verifyErrorTip i::after{
-    content: '';
-    border-color: transparent transparent #fff transparent;
-    border-width: 6px;
-    border-style: solid;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -4px;
-    left: -6px;
-}
-.verifyShowErr{
+    top: 0; }
+    .verifyTips .tipStyle i, .verifyTips .tipStyle-1 i, .verifyTips .tipStyle-2 i {
+      border-color: transparent transparent #d9534f transparent;
+      border-width: 7px;
+      border-style: solid;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -14px;
+      left: 10px; }
+      .verifyTips .tipStyle i::after, .verifyTips .tipStyle-1 i::after, .verifyTips .tipStyle-2 i::after {
+        content: '';
+        border-color: transparent transparent #fff transparent;
+        border-width: 6px;
+        border-style: solid;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: -4px;
+        left: -6px; }
+  .verifyTips .tipStyle-1 {
+    right: 0; }
+  .verifyTips .tipStyle-2 {
+    left: 0; }
+  .verifyTips .showTip-1 {
+    visibility: visible;
+    left: auto;
+    opacity: .6;
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
+  .verifyTips .showTip-2 {
     visibility: visible;
     position: static;
     opacity: .6;
-    transform: translate3d(0,0,0) scale3d(1,1,1);
-}
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
