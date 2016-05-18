@@ -105,7 +105,7 @@
                     }
                 }
 
-                if (pCtrl!=undefined) {//提交按钮在作用域内
+                if (pCtrl!=undefined) {
                     pScope = pCtrl.getscope();
 
                 }else{//提交按钮在作用域外（父指令外面）
@@ -182,7 +182,7 @@
 
         // 元素初始化数据
         iElm.OPTS = OPTS;
-        if (OPTS.control) {
+        if (OPTS.control || iAttrs.type == 'submit') {
             // iElm 是提交按钮
             $scope.verify_subBtn.push(iElm);
 

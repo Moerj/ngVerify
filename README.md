@@ -20,18 +20,13 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 
 	var app = angular.module('APP',['ngVerify']);
 
+### verify-scope
+
 	//给form设置一个verify-scope指令
 	<form verify-scope>
 		<input type="text" ng-verify > //给表单元素设置ng-verify
 		<button ng-verify >Submit</button> //提交按钮也是
   	</form>
-
-
-<br>
-
-### defualt
-只需要使用ng-verify，会根据type类型校验非空验证和类型
-	<input type="text" ng-verify >
 
 ### type
 设置表单元素type类型，目前支持的type类型：
@@ -45,7 +40,11 @@ radio
 checkbox  
 select  
 
-## OPTIONS  
+## ng-verify  
+### defualt
+只需要使用ng-verify，会根据type类型校验非空验证和类型
+	<input type="text" ng-verify >
+
 ### required (defualt: true)
 false允许空值通过校验
 
@@ -59,10 +58,10 @@ false允许空值通过校验
 
 	<input type="text" ng-verify="pattern:/a-zA-Z/" >
 
-### errmsg (defualt: '此项为必填')
-自定义错误消息，当自定义正则校验不通过时，提示你传入的错误消息，默认会提示“类型错误”。
+### errmsg
+自定义错误消息，会覆盖掉默认的提示。
 
-	<input type="text" ng-verify="{pattern:/a-zA-Z/, errmsg:'只能输入字符串'}" >
+	<input type="text" ng-verify="{errmsg:'其实这里没有错，我是在逗你玩！'}" >
 
 
 ### option
@@ -89,14 +88,17 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	</div>
 
 ### control
-绑定一个form范围外的按钮, control:'loginForm'
+绑定一个form的按钮, control:'loginForm'
 
-	<!-- 表单内的按钮会自动控制 -->
 	<form name="myform" verify>
 		...
+
+		<a ng-verify="{control:'myform'}" ></a> <!-- 表单内的按钮 1 -->
+
+		<input type="submit" ng-verify /> <!-- 表单内的按钮 2 -->
 	</form>
 
-	<button ng-verify="{control:'myform'}" >表单外的按钮</button>
+	<button ng-verify="{control:'myform'}" >提交</button> <!--表单外的按钮-->
 
 
 ### disabled (defualt: true)
