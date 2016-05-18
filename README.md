@@ -138,5 +138,5 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 	ngVerify.scope('formName')
 
-### tips
+## tips
 传入的参数字符串可以不写{}
