@@ -20,7 +20,19 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 
 	var app = angular.module('APP',['ngVerify']);
 
-### verify-scope
+### type
+	设置表单元素type类型，目前支持的type类型：
+
+	email  
+	number  
+	phone  
+	url  
+	string  
+	radio  
+	checkbox  
+	select  
+
+## verify-scope
 
 	//给form设置一个verify-scope指令
 	<form verify-scope>
@@ -28,17 +40,12 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 		<button ng-verify >Submit</button> //提交按钮也是
   	</form>
 
-### type
-设置表单元素type类型，目前支持的type类型：
+### tipStyle (defualt: 1)
+设置整个表单的错误消息样式
+1. 气泡浮动提示，在元素右下角浮出
+2. 气泡固定高度，紧接着元素另起一行
 
-email  
-number  
-phone  
-url  
-string  
-radio  
-checkbox  
-select  
+	<form verify-scope="{tipStyle: 2}" >...</form>
 
 ## ng-verify  
 ### defualt
@@ -106,6 +113,8 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 	<button ng-verify="{disabled:false}" >按钮</button>
 
+### tipStyle (defualt: form verify-scope)
+设置单个表单元素提示样式
 
 ## API  
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
@@ -118,7 +127,9 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ### ngVerify.check()
 检测一个verify表单是否验证通过，返回Boolean和errorArry(未校验通过的元素组)
 
-	ngVerify.check('formName')
+	ngVerify.check('formName') //返回一个对象
+
+	ngVerify.check('formName',true) //返回一个对象，并标记出未验证通过元素
 
 ### ngVerify.scope()
 获取一个verify表单的$scope作用域

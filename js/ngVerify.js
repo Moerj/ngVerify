@@ -33,13 +33,20 @@
                     return obj;
                 },
                 // 检测一个form表单校验是否通过
-                check: function (formName) {
+                check: function (formName, draw) {
                     var forms = document.getElementsByName(formName);
                     var obj;//绑定在nodelist上的方法，即 @function checkAll()
 
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
-                            obj = checkAll(publicMethods.scope(forms[i].name).verify_elems);
+                            var els = publicMethods.scope(forms[i].name).verify_elems
+                            obj = checkAll(els);
+                            if (draw) {
+                                var errEls = obj.errEls;
+                                for (var n = 0; n < errEls.length; n++) {
+                                    makeError(errEls[n], true);
+                                }
+                            }
                         }
                     }
                     return obj;
@@ -63,24 +70,31 @@
                 $scope.verify_elems = []; //需验证的表单元素
                 $scope.verify_subBtn = [];//提交表单的按钮
 
+                // 给form的nodelist对象上绑定$scope
+                $element[0]._verifyScope = $scope;
+
                 // 验证整个表单，错误的将标红
                 $scope.verify_submit = function () {
-                    // console.log('验证所有表单');
                     var els = $scope.verify_elems;
                     var re = checkAll(els);
                     for (var i = 0; i < re.errEls.length; i++) {
-                        sign(re.errEls[i], els[i].OPTS.errorClass, true)
-                        // tipMsg(re.errEls[i], true)
+                        makeError(re.errEls[i], true)
+                        // tipMsg(re.errEls[i], true) //提示错误信息
                     }
                 }
 
+                var OPTS = $attrs.verifyScope;
+                if (OPTS != '') {
+                    try {
+                        $scope.verify_OPTS = eval("(" + OPTS + ")");
+                    } catch (e) {
+                        console.log('元素绑定的参数有语法错误：');
+                        console.error($element);
+                    }
+                }
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
-
-                // 给form的nodelist对象上绑定$scope
-                iElm[0]._verifyScope = $scope;
-
             }
         }
     })
@@ -173,6 +187,8 @@
 
         // 合并默认和自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
+        // 合并父指令参数
+        OPTS = angular.extend({}, OPTS, $scope.verify_OPTS);
 
         // 增加属性，控制输入长短
         iElm.attr({
@@ -298,7 +314,7 @@
                 tipMsg(iElm, false);
 
                 // 将元素标红
-                sign(iElm, iElm.OPTS.errorClass, true);
+                makeError(iElm, true);
 
                 // 禁用掉控制按钮
                 DisableButtons($scope.verify_subBtn, true)
@@ -312,7 +328,7 @@
                 tipMsg(iElm, false);
 
                 // 取消标红
-                sign(iElm, iElm.OPTS.errorClass, false);
+                makeError(iElm, false);
 
                 // 检测所有
                 var re = checkAll($scope.verify_elems);
@@ -336,10 +352,10 @@
     /** 标记未通过验证的元素
         @param
         iElm        DomObj      需要标记的元素
-        className   String      标记的类名
         sing        Boolean     是标记还是取消
     */
-    function sign(iElm, className, sign){
+    function makeError(iElm, draw){
+        var className = iElm.OPTS.errorClass;
         if (iElm[0].type == 'checkbox' || iElm[0].type == 'radio') {
             var parent = iElm.parent();
             if (parent[0].localName == 'label') {
@@ -348,9 +364,9 @@
             iElm = parent;
 
             // 复组元素边框为虚线
-            iElm.toggleClass(className+'Dash', sign)
+            iElm.toggleClass(className+'Dash', draw)
         }
-        iElm.toggleClass(className, sign)
+        iElm.toggleClass(className, draw)
     }
 
     // 禁用/启用相关的提交按钮

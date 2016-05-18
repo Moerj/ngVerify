@@ -95,7 +95,7 @@
 			</div>
 
 			<!-- 表单范围内的提交按钮, control:'loginForm' -->
-			<a id="btn1" class="btn btn-block btn-primary" type="submit" ng-verify>提交</a>
+			<a class="btn btn-block btn-primary" type="submit" ng-verify>提交</a>
 		</form>
 
 		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
@@ -124,10 +124,18 @@
 		// 想要拿到表单上的$scope 使用方法:
 		// var verifyScope = verify.scope('loginForm')
 
+		// angular.element(document).ready(function() {
+		// 	console.log('页面加载完成，自动检测表单的验证，返回一个对象：');
+		// 	var re = ngVerify.check('loginForm',true);
+		// 	console.warn(re);
+		// });
+
 		$scope.check = function () {
 			console.log('你检测了表单的验证，返回给你一个对象：');
 			var re = ngVerify.check('loginForm');
 		    console.warn(re);
 		}
+
 	})
+
 </script>
