@@ -46,8 +46,7 @@
       width: 0;
       height: 0;
       position: absolute;
-      top: -14px;
-      left: 10px; }
+      top: -14px; }
       .verifyTips .tipStyle i::after, .verifyTips .tipStyle-1 i::after, .verifyTips .tipStyle-2 i::after {
         content: '';
         border-color: transparent transparent #fff transparent;
@@ -56,12 +55,19 @@
         width: 0;
         height: 0;
         position: absolute;
-        top: -4px;
-        left: -6px; }
+        top: -4px; }
   .verifyTips .tipStyle-1 {
     right: 0; }
+    .verifyTips .tipStyle-1 i {
+      right: 10px; }
+      .verifyTips .tipStyle-1 i::after {
+        right: -6px; }
   .verifyTips .tipStyle-2 {
     left: 0; }
+    .verifyTips .tipStyle-2 i {
+      left: 10px; }
+      .verifyTips .tipStyle-2 i::after {
+        left: -6px; }
   .verifyTips .showTip-1 {
     visibility: visible;
     left: auto;

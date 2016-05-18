@@ -52,7 +52,7 @@ $errorColor: #d9534f;
             height: 0;
             position: absolute;
             top: -14px;
-            left: 10px;
+            // left: 10px;
             &::after{
                 content: '';
                 border-color: transparent transparent #fff transparent;
@@ -62,18 +62,34 @@ $errorColor: #d9534f;
                 height: 0;
                 position: absolute;
                 top: -4px;
-                left: -6px;
+                // left: -6px;
             }
         }
     }
 
     .tipStyle-1{
-        right:0;
+        right:0; //气泡的出现位置
         @extend .tipStyle;
+
+        // 气泡角标的位置
+        i{
+            right: 10px;
+            &::after{
+                right: -6px;
+            }
+        }
     }
     .tipStyle-2{
-        left: 0;
+        left: 0; //气泡的出现位置
         @extend .tipStyle;
+
+        // 气泡角标的位置
+        i{
+            left: 10px;
+            &::after{
+                left: -6px;
+            }
+        }
     }
 
     // 气泡提示的样式
