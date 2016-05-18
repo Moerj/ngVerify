@@ -41,9 +41,9 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
   	</form>
 
 ### tipStyle (defualt: 1)
-设置整个表单的错误消息样式
-1. 气泡浮动提示，在元素右下角浮出
-2. 气泡固定高度，紧接着元素另起一行
+设置整个表单的错误消息样式  
+1. 气泡浮动提示，在元素右下角浮出  
+2. 气泡固定高度，紧接着元素另起一行  
 
 	<form verify-scope="{tipStyle: 2}" >...</form>
 
