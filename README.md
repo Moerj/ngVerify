@@ -33,6 +33,7 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 	select  
 
 ## verify-scope
+入口指令，规定组件所控制的表单范围
 
 	//给form设置一个verify-scope指令
 	<form verify-scope>
@@ -48,6 +49,8 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 	<form verify-scope="tipStyle: 2" >...</form>
 
 ## ng-verify  
+元素指令，定义验证规则
+
 ### defualt
 只需要使用ng-verify，会根据type类型校验非空验证和类型
 	<input type="text" ng-verify >

@@ -83,7 +83,7 @@
                     }
                 }
 
-                $scope.verify_OPTS = formatOpt($attrs.verifyScope, $element);
+                $scope.verify_tipStyle = formatOpt($attrs.verifyScope, $element).tipStyle;
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
@@ -172,7 +172,7 @@
 
         // 默认配置
         var DEFAULT = {
-            message: '此项为必填',
+            message: '此项为必填',//默认错误消息
             required: true, //默认都进行非空校验
             option: 0, //下拉菜单校验
             min: iAttrs.minlength,
@@ -180,7 +180,7 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1,    //checkbox默认最少勾选数
-            tipStyle: 1 //错误提示样式
+            tipStyle: $scope.verify_tipStyle ? $scope.verify_tipStyle : 1 //错误提示样式
         }
 
         // 传入错误参数警告并做容错处理
@@ -190,10 +190,8 @@
             OPTS.least = DEFAULT.least;
         }
 
-        // 合并默认和自定义配置参数
+        // 合并自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
-        // 合并父指令参数
-        OPTS = angular.extend({}, OPTS, $scope.verify_OPTS);
 
         // 增加属性，控制输入长短
         iElm.attr({
@@ -314,25 +312,19 @@
             if (!ISVALID(iElm)) { //验证不通过
                 iElm.hasError = true;
 
-                // 提示信息
-                // tipMsg(iElm, !iElm.hasClass(iElm.OPTS.errorClass));
-                tipMsg(iElm, false);
+                tipMsg(iElm, false);// 提示信息
 
-                // 将元素标红
-                makeError(iElm, true);
+                makeError(iElm, true);// 将元素标红
 
-                // 禁用掉控制按钮
-                DisableButtons($scope.verify_subBtn, true)
+                DisableButtons($scope.verify_subBtn, true)// 禁用掉控制按钮
             }
         })
         .bind(vaildEvent, function() {
             if (ISVALID(iElm)) { //验证通过
                 iElm.hasError = false;
 
-                // 关闭提示
                 tipMsg(iElm, false);
 
-                // 取消标红
                 makeError(iElm, false);
 
                 // 检测所有
@@ -340,6 +332,8 @@
                 if (!re.hasError) {
                     DisableButtons($scope.verify_subBtn, false)
                 }
+            }else if(iElm.hasError){
+                tipMsg(iElm, true);
             }
         })
     }
