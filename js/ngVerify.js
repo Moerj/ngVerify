@@ -153,8 +153,7 @@
 
         // 默认配置
         var DEFAULT = {
-            title: '此项为必填',
-            value: iElm.val(),
+            message: '此项为必填',
             required: true, //默认都进行非空校验
             option: 0, //下拉菜单校验
             min: iAttrs.minlength,
@@ -329,7 +328,8 @@
     */
     function tipMsg(iElm, isShow) {
         var errtip = iElm.errtip;
-        errtip.message.text(iElm.OPTS.title);
+        var message = iElm.OPTS.errmsg ? iElm.OPTS.errmsg : iElm.OPTS.message;
+        errtip.message.text(message);
         errtip.container.toggleClass('showTip-'+iElm.OPTS.tipStyle,isShow);
     }
 
@@ -401,7 +401,7 @@
             if (checked>=OPTS.least) {
                 return true;
             }
-            OPTS.title = '至少选择'+OPTS.least+'项'
+            OPTS.message = '至少选择'+OPTS.least+'项'
             return false;
         }
 
@@ -409,9 +409,9 @@
         if (OPTS.required && val == '') {
             // 注意：type='number' 输入字符e时，val仍然为空值，这时的空校验提示为tip1
             if (iAttrs.type == 'number') {
-                OPTS.title = '需输入数字';   //tip1
+                OPTS.message = '需输入数字';   //tip1
             }else{
-                OPTS.title = '不能为空'     //tip2
+                OPTS.message = '不能为空'     //tip2
             }
             return false;
         } else if (!OPTS.required && val == '') {
@@ -420,7 +420,7 @@
 
         // 长度验证
         if (val.length < OPTS.min) {
-            OPTS.title = '最少' + OPTS.min + '个字符'
+            OPTS.message = '最少' + OPTS.min + '个字符'
             return false;
         }
 
@@ -429,7 +429,7 @@
             // console.log( OPTS.option);
             // console.log( iElm[0].selectedIndex);
             if (iElm[0].selectedIndex === OPTS.option) {
-                OPTS.title = '必须选择一项'
+                OPTS.message = '必须选择一项'
                 return false;
             } else {
                 return true;
@@ -467,7 +467,7 @@
             // 验证正则
             if (val.match(pat) == null) {
                 // console.warn('正则匹配错误');
-                OPTS.title = OPTS.errmsg ? OPTS.errmsg : '输入类型错误'
+                OPTS.message = '输入类型错误';
                 return false;
             } else {
                 // console.info('正则匹配')
