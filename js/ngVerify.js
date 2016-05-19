@@ -312,7 +312,7 @@
         })
         .bind('blur', function() {
             if (!ISVALID(iElm)) { //验证不通过
-                iElm.hasError = true;
+                // iElm.hasError = true;
 
                 tipMsg(iElm, false);// 提示信息
 
@@ -323,7 +323,7 @@
         })
         .bind(vaildEvent, function() {
             if (ISVALID(iElm)) { //验证通过
-                iElm.hasError = false;
+                // iElm.hasError = false;
 
                 tipMsg(iElm, false);
 
@@ -368,6 +368,7 @@
             iElm.toggleClass(className+'Dash', draw)
         }
         iElm.toggleClass(className, draw)
+        iElm.hasError = draw;
     }
 
     // 禁用/启用相关的提交按钮
