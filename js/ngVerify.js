@@ -405,6 +405,9 @@
             // console.log(iElm[0]);
         }
 
+        // 除去多余空格
+        val = val.trim();
+
         // checkbox复选框、radio单选
         if (iAttrs.type == 'checkbox' || iAttrs.type == 'radio') {
             var elName = iElm.attr('name');
