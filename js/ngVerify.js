@@ -10,7 +10,6 @@
 !(function(angular) {
 
 
-
     var m = angular.module('ngVerify', []);
 
     m.provider('ngVerify', function () {
@@ -96,14 +95,7 @@
         return {
             require: "?^verifyScope",
             scope: true,
-            // controller: function ($element) {
-            //     if ($element[0].nodeName == 'SELECT') {
-            //         console.log('跳过select');
-            //         return;
-            //     }
-            // },
             link: function(scope, iElm, iAttrs, pCtrl) {
-
 
                 var pScope;//父指令的$scope
 
