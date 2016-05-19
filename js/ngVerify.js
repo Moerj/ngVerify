@@ -147,7 +147,6 @@
      * @param
         str     String    格式化前的配置参数
         iElm    DomObj    标记出现错误的元素
-
      * @return
         Object          格式化好的配置对象
      */
@@ -165,10 +164,7 @@
     }
 
     /** 初始化验证配置
-        @param
-        $scope  父指令的作用域
-        iElm    指令元素
-        iAttrs  元素属性
+        @param  iElm    指令元素
     */
     function Init(iElm) {
         var $scope = iElm.ngVerify.$scope;
@@ -294,9 +290,8 @@
 
     /** 绑定触发验证的事件
         @param
-        iElm        obj    dom元素对象
-        bindEvent   obj    需要绑定的事件对象集合
-        $scope      主指令的scope作用域
+        iElm            obj    dom元素对象
+        vaildEvent   String    通过验证的事件
     */
     function bindVaild(iElm, vaildEvent) {
         var $scope = iElm.ngVerify.$scope;
@@ -319,7 +314,6 @@
         })
         .bind('blur', function() {
             if (!ISVALID(iElm)) { //验证不通过
-                // iElm.hasError = true;
 
                 tipMsg(iElm, false);// 提示信息
 
@@ -330,7 +324,6 @@
         })
         .bind(vaildEvent, function() {
             if (ISVALID(iElm)) { //验证通过
-                // iElm.hasError = false;
 
                 tipMsg(iElm, false);
 
@@ -348,7 +341,9 @@
     }
 
     /** 提示错误信息
-        @param iElm  obj  dom元素对象
+        @param
+        iElm    DomObj      dom元素对象
+        isShow  Boolean     显示隐藏提示
     */
     function tipMsg(iElm, isShow) {
         var OPTS = iElm.ngVerify.OPTS;
@@ -361,7 +356,7 @@
     /** 标记未通过验证的元素
         @param
         iElm        DomObj      需要标记的元素
-        sing        Boolean     是标记还是取消
+        draw        Boolean     是标记还是取消
     */
     function makeError(iElm, draw){
         var className = iElm.ngVerify.OPTS.errorClass;
@@ -424,7 +419,6 @@
             var checked = 0;
             for (var i = 0; i < els.length; i++) {
                 if (els[i].checked) {
-                    // return true;
                     checked++;
                 }
             }
@@ -490,15 +484,12 @@
         }
 
         //如果pat已赋值
-        // console.log(pat);
         if (pat) {
             // 验证正则
             if (val.match(pat) == null) {
-                // console.warn('正则匹配错误');
                 OPTS.message = '输入类型错误';
                 return false;
             } else {
-                // console.info('正则匹配')
                 return true;
             }
         }
