@@ -13,7 +13,6 @@ $errorColor: #d9534f;
 .verifyError{
     /* 元素靠box-shadow来渲染边框,可以保证input和非input渲染统一 */
     border:1px solid $errorColor !important;
-    border-radius: 5px;
     &:focus{
         border-color: transparent !important;
         box-shadow: 0 0 2px 1px $errorColor !important;
@@ -21,6 +20,7 @@ $errorColor: #d9534f;
 }
 .verifyErrorDash{
     border-style: dashed !important;
+    border-radius: 5px;
 }
 
 
@@ -68,8 +68,8 @@ $errorColor: #d9534f;
     }
 
     .tipStyle-1{
-        right:0; //气泡的出现位置
         @extend .tipStyle;
+        right: 0; //气泡的出现位置
 
         // 气泡角标的位置
         i{
@@ -80,8 +80,8 @@ $errorColor: #d9534f;
         }
     }
     .tipStyle-2{
-        left: 0; //气泡的出现位置
         @extend .tipStyle;
+        left: 0; //气泡的出现位置
 
         // 气泡角标的位置
         i{
