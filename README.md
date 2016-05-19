@@ -1,4 +1,4 @@
-# ngVerify v1.1
+# ngVerify v1.1.1
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -76,7 +76,7 @@ false允许空值通过校验
 	<input type="text" ng-verify="{errmsg:'其实这里没有错，我是在逗你玩'}" >
 
 
-### option
+### option (defualt: 0)
 select下拉菜单属性，指定的option表示选中会校验不通过
 
 	<select ng-verify="option:0" >
@@ -100,7 +100,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	</div>
 
 ### control
-绑定一个form的按钮, control:'loginForm'
+绑定一个form的按钮, control:'formName'
 
 	<form name="myform" verify>
 		...
@@ -132,9 +132,9 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ### ngVerify.check()
 检测一个verify表单是否验证通过，返回Boolean和errorArry(未校验通过的元素组)
 
-	ngVerify.check('formName') //返回一个对象
+	ngVerify.check('formName') //返回结果
 
-	ngVerify.check('formName',true) //返回一个对象，并标记出未验证通过元素
+	ngVerify.check('formName',true) //返回结果，并标记出未验证通过元素
 
 ### ngVerify.scope()
 获取一个verify表单的$scope作用域
@@ -142,4 +142,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	ngVerify.scope('formName')
 
 ## tips
-传入的参数字符串可以不写{}
+传入的参数字符串可以不写{ }  
+checkbox、radio组绑定验证最好绑在最后一个  
+errmsg通常不需要你设置  
+表单范围内的按钮，只要type="submit"则不需要设置control参数
