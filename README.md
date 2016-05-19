@@ -60,7 +60,7 @@ false允许空值通过校验
 
 	<input type="number" ng-verify="required: false" >
 
-### length(min,max)
+### length (min,max)
 定制校验字符长度
 
 	<input type="text" ng-verify="{min:3,max:6}" >
