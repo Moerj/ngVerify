@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.3
+ * ngVerify v1.1.4
  *
  * License: MIT
  * Designed and built by Moer
@@ -297,12 +297,22 @@
         var $scope = iElm.ngVerify.$scope;
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
-        if (iAttrs.ngModel && iElm[0].localName!='select') {
-            // 元素上有ng-module, 监听它的值，写入到value中
-            scope.$watch(iAttrs.ngModel,function(newValue){
-                if (newValue) {
-                    iElm.attr('value',newValue)
-                    iElm.triggerHandler('change')
+        // if (iAttrs.ngModel && iElm[0].localName!='select') {
+        if (iAttrs.ngModel) {
+            // 元素上有ng-module, 监听它的值
+            scope.$watch(iAttrs.ngModel,function(newValue, oldValue){
+                if (newValue || oldValue) {
+                    if (iElm[0].localName == 'select') {
+                        if (newValue) {
+                            iElm.triggerHandler('keyup')
+                        }else{
+                            iElm.triggerHandler('blur')
+                        }
+
+                    }else{
+                        iElm.attr('value',newValue) //写入到value中
+                        iElm.triggerHandler('change')
+                    }
                 }
             });
         }
