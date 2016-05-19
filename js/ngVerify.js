@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.1
+ * ngVerify v1.1.2
  *
  * License: MIT
  * Designed and built by Moer
@@ -96,7 +96,14 @@
         return {
             require: "?^verifyScope",
             scope: true,
+            // controller: function ($element) {
+            //     if ($element[0].nodeName == 'SELECT') {
+            //         console.log('跳过select');
+            //         return;
+            //     }
+            // },
             link: function(scope, iElm, iAttrs, pCtrl) {
+
 
                 var pScope;//父指令的$scope
 
@@ -295,8 +302,8 @@
         var $scope = iElm.$scope;
         var scope = iElm.scope;
         var iAttrs = iElm.iAttrs;
-        if (iAttrs.ngModel) {
-            // 如果元素上有ng-module, 监听它的值，写入到value中
+        if (iAttrs.ngModel && !iAttrs.ngOptions) {
+            // 元素上有ng-module, 监听它的值，写入到value中
             scope.$watch(iAttrs.ngModel,function(newValue){
                 if (newValue) {
                     iElm.attr('value',newValue)

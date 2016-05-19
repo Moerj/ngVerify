@@ -1,15 +1,22 @@
 /*DEMO页面布局*/
-
 .container{
     width: 400px;
     margin: 0 auto;
     padding-bottom: 50px;
 }
+.githubTag{
+    overflow: hidden;
+    width: 20em;
+    height: 20em;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 .github{
     display: block;
     position: absolute;
     top: 3em;
-    right: -6.5em;
+    right: -5.5em;
     padding: 1em;
     width: 20em;
     text-align: center;
@@ -25,7 +32,7 @@
     letter-spacing: 1px;
     text-decoration: none;
 }
-.github:hover, .github:active{
+.github:hover, .github:active,.github:visited{
     color:white;
     text-decoration: none;
 }

@@ -12,8 +12,10 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.1.1</p>
-	<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
+	<p class="Version">ver: 1.1.2</p>
+	<div class="githubTag">
+		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
+	</div>
 
 	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
@@ -55,12 +57,11 @@
 			</div>
 			<div class="form-group">
 			    <label for="select">select</label>
-				<!-- 下拉菜单的验证，option为n代表选中第n+1项时验证不通过 -->
-			    <select id="select" class="form-control" ng-verify>
-			    	<option>请选择</option>
-			    	<option>1</option>
-			    	<option>2</option>
-			    	<option>3</option>
+			    <select id="select" class="form-control"
+				ng-model="myColor" ng-options="color.name for color in colors"
+				 ng-verify
+				 >
+			    	<option value=""> choose color </option>
 			    </select>
 			</div>
 			<div class="form-group">
@@ -135,6 +136,16 @@
 			var re = ngVerify.check('loginForm');
 		    console.info(re);
 		}
+
+		// 以ngOptions方式写seclet
+		$scope.colors = [
+	      {name:'black', shade:'dark'},
+	      {name:'white', shade:'light', notAnOption: true},
+	      {name:'red', shade:'dark'},
+	      {name:'blue', shade:'dark', notAnOption: true},
+	      {name:'yellow', shade:'light', notAnOption: false}
+	    ];
+	    // $scope.myColor = $scope.colors[2]; // red
 
 	})
 
