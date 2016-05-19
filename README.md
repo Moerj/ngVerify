@@ -1,4 +1,4 @@
-# ngVerify v1.1.2
+# ngVerify v1.1.3
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -149,4 +149,5 @@ errmsg通常不需要你设置
 表单范围内的按钮，只要type="submit"则不需要设置control参数
 
 ## Support
-IE 9+
+IE 9+  
+angular 1.x
