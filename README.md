@@ -23,14 +23,14 @@ http://moerj.com/Github/ngVerify/
 ### type
 	设置表单元素type类型，目前支持的type类型：
 
-	email  
-	number  
-	phone  
-	url  
-	string  
-	radio  
-	checkbox  
-	select  
+	email
+	number
+	phone
+	url
+	string
+	radio
+	checkbox
+	select
 
 ## verify-scope
 入口指令，规定组件所控制的表单范围
@@ -42,17 +42,18 @@ http://moerj.com/Github/ngVerify/
   	</form>
 
 ### tipStyle (defualt: 1)
-设置整个表单的错误消息样式  
-	1. 气泡浮动提示，在元素右下角浮出  
-	2. 气泡固定高度，紧接着元素另起一行  
+设置整个表单的错误消息样式
+	1. 气泡浮动提示，在元素右下角浮出
+	2. 气泡固定高度，紧接着元素另起一行
 
 	<form verify-scope="tipStyle: 2" >...</form>
 
-## ng-verify  
+## ng-verify
 元素指令，定义验证规则
 
 ### defualt
 只需要使用ng-verify，会根据type类型校验非空验证和类型
+
 	<input type="text" ng-verify >
 
 ### required (defualt: true)
@@ -121,7 +122,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ### tipStyle (defualt: form verify-scope)
 设置单个表单元素提示样式
 
-## API  
+## API
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
 
 	//依赖注入ngVerify后，可以调用一些公共方法
@@ -143,11 +144,11 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ## tips
-传入的参数字符串可以不写{ }  
-checkbox、radio组绑定验证最好绑在最后一个  
-errmsg通常不需要你设置  
+传入的参数字符串可以不写{ }
+checkbox、radio组绑定验证最好绑在最后一个
+errmsg通常不需要你设置
 表单范围内的按钮，只要type="submit"则不需要设置control参数
 
 ## Support
-IE 9+  
+IE 9+
 angular 1.x
