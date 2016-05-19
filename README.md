@@ -58,7 +58,7 @@ http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo
 ### required (defualt: true)
 false允许空值通过校验
 
-	<input type="text" ng-verify="required: false" >
+	<input type="number" ng-verify="required: false" >
 
 ### length(min,max)
 定制校验字符长度
