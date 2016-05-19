@@ -235,7 +235,7 @@
             // find('#id')
             // angular.element(document.querySelector('#id'))
 
-            //find('.classname'), assumes you already have the starting elem to search from
+            // find('.classname'), assumes you already have the starting elem to search from
             // angular.element(elem.querySelector('.classname'))
 
             // 将错误提示元素绑定在iElm
@@ -294,7 +294,7 @@
         var $scope = iElm.$scope;
         var scope = iElm.scope;
         var iAttrs = iElm.iAttrs;
-        if (iAttrs.ngModel && !iAttrs.ngOptions) {
+        if (iAttrs.ngModel && iElm[0].localName!='select') {
             // 元素上有ng-module, 监听它的值，写入到value中
             scope.$watch(iAttrs.ngModel,function(newValue){
                 if (newValue) {
@@ -446,9 +446,7 @@
         }
 
         // select元素验证
-        if (iElm[0].nodeName == 'SELECT') {
-            // console.log( OPTS.option);
-            // console.log( iElm[0].selectedIndex);
+        if (iElm[0].localName == 'select') {
             if (iElm[0].selectedIndex === OPTS.option) {
                 OPTS.message = '必须选择一项'
                 return false;
