@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.2
+ * ngVerify v1.1.3
  *
  * License: MIT
  * Designed and built by Moer
@@ -38,7 +38,7 @@
 
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
-                            var els = publicMethods.scope(forms[i].name).verify_elems
+                            var els = publicMethods.scope(forms[i].name).ngVerify.elems
                             obj = checkAll(els);
                             if (draw) {
                                 var errEls = obj.errEls;
@@ -65,24 +65,29 @@
                     return $scope;　　　　　　　　
                 };
 
-                // 在作用域上添加空数组，用于存放其组件
-                $scope.verify_elems = []; //需验证的表单元素
-                $scope.verify_subBtn = [];//提交表单的按钮
+                // 在作用域上绑定需要的数据
+                $scope.ngVerify = {
+
+                    elems: [],  //需验证的表单元素
+
+                    subBtn: [], //提交表单的按钮
+
+                    tipStyle: formatOpt($attrs.verifyScope, $element).tipStyle,
+
+                    // 验证整个表单，错误的将标红
+                    submit: function(){
+                        var els = $scope.ngVerify.elems;
+                        var re = checkAll(els);
+                        for (var i = 0; i < re.errEls.length; i++) {
+                            makeError(re.errEls[i], true)
+                            // tipMsg(re.errEls[i], true) //提示错误信息
+                        }
+                    }
+                }
 
                 // 给form的nodelist对象上绑定$scope
                 $element[0]._verifyScope = $scope;
 
-                // 验证整个表单，错误的将标红
-                $scope.verify_submit = function () {
-                    var els = $scope.verify_elems;
-                    var re = checkAll(els);
-                    for (var i = 0; i < re.errEls.length; i++) {
-                        makeError(re.errEls[i], true)
-                        // tipMsg(re.errEls[i], true) //提示错误信息
-                    }
-                }
-
-                $scope.verify_tipStyle = formatOpt($attrs.verifyScope, $element).tipStyle;
             },
             link: function($scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
@@ -124,14 +129,15 @@
                 }
 
                 // 元素绑定相关参数
-                iElm.$scope = pScope;
-                iElm.scope = scope;
-                iElm.iAttrs = iAttrs;
-                iElm.OPTS = OPTS;
+                iElm.ngVerify = {
+                    $scope : pScope,
+                    scope  : scope,
+                    iAttrs : iAttrs,
+                    OPTS   : OPTS
+                }
 
                 // 初始化元素
                 Init(iElm);
-
 
             }
         }
@@ -165,9 +171,9 @@
         iAttrs  元素属性
     */
     function Init(iElm) {
-        var $scope = iElm.$scope;
-        var iAttrs = iElm.iAttrs;
-        var OPTS = iElm.OPTS;
+        var $scope = iElm.ngVerify.$scope;
+        var iAttrs = iElm.ngVerify.iAttrs;
+        var OPTS = iElm.ngVerify.OPTS;
 
         // 默认配置
         var DEFAULT = {
@@ -179,7 +185,7 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1,    //checkbox默认最少勾选数
-            tipStyle: $scope.verify_tipStyle ? $scope.verify_tipStyle : 1 //错误提示样式
+            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //错误提示样式
         }
 
         // 传入错误参数警告并做容错处理
@@ -192,6 +198,9 @@
         // 合并自定义配置参数
         OPTS = angular.extend({}, DEFAULT, OPTS);
 
+        // 给元素绑定合并后的参数
+        iElm.ngVerify.OPTS = OPTS;
+
         // 增加属性，控制输入长短
         iElm.attr({
             maxlength: OPTS.max,
@@ -199,14 +208,13 @@
         })
 
         // 元素初始化数据
-        iElm.OPTS = OPTS;
         if (OPTS.control || iAttrs.type == 'submit') {
             // iElm 是提交按钮
-            $scope.verify_subBtn.push(iElm);
+            $scope.ngVerify.subBtn.push(iElm);
 
             // 1.没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
             // 2.加载页面是先验证一次所有表单是否已经符合
-            if (OPTS.disabled && checkAll($scope.verify_elems).hasError) {
+            if (OPTS.disabled && checkAll($scope.ngVerify.elems).hasError) {
                 // iElm.prop('disabled',true)
                 iElm.attr('disabled', true)
             }
@@ -215,7 +223,7 @@
             iElm.bind('click', function(e) {
                 e.stopPropagation();
                 if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
-                    $scope.verify_submit();
+                    $scope.ngVerify.submit();
                 }
             })
 
@@ -239,7 +247,7 @@
             // angular.element(elem.querySelector('.classname'))
 
             // 将错误提示元素绑定在iElm
-            iElm.errtip = {
+            iElm.ngVerify.errtip = {
 
                 container: angular.element(container[0].querySelector('.verifyTips > p')),
 
@@ -257,7 +265,7 @@
             }
 
             // 将元素绑定到scope数组上
-            $scope.verify_elems.push(iElm);
+            $scope.ngVerify.elems.push(iElm);
 
             // 绑定元素验证事件
             bindVaild(iElm, vaildEvent);
@@ -291,9 +299,9 @@
         $scope      主指令的scope作用域
     */
     function bindVaild(iElm, vaildEvent) {
-        var $scope = iElm.$scope;
-        var scope = iElm.scope;
-        var iAttrs = iElm.iAttrs;
+        var $scope = iElm.ngVerify.$scope;
+        var scope = iElm.ngVerify.scope;
+        var iAttrs = iElm.ngVerify.iAttrs;
         if (iAttrs.ngModel && iElm[0].localName!='select') {
             // 元素上有ng-module, 监听它的值，写入到value中
             scope.$watch(iAttrs.ngModel,function(newValue){
@@ -304,7 +312,7 @@
             });
         }
         iElm.bind('focus',function () {
-            if (iElm.hasError || iElm.hasClass(iElm.OPTS.errorClass)) { //验证不通过
+            if (iElm.hasError || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
                 // 提示信息
                 tipMsg(iElm, true);
             }
@@ -317,7 +325,7 @@
 
                 makeError(iElm, true);// 将元素标红
 
-                DisableButtons($scope.verify_subBtn, true)// 禁用掉控制按钮
+                DisableButtons($scope.ngVerify.subBtn, true)// 禁用掉控制按钮
             }
         })
         .bind(vaildEvent, function() {
@@ -329,9 +337,9 @@
                 makeError(iElm, false);
 
                 // 检测所有
-                var re = checkAll($scope.verify_elems);
+                var re = checkAll($scope.ngVerify.elems);
                 if (!re.hasError) {
-                    DisableButtons($scope.verify_subBtn, false)
+                    DisableButtons($scope.ngVerify.subBtn, false)
                 }
             }else if(iElm.hasError){
                 tipMsg(iElm, true);
@@ -343,10 +351,11 @@
         @param iElm  obj  dom元素对象
     */
     function tipMsg(iElm, isShow) {
-        var errtip = iElm.errtip;
-        var message = iElm.OPTS.errmsg ? iElm.OPTS.errmsg : iElm.OPTS.message;
+        var OPTS = iElm.ngVerify.OPTS;
+        var errtip = iElm.ngVerify.errtip;
+        var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
         errtip.message.text(message);
-        errtip.container.toggleClass('showTip-'+iElm.OPTS.tipStyle,isShow);
+        errtip.container.toggleClass('showTip-'+OPTS.tipStyle,isShow);
     }
 
     /** 标记未通过验证的元素
@@ -355,7 +364,7 @@
         sing        Boolean     是标记还是取消
     */
     function makeError(iElm, draw){
-        var className = iElm.OPTS.errorClass;
+        var className = iElm.ngVerify.OPTS.errorClass;
         iElm.hasError = draw;
 
         if (iElm[0].type == 'checkbox' || iElm[0].type == 'radio') {
@@ -374,7 +383,7 @@
     // 禁用/启用相关的提交按钮
     function DisableButtons(btns, isDisable) {
         for (var i = 0; i < btns.length; i++) {
-            if (btns[i].OPTS.disabled) {
+            if (btns[i].ngVerify.OPTS.disabled) {
                 btns[i].attr('disabled', isDisable)
             }
         }
@@ -393,8 +402,8 @@
 
         var val = iElm[0].value; //元素的值
         var pat; //正则规则
-        var OPTS = iElm.OPTS;
-        var iAttrs = iElm.iAttrs;
+        var OPTS = iElm.ngVerify.OPTS;
+        var iAttrs = iElm.ngVerify.iAttrs;
 
         // 非表单元素验证
         if (iElm[0].value == undefined) {
