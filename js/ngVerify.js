@@ -302,15 +302,18 @@
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel,function(newValue, oldValue){
                 if (newValue || oldValue) {
+                    // 这里有个未知问题：
+                    // select元素在手动操作后，ngModel的监听会从代码触发移交给手动触发
                     if (iElm[0].localName == 'select') {
                         if (newValue) {
                             iElm.triggerHandler('keyup')
                         }else{
                             iElm.triggerHandler('blur')
                         }
-
-                    }else{
-                        iElm.attr('value',newValue) //写入到value中
+                    }
+                    // 其他元素的监听，直接写入value并触发change事件
+                    else{
+                        iElm.attr('value',newValue)
                         iElm.triggerHandler('change')
                     }
                 }
@@ -439,6 +442,16 @@
             return false;
         }
 
+        // select元素验证
+        if (iElm[0].localName == 'select') {
+            if (iElm[0].selectedIndex === OPTS.option) {
+                OPTS.message = '必须选择一项'
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         // 非空验证
         if (OPTS.required && val == '') {
             // 注意：type='number' 输入字符e时，val仍然为空值，这时的空校验提示为tip1
@@ -457,17 +470,6 @@
             OPTS.message = '最少' + OPTS.min + '个字符'
             return false;
         }
-
-        // select元素验证
-        if (iElm[0].localName == 'select') {
-            if (iElm[0].selectedIndex === OPTS.option) {
-                OPTS.message = '必须选择一项'
-                return false;
-            } else {
-                return true;
-            }
-        }
-
 
         // 正则获取
         if (OPTS.pattern) {
