@@ -8,7 +8,7 @@ https://github.com/Moerj/ngVerify
 
 <br>
 ## DEMO
-http://htmlpreview.github.io/?https://github.com/Moerj/ngVerify/blob/master/demo.html
+http://moerj.com/Github/ngVerify/
 
 <br>
 ## Getting Started
