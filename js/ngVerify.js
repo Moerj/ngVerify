@@ -312,7 +312,6 @@
         })
         .bind('blur', function() {
             if (!ISVALID(iElm)) { //验证不通过
-                // iElm.hasError = true;
 
                 tipMsg(iElm, false);// 提示信息
 
@@ -323,7 +322,6 @@
         })
         .bind(vaildEvent, function() {
             if (ISVALID(iElm)) { //验证通过
-                // iElm.hasError = false;
 
                 tipMsg(iElm, false);
 
