@@ -268,18 +268,20 @@
                 var iElms = document.getElementsByName(iAttrs.name);
                 for (var i = 0; i < iElms.length; i++) {
                     if (iElms[i]!=iElm[0]) {
-                        iElms[i].addEventListener('focus',function(){
+                        angular.element(iElms[i])
+                        .bind('focus',function(){
                             iElm.triggerHandler('focus')
                         })
-                        iElms[i].addEventListener('blur',function(){
+                        .bind('blur',function(){
                             iElm.triggerHandler('blur')
                         })
-                        iElms[i].addEventListener(vaildEvent,function(){
+                        .bind(vaildEvent,function(){
                             iElm.triggerHandler(vaildEvent)
                         })
                     }
                 }
             }
+
         }
     }
 
@@ -295,7 +297,7 @@
         var iAttrs = iElm.iAttrs;
         if (iAttrs.ngModel) {
             // 如果元素上有ng-module, 监听它的值，写入到value中
-            scope.$watch(iAttrs.ngModel,function(newValue,oldValue, scope){
+            scope.$watch(iAttrs.ngModel,function(newValue){
                 if (newValue) {
                     iElm.attr('value',newValue)
                     iElm.triggerHandler('change')

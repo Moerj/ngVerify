@@ -1,13 +1,13 @@
 {
   "name": "ngVerify",
-  "version": "0.1.5",
+  "version": "1.1.1",
   "description": "Angular form vaild plugin",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Moer",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.10.1",
     "gulp": "^3.9.0",

@@ -141,8 +141,12 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 	ngVerify.scope('formName')
 
+
 ## tips
 传入的参数字符串可以不写{ }  
 checkbox、radio组绑定验证最好绑在最后一个  
 errmsg通常不需要你设置  
 表单范围内的按钮，只要type="submit"则不需要设置control参数
+
+## Support
+IE 9+

@@ -27,6 +27,7 @@
 }
 .github:hover, .github:active{
     color:white;
+    text-decoration: none;
 }
 .PluginName {
     text-align: center;
