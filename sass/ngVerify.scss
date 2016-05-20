@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1
+ * ngVerify v1.1.5 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -27,6 +27,8 @@ $errorColor: #d9534f;
 /*错误消息容器*/
 .verifyTips{
     position: relative;
+    z-index: 9999; //防止tip被其他表单元素遮挡
+    display: block;
     // overflow: hidden;
 
     .tipStyle{
@@ -41,18 +43,16 @@ $errorColor: #d9534f;
         position: relative;
         background-color: #fff;
         transition: .4s;
-        transform: translate3d(0,-20px,0) scale3d(0,0,1);
         position: absolute;
-        top:0;
         i{
             border-color: transparent transparent $errorColor transparent;
             border-width: 7px;
             border-style: solid;
             width: 0;
             height: 0;
+            padding: 0 !important;
+            margin: 0 !important;
             position: absolute;
-            top: -14px;
-            // left: 10px;
             &::after{
                 content: '';
                 border-color: transparent transparent #fff transparent;
@@ -61,48 +61,56 @@ $errorColor: #d9534f;
                 width: 0;
                 height: 0;
                 position: absolute;
-                top: -4px;
-                // left: -6px;
             }
         }
     }
 
+    //右上角浮动
     .tipStyle-1{
         @extend .tipStyle;
         right: 0; //气泡的出现位置
-
+        bottom: 0;
+        transform: translate3d(0,0,0) scale3d(0,0,1);
         // 气泡角标的位置
         i{
+            border-color: $errorColor transparent transparent transparent;
+            top: 31px;
             right: 10px;
             &::after{
+                border-color: #fff transparent transparent transparent;
+                top:-8px;
                 right: -6px;
             }
         }
     }
+    //左下角占位
     .tipStyle-2{
         @extend .tipStyle;
-        left: 0; //气泡的出现位置
-
+        top:0;
+        left: 0;
+        transform: translate3d(0,-20px,0) scale3d(0,0,1);
         // 气泡角标的位置
         i{
+            top: -14px;
             left: 10px;
             &::after{
+                top: -4px;
                 left: -6px;
             }
         }
     }
 
-    // 气泡提示的样式
+    // 显示tip
     .showTip-1{
         visibility: visible;
-        left: auto;
         opacity: .6;
-        transform: translate3d(0,0,0) scale3d(1,1,1);
+        transform: translate3d(0,-33px,0) scale3d(1,1,1);
     }
     .showTip-2{
         visibility: visible;
-        position: static;
         opacity: .6;
         transform: translate3d(0,0,0) scale3d(1,1,1);
+        position: static;
     }
+
 }

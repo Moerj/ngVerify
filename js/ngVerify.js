@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.4
+ * ngVerify v1.1.5
  *
  * License: MIT
  * Designed and built by Moer
@@ -71,6 +71,8 @@
                     elems: [],  //需验证的表单元素
 
                     subBtn: [], //提交表单的按钮
+
+                    notip: formatOpt($attrs.verifyScope, $element).notip,
 
                     tipStyle: formatOpt($attrs.verifyScope, $element).tipStyle,
 
@@ -181,7 +183,8 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1,    //checkbox默认最少勾选数
-            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //错误提示样式
+            notip: $scope.ngVerify.notip ? $scope.ngVerify.notip : false, //是否显示tip
+            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //tip提示样式
         }
 
         // 传入错误参数警告并做容错处理
@@ -227,14 +230,16 @@
             var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
             var vaildEvent = '';
 
-            // 错误提示容器初始化
-            // 创建errmsg容器
-            var container = iElm.parent();
-            if (isbox && container[0].localName == 'label') {
-                container = container.parent();
-            }
+            // 创建tip容器
             var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span></span><i></i></p></div>';
-            container.append(errtip);
+
+            var container = iElm.parent();//tip容器判断放在什么位置
+            if (isbox && container[0].localName == 'label') { //select radio
+                container = container.parent();
+                container.append(errtip);
+            }else{
+                iElm.after(errtip);
+            }
 
             // find('#id')
             // angular.element(document.querySelector('#id'))
@@ -242,7 +247,7 @@
             // find('.classname'), assumes you already have the starting elem to search from
             // angular.element(elem.querySelector('.classname'))
 
-            // 将错误提示元素绑定在iElm
+            // 将tip元素绑定在iElm
             iElm.ngVerify.errtip = {
 
                 container: angular.element(container[0].querySelector('.verifyTips > p')),
@@ -250,7 +255,6 @@
                 message: angular.element(container[0].querySelector('.verifyTips > p > span'))
 
             }
-
 
             // 特殊类型的触发类型和错误渲染不同
             if (isbox) {
@@ -360,6 +364,9 @@
     */
     function tipMsg(iElm, isShow) {
         var OPTS = iElm.ngVerify.OPTS;
+        if (OPTS.notip) { //传入了不提示tip的参数
+            return;
+        }
         var errtip = iElm.ngVerify.errtip;
         var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
         errtip.message.text(message);

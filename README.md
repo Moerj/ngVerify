@@ -1,4 +1,4 @@
-# ngVerify v1.1.4
+# ngVerify v1.1.5
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -47,6 +47,11 @@ http://moerj.com/Github/ngVerify/
 	2. 气泡固定高度，紧接着元素另起一行
 
 	<form verify-scope="tipStyle: 2" >...</form>
+
+### notip (defualt: false)
+true时关闭tip提示
+
+	<form verify-scope="notip: true" >...</form>
 
 ## ng-verify
 元素指令，定义验证规则
@@ -120,7 +125,11 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	<button ng-verify="disabled:false" >按钮</button>
 
 ### tipStyle (defualt: form verify-scope)
-设置单个表单元素提示样式
+同上，设置单个元素提示样式
+
+### notip (defualt: form verify-scope)
+同上，设置单个元素是否显示tip
+
 
 ## API
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
