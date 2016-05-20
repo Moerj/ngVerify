@@ -62,7 +62,9 @@
     transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-1 i {
       border-color: #d9534f transparent transparent transparent;
-      top: 31px;
+      -webkit-transform: translate3d(0, 14px, 0);
+      transform: translate3d(0, 14px, 0);
+      bottom: 0;
       right: 10px; }
       .verifyTips .tipStyle-1 i::after {
         border-color: #fff transparent transparent transparent;

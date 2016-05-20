@@ -74,7 +74,8 @@ $errorColor: #d9534f;
         // 气泡角标的位置
         i{
             border-color: $errorColor transparent transparent transparent;
-            top: 31px;
+            transform: translate3d(0, 14px, 0);
+            bottom: 0;
             right: 10px;
             &::after{
                 border-color: #fff transparent transparent transparent;
