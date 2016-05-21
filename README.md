@@ -2,12 +2,6 @@
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
-<style>
-	b{
-		color: #d9534f;
-	}
-</style>
-
 <br>
 ## github
 https://github.com/Moerj/ngVerify
@@ -38,7 +32,7 @@ http://moerj.com/Github/ngVerify/
 	checkbox
 	select
 
-## <b>verify-scope</b>
+## <font color=#d9534f >verify-scope</font>
 入口指令，规定组件所控制的表单范围
 
 	<form verify-scope>
@@ -57,7 +51,7 @@ true时关闭tip提示
 
 	<form verify-scope="notip: true" >...</form>
 
-## <b>ng-verify</b>
+## <font color=#d9534f >ng-verify</font>
 元素指令，定义验证规则
 
 ### defualt
