@@ -1,6 +1,7 @@
 # ngVerify v1.1.6
-a easy angular form vaild plugin.
-简洁高效的angular表单验证插件
+
+a easy angular form vaild plugin.  
+简洁高效的__angular表单验证插件__
 
 
 <br>
@@ -33,6 +34,8 @@ http://moerj.com/Github/ngVerify/
 	checkbox
 	select
 
+
+<br>
 <h2 style="color:#d9534f">verify-scope</h2>
 入口指令，规定组件所控制的表单范围
 
@@ -52,6 +55,9 @@ true时关闭tip提示
 
 	<form verify-scope="notip: true" >...</form>
 
+
+
+<br>
 <h2 style="color:#d9534f">ng-verify</h2>
 元素指令，定义验证规则
 
@@ -153,12 +159,12 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ## tips
-1. 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
-2. checkbox、radio组绑定验证最好绑在最后一个
-3. errmsg参数通常不需要你设置
-4. 表单范围内的按钮，只要type="submit"则不需要设置control参数
-5. 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
-6. 不支持form嵌套
+- 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
+- checkbox、radio组绑定验证最好绑在最后一个
+- errmsg参数通常不需要你设置
+- 表单范围内的按钮，只要type="submit"则不需要设置control参数
+- 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
+- 不支持form嵌套
 
 ## Support
 IE 9+
