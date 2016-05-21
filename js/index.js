@@ -1,7 +1,5 @@
 (function(){
 
-
-
 // 使用ngVerify前，先依赖注入
 var m = angular.module('APP',['ngVerify','datePicker']);
 
@@ -14,15 +12,15 @@ m.controller('testCtrl',function ($scope, ngVerify) {
     // 想要拿到表单上的$scope 使用方法:
     // var verifyScope = verify.scope('loginForm')
 
-    // angular.element(document).ready(function() {
-    // 	console.log('页面加载完成，自动检测表单的验证，返回一个对象：');
-    // 	var re = ngVerify.check('loginForm',true);
-    // 	console.info(re);
-    // });
+    /* angular.element(document).ready(function() {
+    	console.log('页面加载完成，自动检测表单的验证，返回一个对象：');
+    	var re = ngVerify.check('loginForm',true);
+    	console.info(re);
+    }); */
 
     $scope.check = function () {
         console.log('你检测了表单的验证，返回给你一个对象：');
-        var re = ngVerify.check('loginForm');
+        var re = ngVerify.check('loginForm',true);
         console.info(re);
     }
 

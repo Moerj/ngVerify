@@ -31,7 +31,7 @@
                     }
                     return obj;
                 },
-                // 检测一个form表单校验是否通过
+                // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
                 check: function (formName, draw) {
                     var forms = document.getElementsByName(formName);
                     var obj;//绑定在nodelist上的方法，即 @function checkAll()
