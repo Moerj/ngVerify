@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.5
+ * ngVerify v1.1.6
  *
  * License: MIT
  * Designed and built by Moer
@@ -231,7 +231,7 @@
             var vaildEvent = '';
 
             // 创建tip容器
-            var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span></span><i></i></p></div>';
+            var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span class="tipMsg"></span><i></i></p></div>';
 
             var container = iElm.parent();//tip容器判断放在什么位置
             if (isbox && container[0].localName == 'label') { //select radio
@@ -252,7 +252,7 @@
 
                 container: angular.element(container[0].querySelector('.verifyTips > p')),
 
-                message: angular.element(container[0].querySelector('.verifyTips > p > span'))
+                message: angular.element(container[0].querySelector('.verifyTips .tipMsg'))
 
             }
 
@@ -379,19 +379,27 @@
         draw        Boolean     是标记还是取消
     */
     function makeError(iElm, draw){
-        var className = iElm.ngVerify.OPTS.errorClass;
+        var className = iElm.ngVerify.OPTS.errorClass; //用于标记的类名
+        var parent = iElm.parent(); //可能需要标红的父容器
+
         iElm.hasError = draw;
 
         if (iElm[0].type == 'checkbox' || iElm[0].type == 'radio') {
-            var parent = iElm.parent();
             if (parent[0].localName == 'label') {
                 parent = parent.parent();
             }
             iElm = parent;
 
             // 复组元素边框为虚线
-            iElm.toggleClass(className+'Dash', draw)
+            iElm.toggleClass(className+'-dash', draw)
         }
+
+        if (parent[0].localName == 'label') {
+            parent.toggleClass(className+'-label', draw) //表单元素被label包裹
+        }else{
+            parent.find('label').toggleClass(className+'-label', draw) //表单元素没有被label包裹
+        }
+
         iElm.toggleClass(className, draw)
     }
 

@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.5 last updated
+ * ngVerify v1.1.6 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -18,9 +18,15 @@ $errorColor: #d9534f;
         box-shadow: 0 0 2px 1px $errorColor !important;
     }
 }
-.verifyErrorDash{
+.verifyError-dash{
     border-style: dashed !important;
     border-radius: 5px;
+}
+.verifyError-label{
+    // color: $errorColor;
+
+    // bootstarp label.has-error Style
+    color: #a94442;
 }
 
 
@@ -30,6 +36,12 @@ $errorColor: #d9534f;
     z-index: 9999; //防止tip被其他表单元素遮挡
     display: block;
     // overflow: hidden;
+
+    .tipMsg{
+        color: #333;
+        font-weight: normal;
+        font-size: 14px;
+    }
 
     .tipStyle{
         display: inline-block;
@@ -104,12 +116,12 @@ $errorColor: #d9534f;
     // 显示tip
     .showTip-1{
         visibility: visible;
-        opacity: .6;
+        opacity: .8;
         transform: translate3d(0,-33px,0) scale3d(1,1,1);
     }
     .showTip-2{
         visibility: visible;
-        opacity: .6;
+        opacity: .8;
         transform: translate3d(0,0,0) scale3d(1,1,1);
         position: static;
     }

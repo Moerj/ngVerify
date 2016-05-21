@@ -1,4 +1,4 @@
-# ngVerify v1.1.5
+# ngVerify v1.1.6
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
@@ -153,11 +153,12 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ## tips
-传入的参数字符串可以不写{ }
-checkbox、radio组绑定验证最好绑在最后一个
-errmsg通常不需要你设置
-表单范围内的按钮，只要type="submit"则不需要设置control参数
+1. 传入的参数字符串可以不写{ }
+2. checkbox、radio组绑定验证最好绑在最后一个
+3. errmsg通常不需要你设置
+4. 表单范围内的按钮，只要type="submit"则不需要设置control参数
+5. 加入label修饰表单，ngVerify在标记表单颜色的时候同样也会标记label
 
 ## Support
-IE 9+
+IE 9+  
 angular 1.x

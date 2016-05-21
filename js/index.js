@@ -1,8 +1,12 @@
+(function(){
+
+
+
 // 使用ngVerify前，先依赖注入
-var app = angular.module('APP',['ngVerify','datePicker']);
+var m = angular.module('APP',['ngVerify','datePicker']);
 
 // 测试用控制器,调用公共方法的地方注入ngVerify
-app.controller('testCtrl',function ($scope, ngVerify) {
+m.controller('testCtrl',function ($scope, ngVerify) {
 
     // 这里的$scope只是控制器上的，和表单上verify指令的$scope无关
     // console.log($scope);
@@ -32,3 +36,8 @@ app.controller('testCtrl',function ($scope, ngVerify) {
     ];
 
 })
+
+
+
+
+})()

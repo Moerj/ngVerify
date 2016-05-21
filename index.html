@@ -16,7 +16,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.1.5</p>
+	<p class="Version">ver: 1.1.6</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -24,46 +24,35 @@
 	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
 		<form id="testform" name="loginForm" verify-scope>
+
 			<div class="form-group">
-				<label for="pickerMinDate">Time picker </label>
-				<input class="form-control" date-time name="pickerMinDate" ng-model="dates.today" id="pickerMinDate"
-				min-date="minDate" view="date" min-view="hours" placeholder="click here input"
-				 ng-verify
-				>
+				<label>Time picker </label>
+				<input ng-verify class="form-control" date-time ng-model="dates.today"
+					min-date="minDate" view="date" min-view="hours" placeholder="click here input">
 			</div>
 			<div class="form-group">
-			    <label for="Email">Email address </label>
+			    <label>Email address </label>
 				<!-- 只需要写上 ng-verify -->
-			    <input type="email" class="form-control" id="Email" placeholder="input your email"
-				 ng-verify
-				>
+			    <input ng-verify type="email" class="form-control" placeholder="input your email" >
 			</div>
 			<div class="form-group">
-			    <label for="Password">Password </label>
+			    <label>Password </label>
 				<!-- 自定义字符长度 -->
-			    <input type="password" class="form-control" id="Password" placeholder="3 to 10 chars"
-				 ng-verify="min:3, max:10"
-				>
+			    <input ng-verify="min:3, max:10" type="password" class="form-control" placeholder="3 to 10 chars">
 			</div>
 			<div class="form-group">
-			    <label for="phone">phone</label>
+		    	<label>phone </label>
 				<!-- 默认支持的type类型 -->
-			    <input type="phone" class="form-control" id="phone" placeholder="your phone number"
-				 ng-verify="min:11, required:false"
-				>
+			    <input ng-verify="min:11, required:false" type="phone" class="form-control" placeholder="your phone number" >
 			</div>
 			<div class="form-group">
-			    <label for="pattern">pattern</label>
+			    <label>pattern </label>
 				<!-- 自定义正则,并自定义错误消息 -->
-			    <input type="text" class="form-control" id="pattern" placeholder="这里只能输入中文"
-				 ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' "
-				>
+			    <input ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="这里只能输入中文">
 			</div>
 			<div class="form-group">
-			    <label for="select">select</label>
-			    <select id="select" class="form-control" ng-model="myColor" ng-options="color.name for color in colors"
-				 ng-verify
-				>
+			    <label>select </label>
+			    <select ng-verify class="form-control" ng-model="myColor" ng-options="color.name for color in colors">
 			    	<option value=""> choose color </option>
 			    </select>
 			</div>
@@ -115,4 +104,4 @@
 <script src="lib/angular-datepicker.js"></script>
 
 <script src="js/ngVerify.js"></script>
-<script src="js/test.js"></script>
+<script src="js/index.js"></script>

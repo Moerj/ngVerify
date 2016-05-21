@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify v1.1.5 last updated
+ * ngVerify v1.1.6 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -15,15 +15,22 @@
     border-color: transparent !important;
     box-shadow: 0 0 2px 1px #d9534f !important; }
 
-.verifyErrorDash {
+.verifyError-dash {
   border-style: dashed !important;
   border-radius: 5px; }
+
+.verifyError-label {
+  color: #a94442; }
 
 /*错误消息容器*/
 .verifyTips {
   position: relative;
   z-index: 9999;
   display: block; }
+  .verifyTips .tipMsg {
+    color: #333;
+    font-weight: normal;
+    font-size: 14px; }
   .verifyTips .tipStyle, .verifyTips .tipStyle-1, .verifyTips .tipStyle-2 {
     display: inline-block;
     visibility: hidden;
@@ -83,12 +90,12 @@
         left: -6px; }
   .verifyTips .showTip-1 {
     visibility: visible;
-    opacity: .6;
+    opacity: .8;
     -webkit-transform: translate3d(0, -33px, 0) scale3d(1, 1, 1);
     transform: translate3d(0, -33px, 0) scale3d(1, 1, 1); }
   .verifyTips .showTip-2 {
     visibility: visible;
-    opacity: .6;
+    opacity: .8;
     -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
     position: static; }
