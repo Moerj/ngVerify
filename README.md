@@ -2,6 +2,12 @@
 a easy angular form vaild plugin.
 简洁高效的angular表单验证插件
 
+<style>
+	b{
+		color: #d9534f;
+	}
+</style>
+
 <br>
 ## github
 https://github.com/Moerj/ngVerify
@@ -32,18 +38,16 @@ http://moerj.com/Github/ngVerify/
 	checkbox
 	select
 
-## verify-scope
+## <b>verify-scope</b>
 入口指令，规定组件所控制的表单范围
 
-	//给form设置一个verify-scope指令
 	<form verify-scope>
-		<input type="text" ng-verify > //给表单元素设置ng-verify
-		<button ng-verify >Submit</button> //提交按钮也是
+		...
   	</form>
 
 ### tipStyle (defualt: 1)
 设置整个表单的错误消息样式
-	1. 气泡浮动提示，在元素右下角浮出
+	1. 气泡浮动提示，在元素右上角浮出
 	2. 气泡固定高度，紧接着元素另起一行
 
 	<form verify-scope="tipStyle: 2" >...</form>
@@ -53,13 +57,14 @@ true时关闭tip提示
 
 	<form verify-scope="notip: true" >...</form>
 
-## ng-verify
+## <b>ng-verify</b>
 元素指令，定义验证规则
 
 ### defualt
-只需要使用ng-verify，会根据type类型校验非空验证和类型
+只需要使用ng-verify，会根据type类型校验非空验证和类型的格式
 
-	<input type="text" ng-verify >
+	<!-- 校验非空验证和邮箱格式 -->
+	<input type="email" ng-verify >
 
 ### required (defualt: true)
 false允许空值通过校验
@@ -97,7 +102,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 	<div>
 		<label >checkbox</label>
-		<!-- checkbox多选，请确保所有checkbox被一个div包起 -->
+		<!-- checkbox多选，请确保所有checkbox被一个容器包起 -->
 		<!-- 如果要用label修饰checkbox请统一所有都用 -->
 		<!-- 确保每组checkbox的name属性相同，ng-verify指令只需要在任意一个checkbox上 -->
 		<input type="checkbox" name="checkbox" > Captain America
