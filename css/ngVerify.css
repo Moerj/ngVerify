@@ -50,7 +50,8 @@
       height: 0;
       padding: 0 !important;
       margin: 0 !important;
-      position: absolute; }
+      position: absolute;
+      top: auto; }
       .verifyTips .tipStyle i::after, .verifyTips .tipStyle-1 i::after, .verifyTips .tipStyle-2 i::after {
         content: '';
         border-color: transparent transparent #fff transparent;

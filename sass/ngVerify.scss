@@ -59,6 +59,7 @@ $errorColor: #d9534f;
             padding: 0 !important;
             margin: 0 !important;
             position: absolute;
+            top: auto;
             &::after{
                 content: '';
                 border-color: transparent transparent #fff transparent;
