@@ -153,12 +153,13 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 
 ## tips
-1. 传入的参数字符串可以不写{ }
+1. 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
 2. checkbox、radio组绑定验证最好绑在最后一个
-3. errmsg通常不需要你设置
+3. errmsg参数通常不需要你设置
 4. 表单范围内的按钮，只要type="submit"则不需要设置control参数
-5. 加入label修饰表单，ngVerify在标记表单颜色的时候同样也会标记label
+5. 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
+6. 不支持form嵌套
 
 ## Support
-IE 9+  
+IE 9+
 angular 1.x
