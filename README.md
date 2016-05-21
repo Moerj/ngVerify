@@ -106,7 +106,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	</div>
 
 ### control
-绑定一个form的按钮, control:'formName'
+绑定一个表单提交按钮, control:'formName'
 
 	<form name="myform" verify>
 		...
