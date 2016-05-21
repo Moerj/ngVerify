@@ -394,12 +394,6 @@
             iElm.toggleClass(className+'-dash', draw)
         }
 
-        if (parent[0].localName == 'label') {
-            parent.toggleClass(className+'-label', draw) //表单元素被label包裹
-        }else{
-            parent.find('label').toggleClass(className+'-label', draw) //表单元素没有被label包裹
-        }
-
         iElm.toggleClass(className, draw)
     }
 

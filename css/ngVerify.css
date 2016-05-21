@@ -19,9 +19,6 @@
   border-style: dashed !important;
   border-radius: 5px; }
 
-.verifyError-label {
-  color: #a94442; }
-
 /*错误消息容器*/
 .verifyTips {
   position: relative;
