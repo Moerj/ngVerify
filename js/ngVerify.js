@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.6
+ * ngVerify v1.1.7
  *
  * License: MIT
  * Designed and built by Moer
@@ -211,19 +211,21 @@
             // iElm 是提交按钮
             $scope.ngVerify.subBtn.push(iElm);
 
-            // 1.没有校验权限的按钮，默认是禁用的，只有表单输入验证通过才会启用
-            // 2.加载页面是先验证一次所有表单是否已经符合
-            if (OPTS.disabled && checkAll($scope.ngVerify.elems).hasError) {
-                // iElm.prop('disabled',true)
-                iElm.attr('disabled', true)
-            }
-
-            //提交时检测所有表单
-            iElm.bind('click', function(e) {
-                e.stopPropagation();
-                if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
-                    $scope.ngVerify.submit();
+            angular.element(document).ready(function () {
+                // 1. 按钮的禁用初始化需在其他表单元素初始化之后
+                // 2. 按钮默认是禁用的，只有表单验证通过才会启用
+                // 3. 加载页面先验证一次所有表单是否已经符合验证，然后决定是否禁用按钮
+                if (OPTS.disabled && checkAll($scope.ngVerify.elems).hasError) {
+                    iElm.attr('disabled', true)
                 }
+
+                //提交时检测所有表单
+                iElm.bind('click', function(e) {
+                    e.stopPropagation();
+                    if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
+                        $scope.ngVerify.submit();
+                    }
+                })
             })
 
         } else {// iElm 是需验证的表单元素
@@ -301,7 +303,6 @@
         var $scope = iElm.ngVerify.$scope;
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
-        // if (iAttrs.ngModel && iElm[0].localName!='select') {
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel,function(newValue, oldValue){
@@ -315,9 +316,9 @@
                             iElm.triggerHandler('blur')
                         }
                     }
-                    // 其他元素的监听，直接写入value并触发change事件
+                    // 其他元素的监听，触发change事件
                     else{
-                        iElm.attr('value',newValue)
+                        // iElm.attr('value',newValue)
                         iElm.triggerHandler('change')
                     }
                 }
@@ -427,7 +428,7 @@
             // 非表单元素
             val = iElm.text();
             // console.warn('检测到非表单元素:');
-            // console.log(iElm[0]);
+            // console.log(iElm);
         }
 
         // 除去多余空格

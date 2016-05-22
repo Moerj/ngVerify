@@ -4,7 +4,7 @@
 var m = angular.module('APP',['ngVerify','datePicker']);
 
 // 测试用控制器,调用公共方法的地方注入ngVerify
-m.controller('testCtrl',function ($scope, ngVerify) {
+m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
 
     // 这里的$scope只是控制器上的，和表单上verify指令的$scope无关
     // console.log($scope);
@@ -32,6 +32,7 @@ m.controller('testCtrl',function ($scope, ngVerify) {
       {name:'blue'},
       {name:'yellow'}
     ];
+
 
 })
 

@@ -16,7 +16,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.1.6</p>
+	<p class="Version">ver: 1.1.7</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -24,7 +24,6 @@
 	<div class="container" ng-controller="testCtrl">
 		<!-- 表单验证 -->
 		<form id="testform" name="loginForm" verify-scope>
-
 			<div class="form-group">
 				<label>Time picker </label>
 				<input ng-verify class="form-control" date-time ng-model="dates.today"
@@ -87,12 +86,13 @@
 				</label>
 			</div>
 
-			<!-- 表单范围内的提交按钮, control:'loginForm' -->
-			<a class="btn btn-block btn-primary" type="submit" ng-verify>提交</a>
+			<!-- 表单范围内的提交按钮, 当type="submit"时，可以不写control:'loginForm' -->
+			<a class="btn btn-block btn-primary" type="submit" ng-verify >Submit</a>
+
 		</form>
 
-		<!-- 绑定一个指令范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
-		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false">验证整个表单</button>
+		<!-- 绑定表单范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
+		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false">vaild form</button>
 
 	</div>
 
