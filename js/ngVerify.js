@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.7
+ * ngVerify v1.1.8
  *
  * License: MIT
  * Designed and built by Moer
@@ -325,7 +325,7 @@
             });
         }
         iElm.bind('focus',function () {
-            if (iElm.hasError || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
+            if (iElm.ngVerify.invalid || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
                 // 提示信息
                 tipMsg(iElm, true);
             }
@@ -352,7 +352,7 @@
                 if (!re.hasError) {
                     DisableButtons($scope.ngVerify.subBtn, false)
                 }
-            }else if(iElm.hasError){
+            }else if(iElm.ngVerify.invalid){
                 tipMsg(iElm, true);
             }
         })
@@ -383,7 +383,7 @@
         var className = iElm.ngVerify.OPTS.errorClass; //用于标记的类名
         var parent = iElm.parent(); //可能需要标红的父容器
 
-        iElm.hasError = draw;
+        iElm.ngVerify.invalid = draw;
 
         if (iElm[0].type == 'checkbox' || iElm[0].type == 'radio') {
             if (parent[0].localName == 'label') {
