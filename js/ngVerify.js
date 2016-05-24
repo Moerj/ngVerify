@@ -165,32 +165,6 @@
         }
     }
 
-    /**
-     * 检测元素高度改变事件
-     * @param jqueryObject $obj
-     * @param function func($obj)
-     */
-    onresize = function($obj, func) {
-        var newheight = $obj.outerHeight();
-        var oldheight = $obj.data("oldheight");
-
-        if (!oldheight) {
-            $obj.data("oldheight", newheight);
-            return;
-        }
-
-        if (newheight == oldheight) {
-            return;
-        }
-
-        $obj.data("oldheight", newheight);
-
-        if (arguments[1]) {
-            func.call(this, $obj);
-        }
-
-    };
-
     /** 初始化验证配置
         @param  iElm    指令元素
     */
