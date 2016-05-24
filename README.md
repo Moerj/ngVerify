@@ -26,26 +26,15 @@ var app = angular.module('APP',['ngVerify']);
 
 ```
 
-### type
-设置表单元素type类型，目前支持的type类型：
-
-- email
-- number
-- phone
-- url
-- string
-- radio
-- checkbox
-- select
-
 ## How to use
-1. 标记一个表单范围 verify-scope
-2. 标记需要验证的元素 ng-verify
-3. 绑定提交按钮 ng-verify
+1. 标记一个表单范围 <a href="#step1">verify-scope</a>
+2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
+3. 绑定提交按钮 <a href="#step3">control</a>
+
 
 <br>
 
-## __verify-scope__
+<h2 id="step1">verify-scope</h2>
 入口指令，规定组件所控制的表单范围
 
 ```html
@@ -71,7 +60,7 @@ true时关闭tip提示
 
 <br>
 
-## __ng-verify__
+<h2 id="step2">ng-verify</h2>
 元素指令，定义验证规则
 
 ### defualt
@@ -130,7 +119,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 </div>
 ```
 
-### control
+<h3 id="step3">control</h3>
 绑定一个表单提交按钮, control:'formName'
 ```html
 <form name="myform" verify>
@@ -179,6 +168,18 @@ ngVerify.check('formName',true) //返回结果，并标记出未验证通过元�
 ```javascript
 ngVerify.scope('formName')
 ```
+
+## type
+设置表单元素type类型，目前支持的type类型：
+
+- email
+- number
+- phone
+- url
+- string
+- radio
+- checkbox
+- select
 
 ## tips
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
