@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify v1.1.6 last updated
+ * ngVerify v1.1.9 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -36,7 +36,7 @@
     box-shadow: 0 0 3px 0px #d9534f;
     border-radius: 5px;
     padding: 5px 10px;
-    margin-top: 8px;
+    margin: 0;
     position: relative;
     background-color: #fff;
     -webkit-transition: .4s;
@@ -62,7 +62,7 @@
         position: absolute; }
   .verifyTips .tipStyle-1 {
     right: 0;
-    bottom: 0;
+    margin-top: -6px;
     -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
     transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-1 i {
@@ -76,8 +76,8 @@
         top: -8px;
         right: -6px; }
   .verifyTips .tipStyle-2 {
-    top: 0;
     left: 0;
+    margin-top: 9px;
     -webkit-transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
     transform: translate3d(0, -20px, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-2 i {

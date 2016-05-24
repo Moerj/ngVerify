@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.8
+ * ngVerify v1.1.9
  *
  * License: MIT
  * Designed and built by Moer
@@ -234,13 +234,15 @@
 
             // 创建tip容器
             var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span class="tipMsg"></span><i></i></p></div>';
-
+            var tipHeight;
             var container = iElm.parent();//tip容器判断放在什么位置
             if (isbox && container[0].localName == 'label') { //select radio
                 container = container.parent();
                 container.append(errtip);
+                tipHeight = container[0].offsetHeight*-1;
             }else{
                 iElm.after(errtip);
+                tipHeight = iElm[0].offsetHeight*-1;
             }
 
             // find('#id')
@@ -257,6 +259,10 @@
                 message: angular.element(container[0].querySelector('.verifyTips .tipMsg'))
 
             }
+
+            // 根据元素的高度，调整tip的定位高度
+            iElm.ngVerify.errtip.container.css('top', tipHeight + 'px');
+
 
             // 特殊类型的触发类型和错误渲染不同
             if (isbox) {

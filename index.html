@@ -16,7 +16,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.1.8</p>
+	<p class="Version">ver: 1.1.9</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -32,7 +32,7 @@
 			<div class="form-group">
 			    <label>Email address </label>
 				<!-- 只需要写上 ng-verify -->
-			    <input ng-verify type="email" class="form-control" placeholder="input your email" >
+			    <input ng-verify type="email" class="form-control" placeholder="input your email">
 			</div>
 			<div class="form-group">
 			    <label>Password </label>
@@ -40,9 +40,9 @@
 			    <input ng-verify="min:3, max:10" type="password" class="form-control" placeholder="3 to 10 chars">
 			</div>
 			<div class="form-group">
-		    	<label>phone </label>
+		    	<label>Number </label>
 				<!-- 默认支持的type类型 -->
-			    <input ng-verify="min:11, required:false" type="phone" class="form-control" placeholder="your phone number" >
+			    <input ng-verify="required:false" type="number" class="form-control" placeholder="input number">
 			</div>
 			<div class="form-group">
 			    <label>pattern </label>
