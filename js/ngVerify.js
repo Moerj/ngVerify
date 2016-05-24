@@ -12,16 +12,16 @@
 
     var m = angular.module('ngVerify', []);
 
-    m.provider('ngVerify', function () {
-        this.$get = function(){
+    m.provider('ngVerify', function() {
+        this.$get = function() {
             var publicMethods = {
                 /** 全局暴露的公共方法
                  * @param  String   formName: name
                  * @return Boolean
                  */
-                scope: function (formName) {
+                scope: function(formName) {
                     var forms = document.getElementsByName(formName);
-                    var obj;//获取一个对象，它是form上的scope作用域
+                    var obj; //获取一个对象，它是form上的scope作用域
 
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
@@ -32,9 +32,9 @@
                     return obj;
                 },
                 // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
-                check: function (formName, draw) {
+                check: function(formName, draw) {
                     var forms = document.getElementsByName(formName);
-                    var obj;//绑定在nodelist上的方法，即 @function checkAll()
+                    var obj; //绑定在nodelist上的方法，即 @function checkAll()
 
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
@@ -59,7 +59,7 @@
     // 父指令，写在form标签上
     m.directive('verifyScope', function() {
         return {
-            scope:{},
+            scope: {},
             controller: function($scope, $element, $attrs) {
                 this.getscope = function() {　　　　　　　　　　
                     return $scope;　　　　　　　　
@@ -68,7 +68,7 @@
                 // 在作用域上绑定需要的数据
                 $scope.ngVerify = {
 
-                    elems: [],  //需验证的表单元素
+                    elems: [], //需验证的表单元素
 
                     subBtn: [], //提交表单的按钮
 
@@ -77,12 +77,12 @@
                     tipStyle: formatOpt($attrs.verifyScope, $element).tipStyle,
 
                     // 验证整个表单，错误的将标红
-                    submit: function(){
+                    submit: function() {
                         var els = $scope.ngVerify.elems;
                         var re = checkAll(els);
                         for (var i = 0; i < re.errEls.length; i++) {
                             makeError(re.errEls[i], true)
-                            // tipMsg(re.errEls[i], true) //提示错误信息
+                                // tipMsg(re.errEls[i], true) //提示错误信息
                         }
                     }
                 }
@@ -104,15 +104,15 @@
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
 
-                var pScope;//父指令的$scope
+                var pScope; //父指令的$scope
 
                 // 获取传入的配置参数
                 var OPTS = formatOpt(iAttrs.ngVerify, iElm);
 
-                if (pCtrl!=undefined) {
+                if (pCtrl != undefined) {
                     pScope = pCtrl.getscope();
 
-                }else{//提交按钮在作用域外（父指令外面）
+                } else { //提交按钮在作用域外（父指令外面）
 
                     if (!OPTS.control) {
                         console.log('按钮需指向关联的form.name');
@@ -132,10 +132,10 @@
 
                 // 元素绑定相关参数
                 iElm.ngVerify = {
-                    $scope : pScope,
-                    scope  : scope,
-                    iAttrs : iAttrs,
-                    OPTS   : OPTS
+                    $scope: pScope,
+                    scope: scope,
+                    iAttrs: iAttrs,
+                    OPTS: OPTS
                 }
 
                 // 初始化元素
@@ -153,7 +153,7 @@
         Object          格式化好的配置对象
      */
     function formatOpt(str, iElm) {
-        if ( str.charAt(0)!="{" ) {
+        if (str.charAt(0) != "{") {
             str = '{' + str + '}';
         }
 
@@ -165,6 +165,32 @@
         }
     }
 
+    /**
+     * 检测元素高度改变事件
+     * @param jqueryObject $obj
+     * @param function func($obj)
+     */
+    onresize = function($obj, func) {
+        var newheight = $obj.outerHeight();
+        var oldheight = $obj.data("oldheight");
+
+        if (!oldheight) {
+            $obj.data("oldheight", newheight);
+            return;
+        }
+
+        if (newheight == oldheight) {
+            return;
+        }
+
+        $obj.data("oldheight", newheight);
+
+        if (arguments[1]) {
+            func.call(this, $obj);
+        }
+
+    };
+
     /** 初始化验证配置
         @param  iElm    指令元素
     */
@@ -175,16 +201,16 @@
 
         // 默认配置
         var DEFAULT = {
-            message: '此项为必填',//默认错误消息
+            message: '此项为必填', //默认错误消息
             required: true, //默认都进行非空校验
             option: 0, //下拉菜单校验
             min: iAttrs.minlength,
             max: iAttrs.maxlength,
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
-            least: 1,    //checkbox默认最少勾选数
+            least: 1, //checkbox默认最少勾选数
             notip: $scope.ngVerify.notip ? $scope.ngVerify.notip : false, //是否显示tip
-            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //tip提示样式
+            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 1 右上浮动  2 左下占位
         }
 
         // 传入错误参数警告并做容错处理
@@ -211,7 +237,7 @@
             // iElm 是提交按钮
             $scope.ngVerify.subBtn.push(iElm);
 
-            angular.element(document).ready(function () {
+            angular.element(document).ready(function() {
                 // 1. 按钮的禁用初始化需在其他表单元素初始化之后
                 // 2. 按钮默认是禁用的，只有表单验证通过才会启用
                 // 3. 加载页面先验证一次所有表单是否已经符合验证，然后决定是否禁用按钮
@@ -220,7 +246,7 @@
                 }
 
                 //提交时检测所有表单
-                iElm.bind('click', function(e) {
+                iElm.on('click', function(e) {
                     e.stopPropagation();
                     if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
                         $scope.ngVerify.submit();
@@ -228,21 +254,21 @@
                 })
             })
 
-        } else {// iElm 是需验证的表单元素
-            var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type =='radio')
+        } else { // iElm 是需验证的表单元素
+            var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio')
             var vaildEvent = '';
 
             // 创建tip容器
-            var errtip = '<div class="verifyTips"><p class="tipStyle-'+OPTS.tipStyle+'"><span class="tipMsg"></span><i></i></p></div>';
+            var errtip = '<div class="verifyTips"><p class="tipStyle-' + OPTS.tipStyle + '"><span class="tipMsg"></span><i></i></p></div>';
             var tipHeight;
-            var container = iElm.parent();//tip容器判断放在什么位置
+            var container = iElm.parent(); //tip容器判断放在什么位置
             if (isbox && container[0].localName == 'label') { //select radio
                 container = container.parent();
                 container.append(errtip);
-                tipHeight = container[0].offsetHeight*-1;
-            }else{
+                tipHeight = container[0].offsetHeight * -1;
+            } else {
                 iElm.after(errtip);
-                tipHeight = iElm[0].offsetHeight*-1;
+                tipHeight = iElm[0].offsetHeight * -1;
             }
 
             // find('#id')
@@ -260,14 +286,24 @@
 
             }
 
-            // 根据元素的高度，调整tip的定位高度
-            iElm.ngVerify.errtip.container.css('top', tipHeight + 'px');
+            if (OPTS.tipStyle==1) {
+                // 根据元素的高度，调整tip的定位高度
+                var tip = iElm.ngVerify.errtip.container;
+                tip.css('top', tipHeight + 'px');
 
+                // textarea改变大小时，从新定位tip
+                if (iElm[0].localName == 'textarea') {
+                    iElm.on('click', function() {
+                        tip.css('top', iElm[0].offsetHeight * -1 + 'px');
+                        return false;
+                    })
+                }
+            }
 
             // 特殊类型的触发类型和错误渲染不同
             if (isbox) {
                 vaildEvent = 'change';
-            }else{
+            } else {
                 vaildEvent = 'change keyup';
                 // 'input propertychange' //input值改变事件
             }
@@ -282,17 +318,17 @@
             if (isbox) {
                 var iElms = document.getElementsByName(iAttrs.name);
                 for (var i = 0; i < iElms.length; i++) {
-                    if (iElms[i]!=iElm[0]) {
+                    if (iElms[i] != iElm[0]) {
                         angular.element(iElms[i])
-                        .bind('focus',function(){
-                            iElm.triggerHandler('focus')
-                        })
-                        .bind('blur',function(){
-                            iElm.triggerHandler('blur')
-                        })
-                        .bind(vaildEvent,function(){
-                            iElm.triggerHandler(vaildEvent)
-                        })
+                            .on('focus', function() {
+                                iElm.triggerHandler('focus')
+                            })
+                            .on('blur', function() {
+                                iElm.triggerHandler('blur')
+                            })
+                            .on(vaildEvent, function() {
+                                iElm.triggerHandler(vaildEvent)
+                            })
                     }
                 }
             }
@@ -311,57 +347,57 @@
         var iAttrs = iElm.ngVerify.iAttrs;
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
-            scope.$watch(iAttrs.ngModel,function(newValue, oldValue){
+            scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
                 if (newValue || oldValue) {
                     // 这里有个未知问题：
                     // select元素在手动操作后，ngModel的监听会从代码触发移交给手动触发
                     if (iElm[0].localName == 'select') {
                         if (newValue) {
                             iElm.triggerHandler('keyup')
-                        }else{
+                        } else {
                             iElm.triggerHandler('blur')
                         }
                     }
                     // 其他元素的监听，触发change事件
-                    else{
+                    else {
                         // iElm.attr('value',newValue)
                         iElm.triggerHandler('change')
                     }
                 }
             });
         }
-        iElm.bind('focus',function () {
-            if (iElm.ngVerify.invalid || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
-                // 提示信息
-                tipMsg(iElm, true);
-            }
-        })
-        .bind('blur', function() {
-            if (!ISVALID(iElm)) { //验证不通过
-
-                tipMsg(iElm, false);// 提示信息
-
-                makeError(iElm, true);// 将元素标红
-
-                DisableButtons($scope.ngVerify.subBtn, true)// 禁用掉控制按钮
-            }
-        })
-        .bind(vaildEvent, function() {
-            if (ISVALID(iElm)) { //验证通过
-
-                tipMsg(iElm, false);
-
-                makeError(iElm, false);
-
-                // 检测所有
-                var re = checkAll($scope.ngVerify.elems);
-                if (!re.hasError) {
-                    DisableButtons($scope.ngVerify.subBtn, false)
+        iElm.on('focus', function() {
+                if (iElm.ngVerify.invalid || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
+                    // 提示信息
+                    tipMsg(iElm, true);
                 }
-            }else if(iElm.ngVerify.invalid){
-                tipMsg(iElm, true);
-            }
-        })
+            })
+            .on('blur', function() {
+                if (!ISVALID(iElm)) { //验证不通过
+
+                    tipMsg(iElm, false); // 提示信息
+
+                    makeError(iElm, true); // 将元素标红
+
+                    DisableButtons($scope.ngVerify.subBtn, true) // 禁用掉控制按钮
+                }
+            })
+            .on(vaildEvent, function() {
+                if (ISVALID(iElm)) { //验证通过
+
+                    tipMsg(iElm, false);
+
+                    makeError(iElm, false);
+
+                    // 检测所有
+                    var re = checkAll($scope.ngVerify.elems);
+                    if (!re.hasError) {
+                        DisableButtons($scope.ngVerify.subBtn, false)
+                    }
+                } else if (iElm.ngVerify.invalid) {
+                    tipMsg(iElm, true);
+                }
+            })
     }
 
     /** 提示错误信息
@@ -377,7 +413,7 @@
         var errtip = iElm.ngVerify.errtip;
         var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
         errtip.message.text(message);
-        errtip.container.toggleClass('showTip-'+OPTS.tipStyle,isShow);
+        errtip.container.toggleClass('showTip-' + OPTS.tipStyle, isShow);
     }
 
     /** 标记未通过验证的元素
@@ -385,7 +421,7 @@
         iElm        DomObj      需要标记的元素
         draw        Boolean     是标记还是取消
     */
-    function makeError(iElm, draw){
+    function makeError(iElm, draw) {
         var className = iElm.ngVerify.OPTS.errorClass; //用于标记的类名
         var parent = iElm.parent(); //可能需要标红的父容器
 
@@ -398,7 +434,7 @@
             iElm = parent;
 
             // 复组元素边框为虚线
-            iElm.toggleClass(className+'-dash', draw)
+            iElm.toggleClass(className + '-dash', draw)
         }
 
         iElm.toggleClass(className, draw)
@@ -420,7 +456,7 @@
     function ISVALID(iElm) {
 
         //隐藏元素直接校验通过
-        if(iElm[0].style.display == 'none'){
+        if (iElm[0].style.display == 'none') {
             return true;
         }
 
@@ -451,10 +487,10 @@
                     checked++;
                 }
             }
-            if (checked>=OPTS.least) {
+            if (checked >= OPTS.least) {
                 return true;
             }
-            OPTS.message = '至少选择'+OPTS.least+'项'
+            OPTS.message = '至少选择' + OPTS.least + '项'
             return false;
         }
 
@@ -472,9 +508,9 @@
         if (OPTS.required && val == '') {
             // 注意：type='number' 输入字符e时，val仍然为空值，这时的空校验提示为tip1
             if (iAttrs.type == 'number') {
-                OPTS.message = '需输入数字';   //tip1
-            }else{
-                OPTS.message = '不能为空'     //tip2
+                OPTS.message = '需输入数字'; //tip1
+            } else {
+                OPTS.message = '不能为空' //tip2
             }
             return false;
         } else if (!OPTS.required && val == '') {
