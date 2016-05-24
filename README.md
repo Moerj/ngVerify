@@ -5,7 +5,7 @@ a easy angular form vaild plugin.
 
 
 <br>
-## github
+## Github
 https://github.com/Moerj/ngVerify
 
 <br>
@@ -38,9 +38,14 @@ var app = angular.module('APP',['ngVerify']);
 - checkbox
 - select
 
+## How to use
+1. 标记一个表单范围 verify-scope
+2. 标记需要验证的元素 ng-verify
+3. 绑定提交按钮 ng-verify
 
 <br>
-<h2 style="color:#d9534f">verify-scope</h2>
+
+## __verify-scope__
 入口指令，规定组件所控制的表单范围
 
 ```html
@@ -64,9 +69,9 @@ true时关闭tip提示
 <form verify-scope="notip: true" >...</form>
 ```
 
-
 <br>
-<h2 style="color:#d9534f">ng-verify</h2>
+
+## __ng-verify__
 元素指令，定义验证规则
 
 ### defualt
