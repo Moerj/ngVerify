@@ -115,7 +115,7 @@
                 } else { //提交按钮在作用域外（父指令外面）
 
                     if (!OPTS.control) {
-                        console.log('按钮需指向关联的form.name');
+                        console.log('ngVerify按钮需指向关联的form.name');
                         console.error(iElm);
                         return;
                     }
@@ -124,7 +124,7 @@
                     pScope = ngVerify.scope(OPTS.control)
 
                     if (pScope == undefined) {
-                        console.error('$scope获取失败');
+                        console.error('ngVerify按钮找不到关联的表单');
                         console.error(iElm);
                         return;
                     }
