@@ -40,6 +40,7 @@ $errorColor: #d9534f;
     .tipStyle{
         display: inline-block;
         visibility: hidden;
+        line-height: 1.4;
         opacity: 0;
         border: 1px $errorColor solid;
         box-shadow: 0 0 3px 0px $errorColor;
@@ -76,7 +77,7 @@ $errorColor: #d9534f;
     .tipStyle-1{
         @extend .tipStyle;
         right: 0; //气泡的出现位置
-        margin-top: -6px;
+        margin-top: -8px;
         transform: translate3d(0,0,0) scale3d(0,0,1);
         // 气泡角标的位置
         i{
