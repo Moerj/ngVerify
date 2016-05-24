@@ -27,16 +27,16 @@ var app = angular.module('APP',['ngVerify']);
 ```
 
 ### type
-	设置表单元素type类型，目前支持的type类型：
+设置表单元素type类型，目前支持的type类型：
 
-	email
-	number
-	phone
-	url
-	string
-	radio
-	checkbox
-	select
+- email
+- number
+- phone
+- url
+- string
+- radio
+- checkbox
+- select
 
 
 <br>
