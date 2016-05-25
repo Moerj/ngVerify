@@ -294,9 +294,6 @@
                 for (var i = 0; i < iElms.length; i++) {
                     if (iElms[i] != iElm[0]) {
                         angular.element(iElms[i])
-                            .on('focus', function() {
-                                iElm.triggerHandler('focus')
-                            })
                             .on('blur', function() {
                                 iElm.triggerHandler('blur')
                             })
@@ -340,13 +337,17 @@
                 }
             });
         }
-        iElm.on('focus', function() {
-                if (iElm.ngVerify.invalid || iElm.hasClass(iElm.ngVerify.OPTS.errorClass)) { //验证不通过
-                    // 提示信息
+
+        // 验证不通过 获取焦点时 tip提示
+        if (iAttrs.type!='radio' && iAttrs.type!='checkbox') {
+            iElm.on('focus', function() {
+                if (iElm.ngVerify.invalid) { //验证不通过
                     tipMsg(iElm, true);
                 }
             })
-            .on('blur', function() {
+        }
+
+        iElm.on('blur', function() {
                 if (!ISVALID(iElm)) { //验证不通过
 
                     tipMsg(iElm, false); // 提示信息
