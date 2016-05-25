@@ -183,7 +183,7 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1, //checkbox默认最少勾选数
-            notip: $scope.ngVerify.notip ? $scope.ngVerify.notip : false, //是否显示tip
+            notip: $scope.ngVerify.notip ? $scope.ngVerify.notip : false, //禁用tip
             tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 1 右上浮动  2 左下占位
         }
 
