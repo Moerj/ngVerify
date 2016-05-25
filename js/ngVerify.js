@@ -1,7 +1,7 @@
 /**
  * ngVerify v1.2.0
  *
- * License: MIT
+ * @license: MIT
  * Designed and built by Moer
  * github   https://github.com/Moerj/ngVerify
  *

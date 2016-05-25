@@ -31,7 +31,9 @@ gulp.task('sass', function() {
 
 gulp.task('js-compress', function(){
 	return gulp.src('js/ngVerify.js')
-		.pipe(uglify())
+		.pipe(uglify({
+            preserveComments: 'license'
+        }))
         .pipe(rename({
             suffix : '.min'
         }))
