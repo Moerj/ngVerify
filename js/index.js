@@ -18,11 +18,11 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
     	console.info(re);
     }); */
 
-    $scope.check = function () {
+    /* $scope.check = function () {
         console.log('你检测了表单的验证，返回给你一个对象：');
         var re = ngVerify.check('loginForm',true);
         console.info(re);
-    }
+    } */
 
     // 以ngOptions方式写seclet
     $scope.colors = [
