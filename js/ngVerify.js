@@ -496,6 +496,10 @@
             OPTS.message = '最少' + OPTS.min + '个字符'
             return false;
         }
+        if (val.length > OPTS.max) {
+            OPTS.message = '最多' + OPTS.max + '个字符'
+            return false;
+        }
 
         // 正则获取
         if (OPTS.pattern) {
