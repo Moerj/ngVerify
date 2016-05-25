@@ -1,4 +1,4 @@
-# ngVerify v1.1.9
+# ngVerify v1.2.0
 
 a easy angular form vaild plugin.
 简洁高效的__angular表单验证插件__
@@ -176,10 +176,10 @@ ngVerify.scope('formName')
 - number
 - phone
 - url
-- string
 - radio
 - checkbox
 - select
+- char (字母加下划线)
 
 ## tips
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }

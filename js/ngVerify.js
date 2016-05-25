@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.9
+ * ngVerify v1.2.0
  *
  * License: MIT
  * Designed and built by Moer
@@ -434,16 +434,16 @@
             return true;
         }
 
-        var val = iElm[0].value; //元素的值
+        var val = iElm.val(); //元素的值
         var pat; //正则规则
         var OPTS = iElm.ngVerify.OPTS;
         var iAttrs = iElm.ngVerify.iAttrs;
 
         // 非表单元素验证
-        if (iElm[0].value == undefined) {
+        if (val == undefined) {
             // 非表单元素
             val = iElm.text();
-            // console.warn('检测到非表单元素:');
+            // console.warn('非表单元素绑定了验证:');
             // console.log(iElm);
         }
 
@@ -515,8 +515,8 @@
                 case 'url':
                     pat = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
                     break;
-                case 'string':
-                    pat = /a-zA-Z/;
+                case 'char':
+                    pat = /^[A-Za-z_]+$/; // 字母+下划线
                     break;
             }
         }
