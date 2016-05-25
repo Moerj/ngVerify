@@ -27,9 +27,8 @@ $errorColor: #d9534f;
 /*错误消息容器*/
 .verifyTips{
     position: relative;
-    z-index: 9999; //防止tip被其他表单元素遮挡
+    z-index: 9999;
     display: block;
-    // overflow: hidden;
 
     .tipMsg{
         color: #333;
@@ -47,7 +46,6 @@ $errorColor: #d9534f;
         border-radius: 5px;
         padding: 5px 10px;
         margin: 0;
-        position: relative;
         background-color: #fff;
         transition: .4s;
         position: absolute;
