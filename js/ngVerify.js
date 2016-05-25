@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.0
+ * ngVerify v1.2.1
  *
  * @license: MIT
  * Designed and built by Moer
@@ -60,7 +60,7 @@
     m.directive('verifyScope', function() {
         return {
             scope: {},
-            controller: function($scope, $element, $attrs) {
+            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
                 this.getscope = function() {　　　　　　　　　　
                     return $scope;　　　　　　　　
                 };
@@ -90,15 +90,15 @@
                 // 给form的nodelist对象上绑定$scope
                 $element[0]._verifyScope = $scope;
 
-            },
-            link: function($scope, iElm) {
+            }],
+            link: function(scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
             }
         }
     })
 
     // 子指令，写在需要校验的表单元素和表单提交按钮上
-    m.directive('ngVerify', function(ngVerify) {
+    m.directive('ngVerify',['ngVerify', function(ngVerify) {
         return {
             require: "?^verifyScope",
             scope: true,
@@ -143,7 +143,7 @@
 
             }
         }
-    })
+    }])
 
     /** 格式化配置参数
      * @param
