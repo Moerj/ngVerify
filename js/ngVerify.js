@@ -254,15 +254,16 @@
             // 将tip元素绑定在iElm
             iElm.ngVerify.errtip = {
 
-                container: angular.element(container[0].querySelector('.verifyTips > p')),
+                tip: angular.element(container[0].querySelector('.verifyTips > p')),
 
                 message: angular.element(container[0].querySelector('.verifyTips .tipMsg'))
 
             }
 
+
             if (OPTS.tipStyle==1) {
                 // 根据元素的高度，调整tip的定位高度
-                var tip = iElm.ngVerify.errtip.container;
+                var tip = iElm.ngVerify.errtip.tip;
                 tip.css('top', tipHeight + 'px');
 
                 // textarea改变大小时，从新定位tip
@@ -388,7 +389,7 @@
         var errtip = iElm.ngVerify.errtip;
         var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
         errtip.message.text(message);
-        errtip.container.toggleClass('showTip-' + OPTS.tipStyle, isShow);
+        errtip.tip.toggleClass('showTip-' + OPTS.tipStyle, isShow);
     }
 
     /** 标记未通过验证的元素
