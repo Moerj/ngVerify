@@ -275,7 +275,7 @@
                 }
 
                 // 指令加载后，根据元素的宽高，调整tip的定位
-                if (!isbox) {
+                /* if (!isbox) {
                     // angular.element(document).ready(function() { // 如元素在弹出层中可能会导致document ready无效
                     setTimeout(function () {
                         // 不延迟执行，在弹出层中拿不到iElm[0]的尺寸
@@ -283,7 +283,7 @@
                         tip.parent().css('width', iElm[0].offsetWidth + 'px')
                     }, 500);
                     // })
-                }
+                } */
             }
 
             // 特殊类型的触发类型和错误渲染不同
