@@ -5,10 +5,6 @@ a easy angular form vaild plugin.
 
 
 <br>
-## Github
-https://github.com/Moerj/ngVerify
-
-<br>
 ## DEMO
 http://moerj.com/Github/ngVerify/
 
