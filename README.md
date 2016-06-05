@@ -23,6 +23,7 @@ var app = angular.module('APP',['ngVerify']);
 ```
   
   
+  
 ## How to use
 1. 标记一个表单范围 <a href="#step1">verify-scope</a>
 2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
