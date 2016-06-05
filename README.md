@@ -41,9 +41,9 @@ var app = angular.module('APP',['ngVerify']);
 
 ### tipStyle (defualt: 1)
 设置整个表单的错误消息样式
-0. 禁用tip提示
-1. 气泡浮动提示，在元素右上角浮出
-2. 气泡固定高度，紧接着元素另起一行
+- 0 禁用tip提示
+- 1 气泡浮动提示，在元素右上角浮出
+- 2 气泡固定高度，紧接着元素另起一行
 
 ```html
 <form verify-scope="tipStyle: 2" >...</form>
