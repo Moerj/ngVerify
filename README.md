@@ -1,14 +1,14 @@
-# ngVerify v1.2.1
+# ngVerify v1.2.2
 
 a easy angular form vaild plugin.
 简洁高效的__angular表单验证插件__
 
 
-<br>
+  
 ## DEMO
 http://moerj.com/Github/ngVerify/
 
-<br>
+  
 ## Getting Started
 在使用前，你需要引入angular
 
@@ -21,14 +21,13 @@ require('ngVerify');
 var app = angular.module('APP',['ngVerify']);
 
 ```
-
+  
+  
 ## How to use
 1. 标记一个表单范围 <a href="#step1">verify-scope</a>
 2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
 3. 绑定提交按钮 <a href="#step3">control</a>
-
-
-<br>
+  
 
 <h2 id="step1">verify-scope</h2>
 入口指令，规定组件所控制的表单范围
@@ -41,6 +40,7 @@ var app = angular.module('APP',['ngVerify']);
 
 ### tipStyle (defualt: 1)
 设置整个表单的错误消息样式
+0. 禁用tip提示
 1. 气泡浮动提示，在元素右上角浮出
 2. 气泡固定高度，紧接着元素另起一行
 
@@ -48,13 +48,7 @@ var app = angular.module('APP',['ngVerify']);
 <form verify-scope="tipStyle: 2" >...</form>
 ```
 
-### notip (defualt: false)
-true时关闭tip提示
-```html
-<form verify-scope="notip: true" >...</form>
-```
-
-<br>
+  
 
 <h2 id="step2">ng-verify</h2>
 元素指令，定义验证规则
@@ -137,10 +131,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 
 ### tipStyle (defualt: form verify-scope)
 同上，设置单个元素提示样式
-
-### notip (defualt: form verify-scope)
-同上，设置单个元素是否显示tip
-
+  
 
 ## API
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入

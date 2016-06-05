@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.1
+ * ngVerify v1.2.2
  *
  * @license: MIT
  * Designed and built by Moer
@@ -71,8 +71,6 @@
                     elems: [], //需验证的表单元素
 
                     subBtn: [], //提交表单的按钮
-
-                    notip: formatOpt($attrs.verifyScope, $element).notip,
 
                     tipStyle: formatOpt($attrs.verifyScope, $element).tipStyle,
 
@@ -183,8 +181,7 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1, //checkbox默认最少勾选数
-            notip: $scope.ngVerify.notip ? $scope.ngVerify.notip : false, //禁用tip
-            tipStyle: $scope.ngVerify.tipStyle ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 1 右上浮动  2 左下占位
+            tipStyle: $scope.ngVerify.tipStyle!=undefined ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
         }
 
         // 传入错误参数警告并做容错处理
@@ -394,7 +391,7 @@
     */
     function tipMsg(iElm, isShow) {
         var OPTS = iElm.ngVerify.OPTS;
-        if (OPTS.notip) { //传入了不提示tip的参数
+        if (OPTS.tipStyle==0) { //传入了不提示tip的参数
             return;
         }
         var errtip = iElm.ngVerify.errtip;
