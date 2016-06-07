@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.2
+ * ngVerify v1.2.3
  *
  * @license: MIT
  * Designed and built by Moer
@@ -444,10 +444,18 @@
             return true;
         }
 
-        var val = iElm.val(); //元素的值
-        var pat; //正则规则
-        var OPTS = iElm.ngVerify.OPTS;
         var iAttrs = iElm.ngVerify.iAttrs;
+        var OPTS = iElm.ngVerify.OPTS;
+        var pat; //正则规则
+        var val; //进行验证的值
+        var valModel = iElm.ngVerify.scope[iAttrs.ngModel];//由ngModel产生的数据
+
+        // 如果元素有ng-modle 则优先验证，否则验证原生value
+        if (iAttrs.ngModel) {
+            val = valModel ? String(valModel) : undefined
+        }else{
+            val = iElm.val();
+        }
 
         // 非表单元素验证
         if (val == undefined) {
