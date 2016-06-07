@@ -448,10 +448,10 @@
         var OPTS = iElm.ngVerify.OPTS;
         var pat; //正则规则
         var val; //进行验证的值
-        var valModel = iElm.ngVerify.scope[iAttrs.ngModel];//由ngModel产生的数据
 
         // 如果元素有ng-modle 则优先验证，否则验证原生value
         if (iAttrs.ngModel) {
+            var valModel = iElm.ngVerify.scope[iAttrs.ngModel];//由ngModel产生的数据
             val = valModel ? String(valModel) : undefined
         }else{
             val = iElm.val();
