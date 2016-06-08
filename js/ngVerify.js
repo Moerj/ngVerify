@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.4
+ * ngVerify v1.2.5
  *
  * @license: MIT
  * Designed and built by Moer
@@ -12,47 +12,40 @@
 
     var m = angular.module('ngVerify', []);
 
-    m.provider('ngVerify', function() {
-        this.$get = function() {
-            var publicMethods = {
-                /** 全局暴露的公共方法
-                 * @param  String   formName: name
-                 * @return Boolean
-                 */
-                scope: function(formName) {
-                    var forms = document.getElementsByName(formName);
-                    var obj; //获取一个对象，它是form上的scope作用域
+    m.service('ngVerify', function() {
+        return {
+            scope: function(formName) {
+                var forms = document.getElementsByName(formName);
+                var obj; //获取一个对象，它是form上的scope作用域
 
-                    for (var i = 0; i < forms.length; i++) {
-                        if (forms[i]._verifyScope) {
-                            obj = forms[i]._verifyScope;
-                            break;
-                        }
+                for (var i = 0; i < forms.length; i++) {
+                    if (forms[i]._verifyScope) {
+                        obj = forms[i]._verifyScope;
+                        break;
                     }
-                    return obj;
-                },
-                // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
-                check: function(formName, draw) {
-                    var forms = document.getElementsByName(formName);
-                    var obj; //绑定在nodelist上的方法，即 @function checkAll()
-
-                    for (var i = 0; i < forms.length; i++) {
-                        if (forms[i]._verifyScope) {
-                            var els = publicMethods.scope(forms[i].name).ngVerify.elems
-                            obj = checkAll(els);
-                            if (draw) {
-                                var errEls = obj.errEls;
-                                for (var n = 0; n < errEls.length; n++) {
-                                    makeError(errEls[n], true);
-                                }
+                }
+                return obj;
+            },
+            // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
+            check: function(formName, draw) {
+                var forms = document.getElementsByName(formName);
+                var obj; //绑定在nodelist上的方法，即 @function checkAll()
+                for (var i = 0; i < forms.length; i++) {
+                    if (forms[i]._verifyScope) {
+                        var scope = this.scope(forms[i].name);
+                        var els = scope.ngVerify.elems;
+                        scope.$apply();// 强制刷新ngModel变化时，视图上的变化，确保checkAll和makeError执行正确
+                        obj = checkAll(els);
+                        if (draw) {
+                            var errEls = obj.errEls;
+                            for (var n = 0; n < errEls.length; n++) {
+                                makeError(errEls[n], true);
                             }
                         }
                     }
-                    return obj;
                 }
+                return obj
             }
-
-            return publicMethods;
         }
     });
 
@@ -101,7 +94,6 @@
             require: "?^verifyScope",
             scope: true,
             link: function(scope, iElm, iAttrs, pCtrl) {
-
                 var pScope; //父指令的$scope
 
                 // 获取传入的配置参数
@@ -328,13 +320,13 @@
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
-                if (newValue || oldValue) {
+                if (newValue!=null || oldValue!=null) {
                     // 将ngModel的值写入到modelValue, 供验证使用
-                    if (newValue) {
+                    if (newValue!=null) {
                         // 把watch的obj对象转为用户输入类型
-                        iElm[0].modelValue = iAttrs.type=='number' ? Number(newValue) : String(newValue);
+                        iElm.ngVerify.modelValue = iAttrs.type=='number' ? Number(newValue) : String(newValue);
                     }else{
-                        iElm[0].modelValue = ''
+                        iElm.ngVerify.modelValue = null;
                     }
 
                     // 这里有个未知问题：
@@ -348,7 +340,6 @@
                     }
                     // 其他元素的监听，触发change事件
                     else {
-                        // iElm.attr('value',newValue)
                         iElm.triggerHandler('change')
                     }
                 }
@@ -457,21 +448,6 @@
         var pat; //正则规则
         var val; //进行验证的值
 
-        // 优先验证原生value, 如没有, 再验证ng-modle的watch数据
-        val = iElm.val() ? iElm.val() : iElm[0].modelValue;
-
-
-        // 非表单元素验证
-        if (val == undefined) {
-            // 非表单元素
-            val = iElm.text();
-            // console.warn('非表单元素绑定了验证:');
-            // console.log(iElm);
-        }
-
-        // 除去多余空格
-        val = val.trim();
-
         // checkbox复选框、radio单选
         if (iAttrs.type == 'checkbox' || iAttrs.type == 'radio') {
             var elName = iElm.attr('name');
@@ -499,6 +475,22 @@
                 return true;
             }
         }
+
+        // 获取需要验证的值
+        if (iElm[0].value !== undefined) {
+            // 有value的表单元素
+            val = iElm.val()!=null ? iElm.val() : iElm.ngVerify.modelValue;
+        }else{
+            // 非表单元素，比如div
+            val = iElm.text()!=null ? iElm.text() : iElm.ngVerify.modelValue;
+        }
+
+        if (val == null) {
+            val=''
+        }
+
+        // 除去多余空格
+        val = val.trim();
 
         // 非空验证
         if (OPTS.required && val == '') {

@@ -33,7 +33,6 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
       {name:'yellow'}
     ];
 
-
 })
 
 
