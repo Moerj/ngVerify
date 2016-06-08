@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.3
+ * ngVerify v1.2.4
  *
  * @license: MIT
  * Designed and built by Moer
@@ -329,6 +329,14 @@
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
                 if (newValue || oldValue) {
+                    // 将ngModel的值写入到modelValue, 供验证使用
+                    if (newValue) {
+                        // 把watch的obj对象转为用户输入类型
+                        iElm[0].modelValue = iAttrs.type=='number' ? Number(newValue) : String(newValue);
+                    }else{
+                        iElm[0].modelValue = ''
+                    }
+
                     // 这里有个未知问题：
                     // select元素在手动操作后，ngModel的监听会从代码触发移交给手动触发
                     if (iElm[0].localName == 'select') {
@@ -449,13 +457,9 @@
         var pat; //正则规则
         var val; //进行验证的值
 
-        // 如果元素有ng-modle 则优先验证，否则验证原生value
-        if (iAttrs.ngModel) {
-            var valModel = iElm.ngVerify.scope[iAttrs.ngModel];//由ngModel产生的数据
-            val = valModel ? String(valModel) : undefined
-        }else{
-            val = iElm.val();
-        }
+        // 优先验证原生value, 如没有, 再验证ng-modle的watch数据
+        val = iElm.val() ? iElm.val() : iElm[0].modelValue;
+
 
         // 非表单元素验证
         if (val == undefined) {

@@ -7,6 +7,7 @@
 	<meta name="description" content="angular表单验证,angular form vaild">
 	<meta name="author" content="Moer,199525807@qq.com">
 	<meta name="robots" content="index,follow">
+	<link rel="shortcut icon" type="image/ico" href="/favicon.ico" >
 
 	<link rel="stylesheet" href="lib/bootstarp.min.css">
 	<link rel="stylesheet" href="lib/angular-datepicker.css">
@@ -16,7 +17,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.2.3</p>
+	<p class="Version">ver: 1.2.4</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -26,7 +27,7 @@
 		<form id="testform" name="loginForm" verify-scope>
 			<div class="form-group">
 				<label>Time picker </label>
-				<input ng-verify class="form-control" date-time ng-model="date"
+				<input ng-verify class="form-control" date-time ng-model="date.mon"
 					min-date="minDate" view="date" min-view="hours" placeholder="click here input">
 			</div>
 			<div class="form-group">
@@ -42,7 +43,7 @@
 			<div class="form-group">
 		    	<label>Number </label>
 				<!-- 默认支持的type类型 -->
-			    <input ng-verify="required:false" type="number" class="form-control" placeholder="input number">
+			    <input ng-verify type="number" class="form-control" placeholder="input number">
 			</div>
 			<div class="form-group">
 			    <label>pattern </label>
