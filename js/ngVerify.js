@@ -150,7 +150,7 @@
         try {
             return eval("(" + str + ")");
         } catch (e) {
-            console.error('ngVerify opts has error:');
+            console.error("ngVerify options has error:");
             console.error(iElm);
         }
     }
