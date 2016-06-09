@@ -223,15 +223,12 @@
 
             // 创建tip容器
             var errtip = '<div class="verifyTips"><p class="tipStyle-' + OPTS.tipStyle + '"><span class="tipMsg"></span><i></i></p></div>';
-            var tipHeight;
             var container = iElm.parent(); //tip容器判断放在什么位置
             if (isbox && container[0].localName == 'label') { //select radio
                 container = container.parent();
                 container.append(errtip);
-                tipHeight = container[0].offsetHeight * -1;
             } else {
                 iElm.after(errtip);
-                tipHeight = iElm[0].offsetHeight * -1;
             }
 
             // find('#id')
@@ -249,30 +246,12 @@
 
             }
 
-
-            if (OPTS.tipStyle==1) {
-                // 根据元素的高度，调整tip的定位高度
-                var tip = iElm.ngVerify.errtip.tip;
-                tip.css('top', tipHeight + 'px');
-
-                // textarea改变大小时，从新定位tip
-                if (iElm[0].localName == 'textarea') {
-                    iElm.on('click', function() {
-                        tip.css('top', iElm[0].offsetHeight * -1 + 'px');
-                        return false;
-                    })
-                }
-
-                // 指令加载后，根据元素的宽高，调整tip的定位
-                /* if (!isbox) {
-                    // angular.element(document).ready(function() { // 如元素在弹出层中可能会导致document ready无效
-                    setTimeout(function () {
-                        // 不延迟执行，在弹出层中拿不到iElm[0]的尺寸
-                        tip.css('top', iElm[0].offsetHeight * -1 + 'px');
-                        tip.parent().css('width', iElm[0].offsetWidth + 'px')
-                    }, 500);
-                    // })
-                } */
+            // textarea改变大小时，从新定位tip
+            if (iElm[0].localName == 'textarea' && OPTS.tipStyle==1) {
+                iElm.on('click', function() {
+                    iElm.ngVerify.errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
+                    return false;
+                })
             }
 
             // 特殊类型的触发类型和错误渲染不同
@@ -397,6 +376,11 @@
         var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
         errtip.message.text(message);
         errtip.tip.toggleClass('showTip-' + OPTS.tipStyle, isShow);
+
+        // 重置tip的高度
+        if (OPTS.tipStyle==1) {
+            errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
+        }
     }
 
     /** 标记未通过验证的元素

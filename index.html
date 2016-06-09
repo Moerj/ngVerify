@@ -46,11 +46,6 @@
 			    <input ng-verify type="number" class="form-control" placeholder="input number">
 			</div>
 			<div class="form-group">
-			    <label>pattern </label>
-				<!-- 自定义正则,并自定义错误消息 -->
-			    <input ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="这里只能输入中文">
-			</div>
-			<div class="form-group">
 			    <label>select </label>
 			    <select ng-verify class="form-control" ng-model="myColor" ng-options="color.name for color in colors">
 			    	<option value=""> choose color </option>
@@ -85,6 +80,11 @@
 				<label class="radio-inline">
 					<input type="radio" name="radio" ng-verify> Me
 				</label>
+			</div>
+			<div class="form-group">
+			    <label>pattern </label>
+				<!-- 自定义正则,并自定义错误消息 -->
+			    <textarea ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="这里只能输入中文"></textarea>
 			</div>
 
 			<!-- 表单范围内的提交按钮, 当type="submit"时，可以不写control:'loginForm' -->
