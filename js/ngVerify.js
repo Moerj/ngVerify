@@ -453,7 +453,7 @@
         // select元素验证
         if (iElm[0].localName == 'select') {
             if (iElm[0].selectedIndex === OPTS.option) {
-                OPTS.message = '必须选择一项'
+                OPTS.message = '请选择'
                 return false;
             } else {
                 return true;
@@ -507,18 +507,23 @@
             switch (iAttrs.type) {
                 case 'number':
                     pat = /\d/;
+                    pat.name = '数字';
                     break;
                 case 'email':
                     pat = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+                    pat.name = '邮箱';
                     break;
                 case 'phone':
                     pat = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+                    pat.name = '手机号';
                     break;
                 case 'url':
                     pat = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+                    pat.name = '链接';
                     break;
                 case 'char':
                     pat = /^[A-Za-z_]+$/; // 字母+下划线
+                    pat.name = '字符';
                     break;
             }
         }
@@ -527,7 +532,7 @@
         if (pat) {
             // 验证正则
             if (val.match(pat) == null) {
-                OPTS.message = '输入类型错误';
+                OPTS.message = pat.name + '格式错误';
                 return false;
             } else {
                 return true;
