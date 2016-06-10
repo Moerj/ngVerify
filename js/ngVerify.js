@@ -105,7 +105,7 @@
                 } else { //提交按钮在作用域外（父指令外面）
 
                     if (!OPTS.control) {
-                        console.log('ngVerify按钮需指向关联的form.name');
+                        console.error('ngVerify按钮需指向关联的form.name');
                         console.error(iElm);
                         return;
                     }
