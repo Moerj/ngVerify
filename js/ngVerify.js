@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.5
+ * ngVerify v1.2.6
  *
  * @license: MIT
  * Designed and built by Moer
@@ -73,7 +73,6 @@
                         var re = checkAll(els);
                         for (var i = 0; i < re.errEls.length; i++) {
                             makeError(re.errEls[i], true)
-                                // tipMsg(re.errEls[i], true) //提示错误信息
                         }
                     }
                 }
@@ -105,7 +104,7 @@
                 } else { //提交按钮在作用域外（父指令外面）
 
                     if (!OPTS.control) {
-                        console.error('ngVerify按钮需指向关联的form.name');
+                        console.error('ngVerify need control option to form.name:');
                         console.error(iElm);
                         return;
                     }
@@ -114,7 +113,7 @@
                     pScope = ngVerify.scope(OPTS.control)
 
                     if (pScope == undefined) {
-                        console.error('ngVerify按钮找不到关联的表单');
+                        console.error('ngVerify button cant be find parent form:');
                         console.error(iElm);
                         return;
                     }
@@ -173,12 +172,12 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1, //checkbox默认最少勾选数
-            tipStyle: $scope.ngVerify.tipStyle!=undefined ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
+            tipStyle: $scope.ngVerify.tipStyle>=0 ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
         }
 
         // 传入错误参数警告并做容错处理
         if (iAttrs.type == 'radio' && OPTS.least) {
-            console.warn('least不是radio元素的有效参数!');
+            console.warn("least is not radio's effective parameter:");
             console.warn(iElm);
             OPTS.least = DEFAULT.least;
         }
