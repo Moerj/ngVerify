@@ -21,53 +21,6 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
     ];
 
 
-    $scope.test1 = function () {
-        $scope.myColor = $scope.colors[1]
-    }
-    $scope.test2 = function () {
-        $scope.myColor = null
-    }
-
-    // 测试日历
-    $scope.datebtn1 = function () {
-        $scope.date = {
-            mon:'1987-08-31'
-        }
-        ngVerify.check('loginForm',function (errEls) {
-
-            console.log(errEls.length);
-        },true);
-    }
-    $scope.datebtn2 = function () {
-        $scope.date = {
-            mon: null
-        }
-        ngVerify.check('loginForm',function (errEls) {
-
-            console.log(errEls.length);
-        },true);
-    }
-
-    /* $timeout(function () {
-        $scope.date = {
-            mon:'1987-08-31'
-        }
-        // $scope.$apply()
-        ngVerify.check('loginForm',function (errEls) {
-
-            console.log(errEls.length);
-        },true);
-    },500)
-    $timeout(function () {
-        $scope.date = {
-            mon: null
-        }
-        // $scope.$apply()
-        ngVerify.check('loginForm',function (errEls) {
-
-            console.log(errEls.length);
-        },true);
-    },1000) */
 
 })
 
