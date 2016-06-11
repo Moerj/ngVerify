@@ -143,12 +143,27 @@ app.controller('yourCtrl',function(ngVerify){
 })
 ```
 
-### ngVerify.check()
-检测一个verify表单是否验证通过，返回Boolean和errorArry(未校验通过的元素组)
-```javascript
-ngVerify.check('formName') //返回结果
+### ngVerify.check('formName', call_back, draw)
+检测一个verify表单是否验证通过  
+当没有callback时，draw可以作为第二个参数
 
-ngVerify.check('formName',true) //返回结果，并标记出未验证通过元素
+    'formName'    String      指定检测form的name值  必须
+    call_back     Function    检测完成后的回调
+    draw          Boolean     是否标记出未验证通过的元素
+    
+```javascript
+//返回所有未验证通过的表单元素
+ngVerify.check('formName',function (errEls) {
+    console.log(errEls);
+});
+
+//标记出未验证通过元素
+ngVerify.check('formName',true);
+
+//返回所有未验证通过的表单元素，并标记
+ngVerify.check('formName',function (errEls) {
+    console.log(errEls);
+},true);
 ```
 
 ### ngVerify.scope()

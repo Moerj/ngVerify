@@ -27,24 +27,34 @@
                 return obj;
             },
             // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
-            check: function(formName, draw) {
+            check: function(formName, call_back, draw) {
                 var forms = document.getElementsByName(formName);
-                var obj; //绑定在nodelist上的方法，即 @function checkAll()
-                for (var i = 0; i < forms.length; i++) {
-                    if (forms[i]._verifyScope) {
-                        var scope = this.scope(forms[i].name);
-                        var els = scope.ngVerify.elems;
-                        scope.$apply();// 强制刷新ngModel变化时，视图上的变化，确保checkAll和makeError执行正确
-                        obj = checkAll(els);
-                        if (draw) {
-                            var errEls = obj.errEls;
-                            for (var n = 0; n < errEls.length; n++) {
-                                makeError(errEls[n], true);
+                var checkAllData; //绑定在nodelist上的方法，即 @function checkAll()
+                var self = this;
+
+                // 延时执行是为了确保: checkAll() 在 $watch ngModel 之后执行
+                setTimeout(function () {
+                    for (var i = 0; i < forms.length; i++) {
+                        if (forms[i]._verifyScope) {
+                            var scope = self.scope(forms[i].name);
+                            var els = scope.ngVerify.elems;
+                            checkAllData = checkAll(els);
+
+                            // 没有callback时，draw可作为第2参数
+                            if (draw===true || call_back===true) {
+                                var errEls = checkAllData.errEls;
+                                for (var n = 0; n < errEls.length; n++) {
+                                    makeError(errEls[n], true);
+                                }
                             }
                         }
                     }
-                }
-                return obj
+                    // check的结果以call_back形式返回
+                    if (typeof call_back=='function') {
+                        call_back(checkAllData.errEls);
+                    }
+                })
+
             }
         }
     });
@@ -91,7 +101,7 @@
     m.directive('ngVerify',['ngVerify', function(ngVerify) {
         return {
             require: "?^verifyScope",
-            scope: true,
+            scope: false,
             link: function(scope, iElm, iAttrs, pCtrl) {
                 var pScope; //父指令的$scope
 
@@ -308,7 +318,6 @@
                     }
 
                     // 这里有个未知问题：
-                    // select元素在手动操作后，ngModel的监听会从代码触发移交给手动触发
                     if (iElm[0].localName == 'select') {
                         if (newValue) {
                             iElm.triggerHandler('keyup')
@@ -318,7 +327,11 @@
                     }
                     // 其他元素的监听，触发change事件
                     else {
-                        iElm.triggerHandler('change')
+                        if (newValue) {
+                            iElm.triggerHandler('change')
+                        }else{
+                            iElm.triggerHandler('blur')
+                        }
                     }
                 }
             });
@@ -458,6 +471,7 @@
                 return true;
             }
         }
+
 
         // 获取需要验证的值
         if (iElm[0].value !== undefined) {

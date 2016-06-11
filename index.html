@@ -23,12 +23,14 @@
 	</div>
 
 	<div class="container" ng-controller="testCtrl">
-		<!-- 表单验证 -->
-		<form id="testform" name="loginForm" verify-scope>
+		<!-- verify-scope 设置表单验证范围 -->
+		<form name="loginForm" verify-scope>
 			<div class="form-group">
 				<label>Time picker </label>
 				<input ng-verify class="form-control" date-time ng-model="date.mon" id="date"
 					min-date="minDate" view="date" min-view="hours" placeholder="click here input">
+				<button ng-click="datebtn1()">date test</button>
+				<button ng-click="datebtn2()">date test</button>
 			</div>
 			<div class="form-group">
 			    <label>Email address </label>
@@ -50,6 +52,8 @@
 			    <select ng-verify class="form-control" ng-model="myColor" ng-options="color.name for color in colors">
 			    	<option value=""> choose color </option>
 			    </select>
+				<button ng-click="test1()">测试</button>
+				<button ng-click="test2()">测试</button>
 			</div>
 			<div class="form-group">
 				<label >checkbox</label>
@@ -68,9 +72,7 @@
 			</div>
 			<div class="form-group">
 				<label >radio</label>
-				<!-- radio多选，请确保所有radio被一个div包起 -->
-				<!-- 如果要用label修饰radio请统一所有都用 -->
-				<!-- 确保每组radio的name属性相同，ng-verify指令只需要在任意一个radio上 -->
+				具体
 				<label class="radio-inline">
 					<input type="radio" name="radio" > Batman
 				</label>
