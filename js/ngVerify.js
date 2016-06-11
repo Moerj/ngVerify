@@ -41,7 +41,7 @@
                             checkAllData = checkAll(els);
 
                             // 没有callback时，draw可作为第2参数
-                            if (draw===true || call_back===true) {
+                            if (draw===undefined || draw===true || call_back===undefined) {
                                 var errEls = checkAllData.errEls;
                                 for (var n = 0; n < errEls.length; n++) {
                                     makeError(errEls[n], true);
