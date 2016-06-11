@@ -327,11 +327,7 @@
                     }
                     // 其他元素的监听，触发change事件
                     else {
-                        if (newValue) {
-                            iElm.triggerHandler('change')
-                        }else{
-                            iElm.triggerHandler('blur')
-                        }
+                        iElm.triggerHandler('change')
                     }
                 }
             });
