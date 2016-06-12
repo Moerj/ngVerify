@@ -73,7 +73,17 @@
                     })
                 }
 
+                if (el==null) {
+                    return console.error('param:\''+ some +'\' cant find dom element');
+                }
+
                 el._verifySetError = errmsg;
+
+                // 触发元素标记
+                el.focus()
+                setTimeout(function () {
+                    el.blur()
+                })
             }
         }
     });
@@ -336,7 +346,6 @@
                         iElm.ngVerify.modelValue = null;
                     }
 
-                    // 这里有个未知问题：
                     if (iElm[0].localName == 'select') {
                         if (newValue) {
                             iElm.triggerHandler('keyup')
