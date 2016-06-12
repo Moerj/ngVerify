@@ -472,9 +472,8 @@
 
         // checkbox复选框、radio单选
         if (iAttrs.type == 'checkbox' || iAttrs.type == 'radio') {
-            var elName = iElm.attr('name');
             // 拿到同name的checkbox,这里没有做其他元素同name判断，待优化
-            var els = document.getElementsByName(elName);
+            var els = document.getElementsByName(iElm.attr('name'));
             var checked = 0;
             for (var i = 0; i < els.length; i++) {
                 if (els[i].checked) {
