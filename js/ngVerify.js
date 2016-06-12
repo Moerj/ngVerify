@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.6
+ * ngVerify v1.2.7
  *
  * @license: MIT
  * Designed and built by Moer
@@ -54,7 +54,26 @@
                         call_back(checkAllData.errEls);
                     }
                 })
+            },
+            setError: function (some, errmsg) {
+                var el;
 
+                if (typeof some == 'object') {//已经是dom
+                    el = some;
+                }else{//id方式获取
+                    el = document.getElementById(some);
+                }
+
+                if(el==null) {//name方式获取
+                    angular.forEach(document.getElementsByName(some),function (dom) {
+                        if (angular.element(dom).attr('ng-verify')!==undefined) {
+                            el = dom;
+                            return false;
+                        }
+                    })
+                }
+
+                el._verifySetError = errmsg;
             }
         }
     });
@@ -382,6 +401,12 @@
         }
         var errtip = iElm.ngVerify.errtip;
         var message = OPTS.errmsg ? OPTS.errmsg : OPTS.message;
+
+        // 强制被标记错误
+        if (iElm[0]._verifySetError) {
+            message = iElm[0]._verifySetError;
+        }
+
         errtip.message.text(message);
         errtip.tip.toggleClass('showTip-' + OPTS.tipStyle, isShow);
 
@@ -433,6 +458,11 @@
         //隐藏元素直接校验通过
         if (iElm[0].style.display == 'none') {
             return true;
+        }
+
+        // 强制被标记错误
+        if (iElm[0]._verifySetError) {
+            return false;
         }
 
         var iAttrs = iElm.ngVerify.iAttrs;

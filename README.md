@@ -1,4 +1,4 @@
-# ngVerify v1.2.6
+# ngVerify v1.2.7
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__
@@ -163,6 +163,15 @@ ngVerify.check('formName');
 ngVerify.check('formName',function (errEls) {
     console.log(errEls);
 },false);
+```
+
+### ngVerify.setError('id or name', errmsg)
+将一个表单元素强制标记为未验证通过
+- 参数1 需要标记的元素id或者name
+- 参数2 tip提示错误时显示的消息，其优先级高于其他错误消息
+```javascript
+ngVerify.setError('date','这里有错') //标记错误
+ngVerify.setError('date') //取消标记错误
 ```
 
 ### ngVerify.scope()
