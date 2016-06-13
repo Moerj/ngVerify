@@ -169,6 +169,7 @@ ngVerify.check('formName',function (errEls) {
 将一个表单元素强制标记为未验证通过
 - 参数1 需要标记的元素id或者name
 - 参数2 tip提示错误时显示的消息，其优先级高于其他错误消息
+
 ```javascript
 ngVerify.setError('id or name','这里有错') //标记错误
 ngVerify.setError('id or name') //取消标记错误
