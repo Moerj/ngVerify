@@ -30,6 +30,7 @@ var app = angular.module('APP',['ngVerify']);
 3. 绑定提交按钮 <a href="#step3">control</a>
   
 
+<br>
 <h2 id="step1">verify-scope</h2>
 入口指令，规定组件所控制的表单范围
 
