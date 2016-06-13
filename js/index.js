@@ -1,7 +1,7 @@
 (function(){
 
 // 使用ngVerify前，先依赖注入
-var m = angular.module('APP',['ngVerify','datePicker']);
+var m = angular.module('APP',['ngVerify','datePicker','ui.select']);
 
 // 测试用控制器,调用公共方法的地方注入ngVerify
 m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
@@ -21,6 +21,14 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
       {name:'yellow'}
     ];
 
+    // ui-select
+    $scope.itemArray = [
+        {id: 1, name: 'first'},
+        {id: 2, name: 'second'},
+        {id: 3, name: 'third'},
+        {id: 4, name: 'fourth'},
+        {id: 5, name: 'fifth'},
+    ];
 
 
 })

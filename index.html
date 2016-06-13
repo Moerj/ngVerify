@@ -11,20 +11,21 @@
 
 	<link rel="stylesheet" href="lib/bootstarp.min.css">
 	<link rel="stylesheet" href="lib/angular-datepicker.css">
+	<link rel="stylesheet" href="lib/select.css">
 
 	<link rel="stylesheet" href="css/ngVerify.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.2.7</p>
+	<p class="Version">ver: 1.2.8</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
 
 	<div class="container" ng-controller="testCtrl">
 		<!-- verify-scope 设置表单验证范围 -->
-		<form name="loginForm" verify-scope>
+		<form name="loginForm" verify-scope id="form">
 			<div class="form-group">
 				<label>Time picker </label>
 				<input ng-verify class="form-control" date-time ng-model="date.mon"
@@ -83,6 +84,18 @@
 				<!-- 自定义正则,并自定义错误消息 -->
 			    <textarea ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="需要输入中文"></textarea>
 			</div>
+			<div class="form-group">
+				<label>Third party plugins </label>
+				<!-- ui-select组件 -->
+				<ui-select multiple ng-model="selected.value" ng-verify id='th'>
+					<ui-select-match>
+						<span ng-bind="$item.name"></span>
+					</ui-select-match>
+					<ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
+						<span ng-bind="item.name"></span>
+					</ui-select-choices>
+				</ui-select>
+			</div>
 
 			<!-- 表单范围内的提交按钮, 当type="submit"时，可以不写control:'loginForm' -->
 			<a class="btn btn-block btn-primary" type="submit" ng-verify >Submit</a>
@@ -99,6 +112,7 @@
 
 <script src="lib/angular-v1.5.5.js"></script>
 <script src="lib/angular-datepicker.js"></script>
+<script src="lib/select.js"></script>
 
 <script src="js/ngVerify.js"></script>
 <script src="js/index.js"></script>

@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.7
+ * ngVerify v1.2.8
  *
  * @license: MIT
  * Designed and built by Moer
@@ -238,7 +238,7 @@
             // iElm 是提交按钮
             $scope.ngVerify.subBtn.push(iElm);
 
-            angular.element(document).ready(function() {
+            setTimeout(function () {
                 // 1. 按钮的禁用初始化需在其他表单元素初始化之后
                 // 2. 按钮默认是禁用的，只有表单验证通过才会启用
                 // 3. 加载页面先验证一次所有表单是否已经符合验证，然后决定是否禁用按钮
@@ -257,7 +257,6 @@
 
         } else { // iElm 是需验证的表单元素
             var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio')
-            var vaildEvent = '';
 
             // 创建tip容器
             var errtip = '<div class="verifyTips"><p class="tipStyle-' + OPTS.tipStyle + '"><span class="tipMsg"></span><i></i></p></div>';
@@ -293,18 +292,18 @@
             }
 
             // 特殊类型的触发类型和错误渲染不同
-            if (isbox) {
-                vaildEvent = 'change';
+            /* if (isbox) {
+                changeEvent = 'change';
             } else {
-                vaildEvent = 'change keyup';
+                changeEvent = 'change keyup';
                 // 'input propertychange' //input值改变事件
-            }
+            } */
 
             // 将元素绑定到scope数组上
             $scope.ngVerify.elems.push(iElm);
 
             // 绑定元素验证事件
-            bindVaild(iElm, vaildEvent);
+            bindVaild(iElm);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
             if (isbox) {
@@ -315,8 +314,8 @@
                             .on('blur', function() {
                                 iElm.triggerHandler('blur')
                             })
-                            .on(vaildEvent, function() {
-                                iElm.triggerHandler(vaildEvent)
+                            .on('change', function() {
+                                iElm.triggerHandler('change')
                             })
                     }
                 }
@@ -328,9 +327,8 @@
     /** 绑定触发验证的事件
         @param
         iElm            obj    dom元素对象
-        vaildEvent   String    通过验证的事件
     */
-    function bindVaild(iElm, vaildEvent) {
+    function bindVaild(iElm) {
         var $scope = iElm.ngVerify.$scope;
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
@@ -353,6 +351,10 @@
                             iElm.triggerHandler('blur')
                         }
                     }
+                    // 非表单元素
+                    else if (iElm[0].value === undefined) {
+                        iElm.triggerHandler('click')
+                    }
                     // 其他元素的监听，触发change事件
                     else {
                         iElm.triggerHandler('change')
@@ -370,7 +372,32 @@
             })
         }
 
-        iElm.on('blur', function() {
+
+        var blurEvent="",changeEvent="";
+        if (iElm[0].value === undefined) {
+            blurEvent = 'blur';
+            changeEvent = 'click keyup';
+
+            // 默认非表单元素是不能触发焦点事件的，这里需要它增加一个属性tabindex
+            iElm.attr('tabindex',0);
+
+            // 操作元素后保证它聚焦，这样可以防止一些第三方组件不聚焦的问题
+            iElm.on(changeEvent,function () {
+                setTimeout(function () {
+                    iElm[0].focus();
+                })
+            })
+
+        }else if(iAttrs.type=='radio' || iAttrs.type=='checkbox'){
+            blurEvent = 'blur';
+            changeEvent = 'change'
+
+        }else{
+            blurEvent = 'blur';
+            changeEvent = 'change keyup'
+        }
+
+        iElm.on(blurEvent, function() {
                 if (!ISVALID(iElm)) { //验证不通过
 
                     tipMsg(iElm, false); // 提示信息
@@ -380,7 +407,7 @@
                     DisableButtons($scope.ngVerify.subBtn, true) // 禁用掉控制按钮
                 }
             })
-            .on(vaildEvent, function() {
+            .on(changeEvent, function() {
                 if (ISVALID(iElm)) { //验证通过
 
                     tipMsg(iElm, false);
@@ -506,14 +533,18 @@
             }
         }
 
-
         // 获取需要验证的值
         if (iElm[0].value !== undefined) {
             // 有value的表单元素
             val = iElm.val()!=null ? iElm.val() : iElm.ngVerify.modelValue;
+
+        }else if(iAttrs.ngModel){
+            // 可能是非表单元素的ngModel
+            val = iElm.ngVerify.modelValue
+
         }else{
             // 非表单元素，比如div
-            val = iElm.text()!=null ? iElm.text() : iElm.ngVerify.modelValue;
+            val = iElm.text()
         }
 
         if (val == null) {
