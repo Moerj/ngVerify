@@ -23,7 +23,7 @@ var app = angular.module('APP',['ngVerify']);
 ```
   
   
-  
+<br>
 ## How to use
 1. 标记一个表单范围 <a href="#step1">verify-scope</a>
 2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
@@ -50,7 +50,7 @@ var app = angular.module('APP',['ngVerify']);
 ```
 
   
-
+<br>
 <h2 id="step2">ng-verify</h2>
 元素指令，定义验证规则
 
@@ -133,9 +133,9 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ### tipStyle (defualt: form verify-scope)
 同上，设置单个元素提示样式
   
+
   
-  
-  
+<br>
 ## API
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
 ```javascript
@@ -182,7 +182,8 @@ ngVerify.setError('id or name') //取消标记错误
 ```javascript
 ngVerify.scope('formName')
 ```
-
+  
+  
 ## type
 设置表单元素type类型，目前支持的type类型：
 
@@ -194,7 +195,8 @@ ngVerify.scope('formName')
 - checkbox
 - select
 - char (字母加下划线)
-
+   
+   
 ## tips
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
 - checkbox、radio组绑定验证最好绑在最后一个
@@ -202,7 +204,8 @@ ngVerify.scope('formName')
 - 表单范围内的按钮，只要type="submit"则不需要设置control参数
 - 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
 - 不支持form嵌套
-
+   
+   
 ## Support
 - IE 9+
 - angular 1.x
