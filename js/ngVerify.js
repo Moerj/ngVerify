@@ -173,6 +173,20 @@
         }
     }])
 
+    /** 检测是否为空对象
+     * @param   obj
+     * @return  Boolean
+     */
+    function isEmptyObject(obj) {
+        if (typeof obj !== 'object') {
+            return false
+        }
+        var key;
+        for (key in obj)
+            return false;
+        return true
+    }
+
     /** 格式化配置参数
      * @param
         str     String    格式化前的配置参数
@@ -337,7 +351,7 @@
             scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
                 if (newValue!=null || oldValue!=null) {
                     // 将ngModel的值写入到modelValue, 供验证使用
-                    if (newValue!=null) {
+                    if (newValue!=null && !isEmptyObject(newValue) ) {
                         // 把watch的obj对象转为用户输入类型
                         iElm.ngVerify.modelValue = iAttrs.type=='number' ? Number(newValue) : String(newValue);
                     }else{
