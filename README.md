@@ -133,7 +133,9 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ### tipStyle (defualt: form verify-scope)
 同上，设置单个元素提示样式
   
-
+  
+  
+  
 ## API
 依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
 ```javascript
