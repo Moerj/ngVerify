@@ -4,11 +4,11 @@ a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__
 
 
-  
+<br>
 ## DEMO
 http://moerj.com/Github/ngVerify/
 
-  
+<br>
 ## Getting Started
 在使用前，你需要引入angular
 
@@ -183,7 +183,7 @@ ngVerify.setError('id or name') //取消标记错误
 ngVerify.scope('formName')
 ```
   
-  
+<br>
 ## type
 设置表单元素type类型，目前支持的type类型：
 
@@ -196,7 +196,7 @@ ngVerify.scope('formName')
 - select
 - char (字母加下划线)
    
-   
+<br>
 ## tips
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
 - checkbox、radio组绑定验证最好绑在最后一个
@@ -205,7 +205,7 @@ ngVerify.scope('formName')
 - 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
 - 不支持form嵌套
    
-   
+<br>
 ## Support
 - IE 9+
 - angular 1.x
