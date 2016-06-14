@@ -45,6 +45,7 @@
 		    	<label>Number </label>
 				<!-- 默认支持的type类型 -->
 			    <input ng-verify type="number" class="form-control" placeholder="input number">
+			    <!-- <input ng-verify="pattern:/^[0-9]*$/" type="text" class="form-control" placeholder="input number"> -->
 			</div>
 			<div class="form-group">
 			    <label>select </label>
@@ -82,12 +83,12 @@
 			<div class="form-group">
 			    <label>pattern </label>
 				<!-- 自定义正则,并自定义错误消息 -->
-			    <textarea ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="需要输入中文"></textarea>
+			    <textarea ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="输入中文（非必填）"></textarea>
 			</div>
 			<div class="form-group">
 				<label>Third party plugins </label>
 				<!-- ui-select组件 -->
-				<ui-select multiple ng-model="selected.value" ng-verify id='th'>
+				<ui-select multiple ng-model="selected.value" ng-verify>
 					<ui-select-match>
 						<span ng-bind="$item.name"></span>
 					</ui-select-match>

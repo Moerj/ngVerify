@@ -594,6 +594,7 @@
         // 正则获取
         if (OPTS.pattern) {
             pat = OPTS.pattern; //如果传入了正则，直接使用；
+            pat.name = '';
         } else {
             // 没有传入正则，按类型计算正则
             switch (iAttrs.type) {
