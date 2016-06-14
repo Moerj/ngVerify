@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.8
+ * ngVerify v1.2.9
  *
  * @license: MIT
  * Designed and built by Moer
@@ -93,8 +93,8 @@
         return {
             scope: {},
             controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
-                this.getscope = function() {　　　　　　　　　　
-                    return $scope;　　　　　　　　
+                this.getscope = function() {
+                    return $scope;
                 };
 
                 // 在作用域上绑定需要的数据
@@ -599,7 +599,7 @@
             // 没有传入正则，按类型计算正则
             switch (iAttrs.type) {
                 case 'number':
-                    pat = /\d/;
+                    pat = /^[0-9]*$/; //纯数字
                     pat.name = '数字';
                     break;
                 case 'email':
