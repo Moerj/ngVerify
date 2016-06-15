@@ -269,33 +269,40 @@
                 })
             })
 
-        } else { // iElm 是需验证的表单元素
-            var isbox = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio')
+        } else { 
+            // iElm 是需验证的表单元素
+            $scope.ngVerify.elems.push(iElm);
+
+            var checkboxOrRadio = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio');
 
             // 创建tip容器
-            var errtip = '<div class="verifyTips"><p class="tipStyle-' + OPTS.tipStyle + '"><span class="tipMsg"></span><i></i></p></div>';
-            var container = iElm.parent(); //tip容器判断放在什么位置
-            if (isbox && container[0].localName == 'label') { //select radio
+            var errtip = angular.element(
+                '<div class="verifyTips">' +
+                    '<p class="tipStyle-' + OPTS.tipStyle + '">' +
+                        '<span class="tipMsg"></span>' +
+                        '<i></i>' +
+                    '</p>' +
+                '</div>'
+            );
+
+            // 将tip元素绑定在iElm
+            iElm.ngVerify.errtip = {
+
+                tip: errtip.find('p'),
+
+                message: errtip.find('span')
+
+            }
+
+            // tip容器判断放在什么位置
+            var container = iElm.parent();
+            if (checkboxOrRadio && container[0].localName == 'label') {
                 container = container.parent();
                 container.append(errtip);
             } else {
                 iElm.after(errtip);
             }
 
-            // find('#id')
-            // angular.element(document.querySelector('#id'))
-
-            // find('.classname'), assumes you already have the starting elem to search from
-            // angular.element(elem.querySelector('.classname'))
-
-            // 将tip元素绑定在iElm
-            iElm.ngVerify.errtip = {
-
-                tip: angular.element(container[0].querySelector('.verifyTips > p')),
-
-                message: angular.element(container[0].querySelector('.verifyTips .tipMsg'))
-
-            }
 
             // textarea改变大小时，从新定位tip
             if (iElm[0].localName == 'textarea' && OPTS.tipStyle==1) {
@@ -305,14 +312,11 @@
                 })
             }
 
-            // 将元素绑定到scope数组上
-            $scope.ngVerify.elems.push(iElm);
-
             // 绑定元素验证事件
             bindVaild(iElm);
 
             // checkbox和radio的关联元素，借助有verify指令的主元素来触发验证
-            if (isbox) {
+            if (checkboxOrRadio) {
                 var iElms = document.getElementsByName(iAttrs.name);
                 for (var i = 0; i < iElms.length; i++) {
                     if (iElms[i] != iElm[0]) {
