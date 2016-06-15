@@ -305,14 +305,6 @@
                 })
             }
 
-            // 特殊类型的触发类型和错误渲染不同
-            /* if (isbox) {
-                changeEvent = 'change';
-            } else {
-                changeEvent = 'change keyup';
-                // 'input propertychange' //input值改变事件
-            } */
-
             // 将元素绑定到scope数组上
             $scope.ngVerify.elems.push(iElm);
 
