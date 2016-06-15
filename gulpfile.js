@@ -11,14 +11,14 @@ gulp.task('sass', function() {
         // .pipe(plumber({
         //     errorHandler: notify.onError('Error: <%= error.message %>')
         // }))
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'],
-			cascade: true, //是否美化属性值 默认：true 像这样：
+            cascade: true, //是否美化属性值 默认：true 像这样：
             //-webkit-transform: rotate(45deg);
             //        transform: rotate(45deg);
             remove:true //是否去掉不必要的前缀 默认：true
         }))
-        .pipe(sass().on('error', sass.logError))
         // .pipe(rename({
         //     suffix: '.min' //将处理后的文件加上.min后缀,代表该文件是压缩的
         // }))
