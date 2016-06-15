@@ -1,4 +1,4 @@
-# ngVerify v1.2.9
+# ngVerify v1.3.0
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__
@@ -196,6 +196,8 @@ ngVerify.scope('formName')
 - checkbox
 - select
 - char (字母加下划线)
+- date (yyyy-mm-dd 或 yyyy/mm/dd)
+- dates (yyyy-mm-dd 或 yyyy/mm/dd, 禁用HTML5日期组件控制)
    
 <br>
 ## tips

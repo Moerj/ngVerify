@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.2.9
+ * ngVerify v1.3.0
  *
  * @license: MIT
  * Designed and built by Moer
@@ -617,6 +617,10 @@
                 case 'char':
                     pat = /^[A-Za-z_]+$/; // 字母+下划线
                     pat.name = '字符';
+                    break;
+                case 'dates' || 'date':
+                    pat = /^(\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})$/; //日期 yyyy-mm-dd 或 yyyy/mm/dd
+                    pat.name = '日期';
                     break;
             }
         }
