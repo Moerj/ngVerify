@@ -196,8 +196,7 @@ ngVerify.scope('formName')
 - checkbox
 - select
 - char (字母加下划线)
-- date (yyyy-mm-dd 或 yyyy/mm/dd)
-- dates (yyyy-mm-dd 或 yyyy/mm/dd, 禁用HTML5日期组件控制)
+- date/dates (yyyy-mm-dd || yyyy/mm/dd)
    
 <br>
 ## tips
