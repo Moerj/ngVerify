@@ -1,4 +1,4 @@
-# ngVerify v1.3.0
+# ngVerify v1.3.1
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__
@@ -138,7 +138,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
   
 <br>
 ## API
-依赖注入，在v0.1.6版本以后，公共方法需要依赖注入
+依赖注入
 ```javascript
 //依赖注入ngVerify后，可以调用一些公共方法
 app.controller('yourCtrl',function(ngVerify){

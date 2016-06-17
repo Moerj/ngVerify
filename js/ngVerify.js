@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.0
+ * ngVerify v1.3.1
  *
  * @license: MIT
  * Designed and built by Moer
@@ -137,11 +137,15 @@
                 // 获取传入的配置参数
                 var OPTS = formatOpt(iAttrs.ngVerify, iElm);
 
+
+                // 在作用于内
                 if (pCtrl != undefined) {
                     pScope = pCtrl.getscope();
 
-                } else { //提交按钮在作用域外（父指令外面）
+                }
 
+                //在作用域外（按钮）
+                else {
                     if (!OPTS.control) {
                         console.error('ngVerify need control option to form.name:');
                         console.error(iElm);
@@ -157,6 +161,7 @@
                         return;
                     }
                 }
+
 
                 // 元素绑定相关参数
                 iElm.ngVerify = {
@@ -269,7 +274,7 @@
                 })
             })
 
-        } else { 
+        } else {
             // iElm 是需验证的表单元素
             $scope.ngVerify.elems.push(iElm);
 
@@ -342,6 +347,36 @@
         var $scope = iElm.ngVerify.$scope;
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
+        var blurEvent="",changeEvent=""; //会触发该元素校验视图改变的事件
+
+        function blurTrigger() {
+            if (!ISVALID(iElm)) { //验证不通过
+
+                tipMsg(iElm, false); // 提示信息
+
+                makeError(iElm, true); // 将元素标红
+
+                DisableButtons($scope.ngVerify.subBtn, true) // 禁用掉控制按钮
+            }
+        }
+
+        function changeTrigger() {
+            if (ISVALID(iElm)) { //验证通过
+
+                tipMsg(iElm, false);
+
+                makeError(iElm, false);
+
+                // 检测所有
+                var re = checkAll($scope.ngVerify.elems);
+                if (!re.hasError) {
+                    DisableButtons($scope.ngVerify.subBtn, false)
+                }
+            } else if (iElm.ngVerify.invalid) {
+                tipMsg(iElm, true);
+            }
+        }
+
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
@@ -356,18 +391,18 @@
 
                     if (iElm[0].localName == 'select') {
                         if (newValue) {
-                            iElm.triggerHandler('keyup')
+                            changeTrigger()
                         } else {
-                            iElm.triggerHandler('blur')
+                            blurTrigger()
                         }
                     }
                     // 非表单元素
                     else if (iElm[0].value === undefined) {
-                        iElm.triggerHandler('click')
+                        iElm[0].focus()
                     }
                     // 其他元素的监听，触发change事件
                     else {
-                        iElm.triggerHandler('change')
+                        changeTrigger()
                     }
                 }
             });
@@ -383,7 +418,7 @@
         }
 
 
-        var blurEvent="",changeEvent="";
+        // 非表单元素
         if (iElm[0].value === undefined) {
             blurEvent = 'blur';
             changeEvent = 'click keyup';
@@ -391,47 +426,39 @@
             // 默认非表单元素是不能触发焦点事件的，这里需要它增加一个属性tabindex
             iElm.attr('tabindex',0);
 
-            // 操作元素后保证它聚焦，这样可以防止一些第三方组件不聚焦的问题
-            iElm.on(changeEvent,function () {
-                setTimeout(function () {
-                    iElm[0].focus();
-                })
-            })
 
-        }else if(iAttrs.type=='radio' || iAttrs.type=='checkbox'){
+            // 处理该类型下，所有可能的辅助input类元素。一些第三方组件可能会在DIV内用input模拟用户输入
+            iElm.ngVerify.triggerInput = angular.element(iElm[0].querySelector('input'));
+            iElm.ngVerify.triggerInput.on(blurEvent, function() {
+                    blurTrigger()
+                })
+                .on(changeEvent, function() {
+                    changeTrigger()
+                })
+
+
+        }
+
+        // 单选、多选
+        else if(iAttrs.type=='radio' || iAttrs.type=='checkbox'){
             blurEvent = 'blur';
             changeEvent = 'change'
 
-        }else{
+        }
+
+        // 常规表单元素
+        else{
             blurEvent = 'blur';
             changeEvent = 'change keyup'
         }
 
+
+        // 绑定触发验证的事件
         iElm.on(blurEvent, function() {
-                if (!ISVALID(iElm)) { //验证不通过
-
-                    tipMsg(iElm, false); // 提示信息
-
-                    makeError(iElm, true); // 将元素标红
-
-                    DisableButtons($scope.ngVerify.subBtn, true) // 禁用掉控制按钮
-                }
+                blurTrigger()
             })
             .on(changeEvent, function() {
-                if (ISVALID(iElm)) { //验证通过
-
-                    tipMsg(iElm, false);
-
-                    makeError(iElm, false);
-
-                    // 检测所有
-                    var re = checkAll($scope.ngVerify.elems);
-                    if (!re.hasError) {
-                        DisableButtons($scope.ngVerify.subBtn, false)
-                    }
-                } else if (iElm.ngVerify.invalid) {
-                    tipMsg(iElm, true);
-                }
+                changeTrigger()
             })
     }
 
