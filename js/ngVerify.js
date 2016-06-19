@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.1
+ * ngVerify v1.3.2
  *
  * @license: MIT
  * Designed and built by Moer
@@ -26,7 +26,12 @@
                 }
                 return obj;
             },
-            // 检测一个form表单校验是否通过，draw=true时将错误的标记出来
+            /** 检测一个表单校验是否通过
+             * @param
+             * formName     String      目标表单的name
+             * call_back    Function    检测完成后的回调，可接受参数errEls，所有未验证通过的元素
+             * darw         blooean     默认为true，是否标红未验证通过的元素
+             */
             check: function(formName, call_back, draw) {
                 var forms = document.getElementsByName(formName);
                 var checkAllData; //绑定在nodelist上的方法，即 @function checkAll()
@@ -55,32 +60,46 @@
                     }
                 })
             },
+            /** 强制将带有ng-verify的元素标记为未验证通过
+             * @param
+             * some     String/DomObj    DomObj/id/name
+             * errmsg   String           错误消息
+             */
             setError: function (some, errmsg) {
                 var el;
 
-                if (typeof some == 'object') {//已经是dom
+                if (typeof some === 'object') {//已经是dom
                     el = some;
-                }else{//id方式获取
-                    el = document.getElementById(some);
                 }
 
-                if(el==null) {//name方式获取
-                    angular.forEach(document.getElementsByName(some),function (dom) {
-                        if (angular.element(dom).attr('ng-verify')!==undefined) {
-                            el = dom;
-                            return false;
-                        }
-                    })
+                if (typeof some === 'string') {
+
+                    if (some.indexOf('#')===0) {
+                        //id方式获取
+                        some = some.slice(1,some.length);
+                        el = document.getElementById(some);
+
+                    }else{
+                        //name方式获取
+                        angular.forEach(document.getElementsByName(some),function (dom) {
+                            if (angular.element(dom).attr('ng-verify')!==undefined) {
+                                el = dom;
+                                return false;
+                            }
+                        })
+                    }
+
                 }
 
                 if (el==null) {
                     return console.error('param:\''+ some +'\' cant find dom element');
                 }
 
+                // 强制错误消息绑定在原生dom对象上
                 el._verifySetError = errmsg;
 
                 // 触发元素标记
-                el.focus()
+                el.focus();
                 setTimeout(function () {
                     el.blur()
                 })

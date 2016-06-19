@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.1.9 last updated
+ * ngVerify v1.3.2 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -69,6 +69,10 @@ $errorColor: #d9534f;
                 position: absolute;
             }
         }
+    }
+
+    .tipStyle-0{
+        display: none !important;
     }
 
     //右上角浮动

@@ -18,14 +18,14 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.3.1</p>
+	<p class="Version">ver: 1.3.2</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
 
 	<div class="container" ng-controller="testCtrl">
 		<!-- verify-scope 设置表单验证范围 -->
-		<form name="loginForm" verify-scope id="form">
+		<form name="loginForm" verify-scope >
 			<div class="form-group">
 				<label>Time picker </label>
 				<input ng-verify type="dates" class="form-control" date-time ng-model="date.mon"
@@ -34,7 +34,7 @@
 			<div class="form-group">
 			    <label>Email address </label>
 				<!-- 只需要写上 ng-verify -->
-			    <input ng-verify type="email" class="form-control" placeholder="input your email" >
+			    <input ng-verify type="email" class="form-control" placeholder="input your email" id="email" >
 			</div>
 			<div class="form-group">
 			    <label>Password </label>

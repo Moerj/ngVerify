@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify v1.1.9 last updated
+ * ngVerify v1.3.2 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -60,15 +60,17 @@
         width: 0;
         height: 0;
         position: absolute; }
+  .verifyTips .tipStyle-0 {
+    display: none !important; }
   .verifyTips .tipStyle-1 {
     right: 0;
     margin-top: -8px;
     -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
-    transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
+            transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-1 i {
       border-color: #d9534f transparent transparent transparent;
       -webkit-transform: translate3d(0, 14px, 0);
-      transform: translate3d(0, 14px, 0);
+              transform: translate3d(0, 14px, 0);
       bottom: 0;
       right: 10px; }
       .verifyTips .tipStyle-1 i::after {
@@ -79,7 +81,7 @@
     left: 0;
     margin-top: 9px;
     -webkit-transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
-    transform: translate3d(0, -20px, 0) scale3d(0, 0, 1); }
+            transform: translate3d(0, -20px, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-2 i {
       top: -14px;
       left: 10px; }
@@ -90,10 +92,10 @@
     visibility: visible;
     opacity: .8;
     -webkit-transform: translate3d(0, -33px, 0) scale3d(1, 1, 1);
-    transform: translate3d(0, -33px, 0) scale3d(1, 1, 1); }
+            transform: translate3d(0, -33px, 0) scale3d(1, 1, 1); }
   .verifyTips .showTip-2 {
     visibility: visible;
     opacity: .8;
     -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+            transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
     position: static; }
