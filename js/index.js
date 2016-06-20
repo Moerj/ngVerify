@@ -30,10 +30,6 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
         {id: 5, name: 'fifth'},
     ];
 
-    setTimeout(function () {
-        ngVerify.setError('#email','setError')
-    },500)
-
 
 })
 

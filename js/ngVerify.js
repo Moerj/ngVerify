@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.2
+ * ngVerify v1.3.3
  *
  * @license: MIT
  * Designed and built by Moer
@@ -661,7 +661,13 @@
                     pat.name = '字符';
                     break;
                 case 'dates' || 'date':
-                    pat = /^(\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})$/; //日期 yyyy-mm-dd 或 yyyy/mm/dd
+                    //日期 YYYY-MM-DD || YYYY/MM/DD
+                    //时间 hh:mm || hh:mm:ss   时间非必须
+                    if (val.length > 10) {
+                        pat = /^((\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})) (\d{2}):(\d{2})(:(\d{2}))?$/;
+                    }else {
+                        pat = /^(\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})$/;
+                    }
                     pat.name = '日期';
                     break;
             }
