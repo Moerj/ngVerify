@@ -1,4 +1,4 @@
-# ngVerify v1.3.3
+# ngVerify v1.3.4
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__
@@ -109,6 +109,15 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 	<input type="checkbox" name="checkbox" > Iron Man
 	<input type="checkbox" name="checkbox"  ng-verify="least:2"> Hulk
 </div>
+```
+
+### recheck
+指定一个元素进行2次校验，接收参数为 #id 或 name
+```html
+<input type="password" name="password-1" ng-verify>
+
+<!-- 检测第二次输入的密码是否一致 -->
+<input type="password" ng-verify="{recheck:'password-1'}">
 ```
 
 <h3 id="step3">control</h3>

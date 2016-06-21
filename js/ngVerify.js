@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.3
+ * ngVerify v1.3.4
  *
  * @license: MIT
  * Designed and built by Moer
@@ -66,34 +66,7 @@
              * errmsg   String           错误消息
              */
             setError: function (some, errmsg) {
-                var el;
-
-                if (typeof some === 'object') {//已经是dom
-                    el = some;
-                }
-
-                if (typeof some === 'string') {
-
-                    if (some.indexOf('#')===0) {
-                        //id方式获取
-                        some = some.slice(1,some.length);
-                        el = document.getElementById(some);
-
-                    }else{
-                        //name方式获取
-                        angular.forEach(document.getElementsByName(some),function (dom) {
-                            if (angular.element(dom).attr('ng-verify')!==undefined) {
-                                el = dom;
-                                return false;
-                            }
-                        })
-                    }
-
-                }
-
-                if (el==null) {
-                    return console.error('param:\''+ some +'\' cant find dom element');
-                }
+                var el = getDom(some);
 
                 // 强制错误消息绑定在原生dom对象上
                 el._verifySetError = errmsg;
@@ -196,6 +169,44 @@
             }
         }
     }])
+
+    /** 获取原生 dom 元素
+     * 根据 id 或 name 获取 一个已注册指令的原生dom
+     * @param   some    String    id || name
+     * @return  DomObj
+     */
+    var getDom = function (some) {
+        var el;
+
+        if (typeof some === 'object') {//已经是dom
+            el = some;
+        }
+
+        if (typeof some === 'string') {
+
+            if (some.indexOf('#')===0) {
+                //id方式获取
+                some = some.slice(1,some.length);
+                el = document.getElementById(some);
+
+            }else{
+                //name方式获取
+                angular.forEach(document.getElementsByName(some),function (dom) {
+                    if (angular.element(dom).attr('ng-verify')!==undefined) {
+                        el = dom;
+                        return false;
+                    }
+                })
+            }
+
+        }
+
+        if (el==null) {
+            return console.error('param:\''+ some +'\' cant find dom element');
+        }
+
+        return el;
+    }
 
     /** 检测是否为空对象
      * @param   obj
@@ -334,6 +345,11 @@
                     iElm.ngVerify.errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
                     return false;
                 })
+            }
+
+            // 绑定需要2次比对的输入验证，只对元素 input 输入生效
+            iElm.ngVerify.recheck = function () {
+                return getDom(OPTS.recheck).value;
             }
 
             // 绑定元素验证事件
@@ -681,6 +697,14 @@
                 return false;
             } else {
                 return true;
+            }
+        }
+
+        // recheck验证
+        if (OPTS.recheck) {
+            if (val !== iElm.ngVerify.recheck()) {
+                OPTS.message = '两次输入不一致'
+                return false;
             }
         }
 

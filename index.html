@@ -18,7 +18,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.3.3</p>
+	<p class="Version">ver: 1.3.4</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -39,7 +39,12 @@
 			<div class="form-group">
 			    <label>Password </label>
 				<!-- 自定义字符长度 -->
-			    <input ng-verify="min:3, max:10" type="password" class="form-control" placeholder="3 to 10 chars">
+			    <input ng-verify="min:3, max:10" name="password" type="password" class="form-control" placeholder="3 to 10 chars">
+			</div>
+			<div class="form-group">
+			    <label>Password reCheck </label>
+				<!-- 自定义字符长度 -->
+			    <input ng-verify="{recheck:'password'}" type="password" class="form-control" placeholder="3 to 10 chars">
 			</div>
 			<div class="form-group">
 		    	<label>Number </label>
