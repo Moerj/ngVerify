@@ -1,7 +1,19 @@
 # ngVerify v1.3.5
 
 a easy Angular Form Validation plugin.
-简洁高效的__angular表单验证插件__
+简洁高效的__angular表单验证插件__  
+  
+See how powerful it.
+看看它有多强大
+
+- 动态校验
+- 自动关联提交按钮
+- 多种 tip 校验消息提示
+- 不只校验 dom 元素值，还可以校验 ngModel 数据模型
+- 支持任意类型表单元素，甚至可以校验非表单元素
+- 提供 type 类型校验模板，你几乎不需要定校验规则
+- 提供自定义规则
+- 支持第三方组件校验
 
 
 <br>
@@ -213,7 +225,7 @@ ngVerify.scope('formName')
 - checkbox、radio组绑定验证最好绑在最后一个
 - errmsg参数通常不需要你设置
 - 表单范围内的按钮，只要type="submit"则不需要设置control参数
-- 本组件可以检测非表单元素，但是检测的是其文本值而且非value值
+- 带有 ngModel 的元素，其数据模型具有较高的校验优先级
 - 不支持form嵌套
    
 <br>
