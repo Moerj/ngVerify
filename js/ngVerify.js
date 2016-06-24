@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.4
+ * ngVerify v1.3.5
  *
  * @license: MIT
  * Designed and built by Moer
@@ -287,21 +287,12 @@
             // iElm 是提交按钮
             $scope.ngVerify.subBtn.push(iElm);
 
-            setTimeout(function () {
-                // 1. 按钮的禁用初始化需在其他表单元素初始化之后
-                // 2. 按钮默认是禁用的，只有表单验证通过才会启用
-                // 3. 加载页面先验证一次所有表单是否已经符合验证，然后决定是否禁用按钮
-                if (OPTS.disabled && checkAll($scope.ngVerify.elems).hasError) {
-                    iElm.attr('disabled', true)
+            //提交时检测所有表单
+            iElm.on('click', function(e) {
+                e.stopPropagation();
+                if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
+                    $scope.ngVerify.submit();
                 }
-
-                //提交时检测所有表单
-                iElm.on('click', function(e) {
-                    e.stopPropagation();
-                    if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
-                        $scope.ngVerify.submit();
-                    }
-                })
             })
 
         } else {
@@ -372,6 +363,12 @@
             }
 
         }
+
+        // 每个元素初始化完，重置一次表单按钮的禁用状态
+        if (checkAll($scope.ngVerify.elems).hasError) {
+            DisableButtons($scope.ngVerify.subBtn,true)
+        }
+
     }
 
     /** 绑定触发验证的事件
