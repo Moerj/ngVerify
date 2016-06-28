@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.5
+ * ngVerify v1.3.6
  *
  * @license: MIT
  * Designed and built by Moer
@@ -352,9 +352,9 @@
                 for (var i = 0; i < iElms.length; i++) {
                     if (iElms[i] != iElm[0]) {
                         angular.element(iElms[i])
-                            .on('blur', function() {
+                            /* .on('blur', function() {
                                 iElm.triggerHandler('blur')
-                            })
+                            }) */
                             .on('change', function() {
                                 iElm.triggerHandler('change')
                             })
@@ -380,33 +380,40 @@
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
         var blurEvent="",changeEvent=""; //会触发该元素校验视图改变的事件
+        var checkboxOrRadio = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio');
 
         function blurTrigger() {
-            if (!ISVALID(iElm)) { //验证不通过
+            // 失去焦点，校验一次，当前元素不通过
+            if (!ISVALID(iElm)) {
 
-                tipMsg(iElm, false); // 提示信息
+                tipMsg(iElm, false);
 
-                makeError(iElm, true); // 将元素标红
+                makeError(iElm, true);
 
-                DisableButtons($scope.ngVerify.subBtn, true) // 禁用掉控制按钮
+                // 当前元素验证不通过，禁用表单提交按钮
+                DisableButtons($scope.ngVerify.subBtn, true)
             }
         }
 
         function changeTrigger() {
-            if (ISVALID(iElm)) { //验证通过
+            // 数据改变，校验一次，如果当前元素通过
+            var isValid = ISVALID(iElm)
 
-                tipMsg(iElm, false);
-
-                makeError(iElm, false);
-
-                // 检测所有
+            if (isValid) {
+                // 检测所有一次，设置表单提交按钮的禁用状态
                 var re = checkAll($scope.ngVerify.elems);
-                if (!re.hasError) {
-                    DisableButtons($scope.ngVerify.subBtn, false)
-                }
-            } else if (iElm.ngVerify.invalid) {
-                tipMsg(iElm, true);
+                DisableButtons($scope.ngVerify.subBtn, re.hasError)
+
             }
+
+            // 在已标红时，重新设置 tip/标红
+            // 单选和复选在 chang 时直接提醒错误
+            // 在未标记错误时忽略，而由 blurTrigger 事件负责
+            if (iElm.ngVerify.invalid || checkboxOrRadio) {
+                makeError(iElm, !isValid);
+                tipMsg(iElm, !isValid);
+            }
+
         }
 
         if (iAttrs.ngModel) {
@@ -421,39 +428,22 @@
                         iElm.ngVerify.modelValue = null;
                     }
 
-                    if (iElm[0].localName == 'select') {
-                        if (newValue) {
-                            changeTrigger()
-                        } else {
-                            blurTrigger()
-                        }
-                    }
                     // 非表单元素
-                    else if (iElm[0].value === undefined) {
+                    if (iElm[0].value === undefined) {
                         iElm[0].focus()
                     }
-                    // 其他元素的监听，触发change事件
-                    else {
-                        changeTrigger()
-                    }
+
+                    // ngModel 改变，触发一次 change
+                    changeTrigger()
                 }
             });
-        }
-
-        // 验证不通过 获取焦点时 tip提示
-        if (iAttrs.type!='radio' && iAttrs.type!='checkbox') {
-            iElm.on('focus', function() {
-                if (iElm.ngVerify.invalid) { //验证不通过
-                    tipMsg(iElm, true);
-                }
-            })
         }
 
 
         // 非表单元素
         if (iElm[0].value === undefined) {
             blurEvent = 'blur';
-            changeEvent = 'click keyup';
+            // 非表单元素不再绑定changeEvent
 
             // 默认非表单元素是不能触发焦点事件的，这里需要它增加一个属性tabindex
             iElm.attr('tabindex',0);
@@ -461,10 +451,10 @@
 
             // 处理该类型下，所有可能的辅助input类元素。一些第三方组件可能会在DIV内用input模拟用户输入
             iElm.ngVerify.triggerInput = angular.element(iElm[0].querySelector('input'));
-            iElm.ngVerify.triggerInput.on(blurEvent, function() {
+            iElm.ngVerify.triggerInput.on('blur', function() {
                     blurTrigger()
                 })
-                .on(changeEvent, function() {
+                .on('change', function() {
                     changeTrigger()
                 })
 
@@ -472,8 +462,8 @@
         }
 
         // 单选、多选
-        else if(iAttrs.type=='radio' || iAttrs.type=='checkbox'){
-            blurEvent = 'blur';
+        else if(checkboxOrRadio){
+            // blurEvent = 'blur';
             changeEvent = 'change'
 
         }
@@ -491,6 +481,12 @@
             })
             .on(changeEvent, function() {
                 changeTrigger()
+            })
+            .on('focus', function() {
+                // 已经标红时获取焦点，显示tip
+                if (iElm.ngVerify.invalid) {
+                    tipMsg(iElm, true);
+                }
             })
     }
 
