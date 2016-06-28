@@ -218,6 +218,7 @@ ngVerify.scope('formName')
 - select
 - char (字母加下划线)
 - date/dates (yyyy-mm-dd || yyyy/mm/dd) (hh:mm || hh:mm:ss) 时间部分非必须
+- file
    
 <br>
 ## tips
