@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.6
+ * ngVerify v1.3.7
  *
  * @license: MIT
  * Designed and built by Moer
@@ -339,8 +339,30 @@
             }
 
             // 绑定需要2次比对的输入验证，只对元素 input 输入生效
-            iElm.ngVerify.recheck = function () {
-                return getDom(OPTS.recheck).value;
+            if (OPTS.recheck) {
+                var orderDom = getDom(OPTS.recheck);//进行对比的参照元素，如：第一次输入的密码
+                var mainDom;
+
+                angular.forEach($scope.ngVerify.elems,function (el) {
+                    if (el[0] === orderDom) {
+                        mainDom = el;
+                        return false;
+                    }
+                })
+
+                if (!mainDom.ngVerify.recheck) {
+                    mainDom.ngVerify.recheck = {
+                        recheckDoms:[]
+                    }
+                }
+                mainDom.ngVerify.recheck.recheckDoms.push(iElm);
+
+                iElm.ngVerify.recheck = {
+                    mainDom: mainDom,
+                    getValue: function () {
+                        return mainDom[0].value
+                    }
+                };
             }
 
             // 绑定元素验证事件
@@ -393,6 +415,7 @@
                 // 当前元素验证不通过，禁用表单提交按钮
                 DisableButtons($scope.ngVerify.subBtn, true)
             }
+
         }
 
         function changeTrigger() {
@@ -403,6 +426,18 @@
                 // 检测所有一次，设置表单提交按钮的禁用状态
                 var re = checkAll($scope.ngVerify.elems);
                 DisableButtons($scope.ngVerify.subBtn, re.hasError)
+
+                // 检测二次校验的元素并处理
+                if (iElm.ngVerify.recheck) {
+                    var recheckDoms = iElm.ngVerify.recheck.recheckDoms;
+                    if (recheckDoms) {
+                        for (var i = 0; i < recheckDoms.length; i++) {
+                            if (recheckDoms[i].val()) {
+                                makeError(recheckDoms[i], !ISVALID(recheckDoms[i]));
+                            }
+                        }
+                    }
+                }
 
             }
 
@@ -695,7 +730,7 @@
 
         // recheck验证
         if (OPTS.recheck) {
-            if (val !== iElm.ngVerify.recheck()) {
+            if (val !== iElm.ngVerify.recheck.getValue()) {
                 OPTS.message = '两次输入不一致'
                 return false;
             }
