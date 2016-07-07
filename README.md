@@ -17,9 +17,10 @@ See how powerful it.
 
 
 <br>
-## DEMO
-http://moerj.com/Github/ngVerify/
-
+## Show
+[HOME - 首页](http://moerj.github.io/ngVerify/)  
+[DEMO - 示例](http://moerj.com/Github/ngVerify/)  
+  
 <br>
 ## Getting Started
 在使用前，你需要引入angular
