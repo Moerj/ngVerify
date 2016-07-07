@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>ngVerify by Moerj</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">ngVerify</h1>
+        <p class="header">Angular Form Validation plugin. 高效的表单验证</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/Moerj/ngVerify/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/Moerj/ngVerify/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/Moerj/ngVerify">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/Moerj">Moerj</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="ngverify-v137" class="anchor" href="#ngverify-v137" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify v1.3.7</h1>
+
+<p>a easy Angular Form Validation plugin.
+简洁高效的<strong>angular表单验证插件</strong>  </p>
+
+<p>See how powerful it.
+看看它有多强大</p>
+
+<ul>
+<li>动态校验</li>
+<li>自动关联提交按钮</li>
+<li>多种 tip 校验消息提示</li>
+<li>不只校验 dom 元素值，还可以校验 ngModel 数据模型</li>
+<li>支持任意类型表单元素，甚至可以校验非表单元素</li>
+<li>提供 type 类型校验模板，你几乎不需要定校验规则</li>
+<li>提供自定义规则</li>
+<li>支持第三方组件校验</li>
+</ul>
+
+<p><br></p>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DEMO</h2>
+
+<p><a href="http://moerj.com/Github/ngVerify/">http://moerj.com/Github/ngVerify/</a></p>
+
+<p><br></p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>在使用前，你需要引入angular</p>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>angular<span class="pl-pds">'</span></span>);
+
+<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>ngVerify<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> app <span class="pl-k">=</span> <span class="pl-smi">angular</span>.<span class="pl-en">module</span>(<span class="pl-s"><span class="pl-pds">'</span>APP<span class="pl-pds">'</span></span>,[<span class="pl-s"><span class="pl-pds">'</span>ngVerify<span class="pl-pds">'</span></span>]);
+</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use</h2>
+
+<ol>
+<li>标记一个表单范围 <a href="#step1">verify-scope</a>
+</li>
+<li>标记需要验证的元素 <a href="#step2">ng-verify</a>
+</li>
+<li>绑定提交按钮 <a href="#step3">control</a>
+</li>
+</ol>
+
+<p><br></p>
+
+<h2 id="step1">
+<a id="verify-scope" class="anchor" href="#verify-scope" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>verify-scope</h2>
+
+<p>入口指令，规定组件所控制的表单范围</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">form</span> <span class="pl-e">verify-scope</span>&gt;
+    ...
+&lt;/<span class="pl-ent">form</span>&gt;</pre></div>
+
+<h3>
+<a id="tipstyle-defualt-1" class="anchor" href="#tipstyle-defualt-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tipStyle (defualt: 1)</h3>
+
+<p>设置整个表单的错误消息样式</p>
+
+<ul>
+<li>0 禁用tip提示</li>
+<li>1 气泡浮动提示，在元素右上角浮出</li>
+<li>2 气泡固定高度，紧接着元素另起一行</li>
+</ul>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">form</span> <span class="pl-e">verify-scope</span>=<span class="pl-s"><span class="pl-pds">"</span>tipStyle: 2<span class="pl-pds">"</span></span> &gt;...&lt;/<span class="pl-ent">form</span>&gt;</pre></div>
+
+<p><br></p>
+
+<h2 id="step2">
+<a id="ng-verify" class="anchor" href="#ng-verify" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ng-verify</h2>
+
+<p>元素指令，定义验证规则</p>
+
+<h3>
+<a id="defualt" class="anchor" href="#defualt" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>defualt</h3>
+
+<p>只需要使用ng-verify，会根据type类型校验非空验证和类型的格式</p>
+
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!-- 校验非空验证和邮箱格式 --&gt;</span>
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>email<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span> &gt;</pre></div>
+
+<h3>
+<a id="required-defualt-true" class="anchor" href="#required-defualt-true" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>required (defualt: true)</h3>
+
+<p>false允许空值通过校验</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>number<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>required: false<span class="pl-pds">"</span></span> &gt;</pre></div>
+
+<h3>
+<a id="length-minmax" class="anchor" href="#length-minmax" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>length (min,max)</h3>
+
+<p>定制校验字符长度</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>{min:3,max:6}<span class="pl-pds">"</span></span> &gt;</pre></div>
+
+<h3>
+<a id="pattern" class="anchor" href="#pattern" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>pattern</h3>
+
+<p>自定义正则，这样会优先以你的正则进行校验</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>pattern:/a-zA-Z/<span class="pl-pds">"</span></span> &gt;</pre></div>
+
+<h3>
+<a id="errmsg" class="anchor" href="#errmsg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>errmsg</h3>
+
+<p>自定义错误消息，会覆盖掉默认的提示。</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>{errmsg:'其实这里没有错，我是在逗你玩'}<span class="pl-pds">"</span></span> &gt;</pre></div>
+
+<h3>
+<a id="option-defualt-0" class="anchor" href="#option-defualt-0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>option (defualt: 0)</h3>
+
+<p>select下拉菜单属性，指定的option表示选中会校验不通过</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">select</span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>option:0<span class="pl-pds">"</span></span> &gt;
+    &lt;<span class="pl-ent">option</span>&gt;请选择&lt;/<span class="pl-ent">option</span>&gt;
+        &lt;<span class="pl-ent">option</span>&gt;1&lt;/<span class="pl-ent">option</span>&gt;
+        &lt;<span class="pl-ent">option</span>&gt;2&lt;/<span class="pl-ent">option</span>&gt;
+        &lt;<span class="pl-ent">option</span>&gt;3&lt;/<span class="pl-ent">option</span>&gt;
+&lt;/<span class="pl-ent">select</span>&gt;</pre></div>
+
+<h3>
+<a id="least-defualt-1" class="anchor" href="#least-defualt-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>least (defualt: 1)</h3>
+
+<p>checkbox最少勾选数，指定至少勾选几项才会通过验证</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span>&gt;
+    &lt;<span class="pl-ent">label</span> &gt;checkbox&lt;/<span class="pl-ent">label</span>&gt;
+    <span class="pl-c">&lt;!-- checkbox多选，请确保所有checkbox被一个容器包起 --&gt;</span>
+    <span class="pl-c">&lt;!-- 如果要用label修饰checkbox请统一所有都用 --&gt;</span>
+    <span class="pl-c">&lt;!-- 确保每组checkbox的name属性相同，ng-verify指令只需要在任意一个checkbox上 --&gt;</span>
+    &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span> &gt; Captain America
+    &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span> &gt; Iron Man
+    &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span>  <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>least:2<span class="pl-pds">"</span></span>&gt; Hulk
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h3>
+<a id="recheck" class="anchor" href="#recheck" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>recheck</h3>
+
+<p>指定一个元素进行2次校验，接收参数为 #id 或 name</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>password-1<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>&gt;
+
+<span class="pl-c">&lt;!-- 检测第二次输入的密码是否一致 --&gt;</span>
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>{recheck:'password-1'}<span class="pl-pds">"</span></span>&gt;</pre></div>
+
+<h3 id="step3">
+<a id="control" class="anchor" href="#control" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>control</h3>
+
+<p>绑定一个表单提交按钮, control:'formName'</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">form</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>myform<span class="pl-pds">"</span></span> <span class="pl-e">verify</span>&gt;
+    ...
+
+    &lt;<span class="pl-ent">a</span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>{control:'myform'}<span class="pl-pds">"</span></span> &gt;&lt;/<span class="pl-ent">a</span>&gt; <span class="pl-c">&lt;!-- 表单内的按钮 1 --&gt;</span>
+
+    &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>submit<span class="pl-pds">"</span></span> <span class="pl-e">ng-verify</span> /&gt; <span class="pl-c">&lt;!-- 表单内的按钮 2 --&gt;</span>
+&lt;/<span class="pl-ent">form</span>&gt;
+
+&lt;<span class="pl-ent">button</span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>{control:'myform'}<span class="pl-pds">"</span></span> &gt;提交&lt;/<span class="pl-ent">button</span>&gt; <span class="pl-c">&lt;!--表单外的按钮--&gt;</span></pre></div>
+
+<h3>
+<a id="disabled-defualt-true" class="anchor" href="#disabled-defualt-true" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>disabled (defualt: true)</h3>
+
+<p>设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。</p>
+
+<div class="highlight highlight-text-html-basic"><pre>    &lt;<span class="pl-ent">button</span> <span class="pl-e">ng-verify</span>=<span class="pl-s"><span class="pl-pds">"</span>disabled:false<span class="pl-pds">"</span></span> &gt;按钮&lt;/<span class="pl-ent">button</span>&gt;</pre></div>
+
+<h3>
+<a id="tipstyle-defualt-form-verify-scope" class="anchor" href="#tipstyle-defualt-form-verify-scope" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tipStyle (defualt: form verify-scope)</h3>
+
+<p>同上，设置单个元素提示样式</p>
+
+<p><br></p>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h2>
+
+<p>依赖注入</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">//依赖注入ngVerify后，可以调用一些公共方法</span>
+<span class="pl-smi">app</span>.<span class="pl-en">controller</span>(<span class="pl-s"><span class="pl-pds">'</span>yourCtrl<span class="pl-pds">'</span></span>,<span class="pl-k">function</span>(<span class="pl-smi">ngVerify</span>){
+    <span class="pl-k">...</span>
+})</pre></div>
+
+<h3>
+<a id="ngverifycheckformname-call_back-draw" class="anchor" href="#ngverifycheckformname-call_back-draw" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify.check('formName', call_back, draw)</h3>
+
+<p>检测一个verify表单是否验证通过  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>formName<span class="pl-pds">'</span></span>             <span class="pl-c1">String</span>      <span class="pl-c">//指定检测form的name值 (必须)</span>
+call_back              <span class="pl-c1">Function</span>    <span class="pl-c">//检测完成后的回调 (可选)</span>
+<span class="pl-en">draw</span> (<span class="pl-k">default</span><span class="pl-k">:</span><span class="pl-c1">true</span>)    <span class="pl-c1">Boolean</span>     <span class="pl-c">//是否标记出未验证通过的元素 (可选)</span></pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">//返回所有未验证通过的表单元素，并标记</span>
+<span class="pl-smi">ngVerify</span>.<span class="pl-en">check</span>(<span class="pl-s"><span class="pl-pds">'</span>formName<span class="pl-pds">'</span></span>,<span class="pl-k">function</span> (<span class="pl-smi">errEls</span>) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(errEls);
+});
+
+<span class="pl-c">//标记出未验证通过元素</span>
+<span class="pl-smi">ngVerify</span>.<span class="pl-en">check</span>(<span class="pl-s"><span class="pl-pds">'</span>formName<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">//返回所有未验证通过的表单元素，不标记</span>
+<span class="pl-smi">ngVerify</span>.<span class="pl-en">check</span>(<span class="pl-s"><span class="pl-pds">'</span>formName<span class="pl-pds">'</span></span>,<span class="pl-k">function</span> (<span class="pl-smi">errEls</span>) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(errEls);
+},<span class="pl-c1">false</span>);</pre></div>
+
+<h3>
+<a id="ngverifyseterrorelement-errmsg" class="anchor" href="#ngverifyseterrorelement-errmsg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify.setError(element, errmsg)</h3>
+
+<p>将一个表单元素强制标记为未验证通过</p>
+
+<ul>
+<li>element 需要标记的元素，可传入dom、id或者name,id需要带#</li>
+<li>errmsg tip提示错误时显示的消息，其优先级高于其他错误消息</li>
+</ul>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">ngVerify</span>.<span class="pl-en">setError</span>(<span class="pl-s"><span class="pl-pds">'</span>#id<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>这里有错<span class="pl-pds">'</span></span>) <span class="pl-c">//以id标记错误</span>
+<span class="pl-smi">ngVerify</span>.<span class="pl-en">setError</span>(<span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>) <span class="pl-c">//以name取消标记错误</span></pre></div>
+
+<h3>
+<a id="ngverifyscope" class="anchor" href="#ngverifyscope" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify.scope()</h3>
+
+<p>获取一个verify表单的$scope作用域</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">ngVerify</span>.<span class="pl-c1">scope</span>(<span class="pl-s"><span class="pl-pds">'</span>formName<span class="pl-pds">'</span></span>)</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="type" class="anchor" href="#type" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>type</h2>
+
+<p>设置表单元素type类型，目前支持的type类型：</p>
+
+<ul>
+<li>email</li>
+<li>number</li>
+<li>phone</li>
+<li>url</li>
+<li>radio</li>
+<li>checkbox</li>
+<li>select</li>
+<li>char (字母加下划线)</li>
+<li>date/dates (yyyy-mm-dd || yyyy/mm/dd) (hh:mm || hh:mm:ss) 时间部分非必须</li>
+<li>file</li>
+</ul>
+
+<p><br></p>
+
+<h2>
+<a id="tips" class="anchor" href="#tips" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tips</h2>
+
+<ul>
+<li>传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }</li>
+<li>checkbox、radio组绑定验证最好绑在最后一个</li>
+<li>errmsg参数通常不需要你设置</li>
+<li>表单范围内的按钮，只要type="submit"则不需要设置control参数</li>
+<li>带有 ngModel 的元素，其数据模型具有较高的校验优先级</li>
+<li>不支持form嵌套</li>
+</ul>
+
+<p><br></p>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support</h2>
+
+<ul>
+<li>IE 9+</li>
+<li>angular 1.x</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
