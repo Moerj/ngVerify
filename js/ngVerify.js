@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.7
+ * ngVerify v1.3.8
  *
  * @license: MIT
  * Designed and built by Moer
@@ -288,11 +288,8 @@
             $scope.ngVerify.subBtn.push(iElm);
 
             //提交时检测所有表单
-            iElm.on('click', function(e) {
-                e.stopPropagation();
-                if (!iElm.attr('disabled')) { //防止按钮禁用后也会触发事件
-                    $scope.ngVerify.submit();
-                }
+            iElm.on('click', function() {
+                $scope.ngVerify.submit();
             })
 
         } else {
@@ -580,7 +577,7 @@
     function DisableButtons(btns, isDisable) {
         for (var i = 0; i < btns.length; i++) {
             if (btns[i].ngVerify.OPTS.disabled) {
-                btns[i].attr('disabled', isDisable)
+                btns[i].prop('disabled',isDisable);
             }
         }
     }

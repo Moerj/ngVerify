@@ -30,6 +30,10 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
         {id: 5, name: 'fifth'}
     ];
 
+    $scope.submit = function () {
+        console.log('form submit');
+    }
+
 
 })
 

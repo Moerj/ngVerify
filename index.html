@@ -18,7 +18,7 @@
 </head>
 <body>
 	<h1 class="PluginName">ngVerify</h2>
-	<p class="Version">ver: 1.3.7</p>
+	<p class="Version">ver: 1.3.8</p>
 	<div class="githubTag">
 		<a class="github" href="https://github.com/Moerj/ngVerify" target="_blank">STAR ON GITHUB</a>
 	</div>
@@ -103,12 +103,12 @@
 			</div>
 
 			<!-- 表单范围内的提交按钮, 当type="submit"时，可以不写control:'loginForm' -->
-			<a class="btn btn-block btn-primary" type="submit" ng-verify >Submit</a>
+			<button class="btn btn-block btn-primary" type="submit" ng-verify ng-click="submit()">Submit</button>
 
 		</form>
 
 		<!-- 绑定表单范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
-		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false">vaild form</button>
+		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false" >vaild form</button>
 
 	</div>
 
