@@ -1,4 +1,4 @@
-# ngVerify v1.3.8
+# ngVerify v1.3.9
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -148,7 +148,8 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 ```
 
 ### disabled (defualt: true)
-设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。
+设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。  
+注意：a 标签是没有 disabled 属性的，所以请使用 button 或者 input 来做按钮。
 ```html
 	<button ng-verify="disabled:false" >按钮</button>
 ```
