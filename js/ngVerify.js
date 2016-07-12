@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.3.8
+ * ngVerify v1.3.9
  *
  * @license: MIT
  * Designed and built by Moer
@@ -577,7 +577,17 @@
     function DisableButtons(btns, isDisable) {
         for (var i = 0; i < btns.length; i++) {
             if (btns[i].ngVerify.OPTS.disabled) {
-                btns[i].prop('disabled',isDisable);
+                btns[i].prop('disabled', isDisable);
+                // btns[i].attr('disabled', isDisable);
+
+                // disabled不能禁用 a 标签
+                if (btns[i][0].localName === 'a') {
+                    console.error(btns[i],'<a> tag has no \'disabled\' attrbute, please use <button> or <input>.')
+                    btns[i].css({
+                        background: '#bd3a41',
+                        color: '#fff'
+                    });
+                }
             }
         }
     }
