@@ -68,12 +68,12 @@ if (typeof angular === 'undefined') {
              * @param
              * some     string/obj    选择器字符或dom元素
              * draw     Boolean       未验证通过时是否标记
-             * 
+             *
              * @return  Boolean       是否验证通过
              */
             checkElement: function(some, draw) {
                 var el = getDom(some);
-                return el._ngVerify_checkElement(draw);
+                return el._verifyCheckElement(draw);
             },
             /** 强制将带有ng-verify的元素标记为未验证通过
              * @param
@@ -151,7 +151,7 @@ if (typeof angular === 'undefined') {
 
                     // 给当前元素的 dom 绑定方法
                     // 检测当前 dom 是否验证通过
-                    iElm[0]._ngVerify_checkElement = function(draw) {
+                    iElm[0]._verifyCheckElement = function(draw) {
                         makeError(iElm, draw);
                         return ISVALID(iElm);
                     }
