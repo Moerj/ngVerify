@@ -1,11 +1,15 @@
 /**
- * ngVerify v1.3.9
+ * ngVerify v1.4.0
  *
  * @license: MIT
  * Designed and built by Moer
  * github   https://github.com/Moerj/ngVerify
  *
  */
+
+if (typeof angular === 'undefined') {
+    throw new Error('ngVerify requires angular')
+}
 
 !(function(angular) {
 
@@ -38,7 +42,7 @@
                 var self = this;
 
                 // 延时执行是为了确保: checkAll() 在 $watch ngModel 之后执行
-                setTimeout(function () {
+                setTimeout(function() {
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
                             var scope = self.scope(forms[i].name);
@@ -46,7 +50,7 @@
                             checkAllData = checkAll(els);
 
                             // 没有callback时，draw可作为第2参数
-                            if (draw===undefined || draw===true || call_back===undefined) {
+                            if (draw === undefined || draw === true || call_back === undefined) {
                                 var errEls = checkAllData.errEls;
                                 for (var n = 0; n < errEls.length; n++) {
                                     makeError(errEls[n], true);
@@ -55,17 +59,28 @@
                         }
                     }
                     // check的结果以call_back形式返回
-                    if (typeof call_back=='function') {
+                    if (typeof call_back == 'function') {
                         call_back(checkAllData.errEls);
                     }
                 })
+            },
+            /** 检测一个元素是否验证通过
+             * @param
+             * some     string/obj    选择器字符或dom元素
+             * draw     Boolean       未验证通过时是否标记
+             * 
+             * @return  Boolean       是否验证通过
+             */
+            checkElement: function(some, draw) {
+                var el = getDom(some);
+                return el._ngVerify_checkElement(draw);
             },
             /** 强制将带有ng-verify的元素标记为未验证通过
              * @param
              * some     String/DomObj    DomObj/id/name
              * errmsg   String           错误消息
              */
-            setError: function (some, errmsg) {
+            setError: function(some, errmsg) {
                 var el = getDom(some);
 
                 // 强制错误消息绑定在原生dom对象上
@@ -73,7 +88,7 @@
 
                 // 触发元素标记
                 el.focus();
-                setTimeout(function () {
+                setTimeout(function() {
                     el.blur()
                 })
             }
@@ -119,7 +134,7 @@
     })
 
     // 子指令，写在需要校验的表单元素和表单提交按钮上
-    m.directive('ngVerify',['ngVerify', function(ngVerify) {
+    m.directive('ngVerify', ['ngVerify', function(ngVerify) {
         return {
             require: "?^verifyScope",
             scope: false,
@@ -134,6 +149,12 @@
                 if (pCtrl != undefined) {
                     pScope = pCtrl.getscope();
 
+                    // 给当前元素的 dom 绑定方法
+                    // 检测当前 dom 是否验证通过
+                    iElm[0]._ngVerify_checkElement = function(draw) {
+                        makeError(iElm, draw);
+                        return ISVALID(iElm);
+                    }
                 }
 
                 //在作用域外（按钮）
@@ -175,24 +196,24 @@
      * @param   some    String    id || name
      * @return  DomObj
      */
-    var getDom = function (some) {
+    var getDom = function(some) {
         var el;
 
-        if (typeof some === 'object') {//已经是dom
+        if (typeof some === 'object') { //已经是dom
             el = some;
         }
 
         if (typeof some === 'string') {
 
-            if (some.indexOf('#')===0) {
+            if (some.indexOf('#') === 0) {
                 //id方式获取
-                some = some.slice(1,some.length);
+                some = some.slice(1, some.length);
                 el = document.getElementById(some);
 
-            }else{
+            } else {
                 //name方式获取
-                angular.forEach(document.getElementsByName(some),function (dom) {
-                    if (angular.element(dom).attr('ng-verify')!==undefined) {
+                angular.forEach(document.getElementsByName(some), function(dom) {
+                    if (angular.element(dom).attr('ng-verify') !== undefined) {
                         el = dom;
                         return false;
                     }
@@ -201,8 +222,8 @@
 
         }
 
-        if (el==null) {
-            return console.error('param:\''+ some +'\' cant find dom element');
+        if (el == null) {
+            return console.error('param:\'' + some + '\' cant find dom element');
         }
 
         return el;
@@ -260,7 +281,7 @@
             errorClass: 'verifyError',
             disabled: true, //校验为成功时是否锁定提交按钮
             least: 1, //checkbox默认最少勾选数
-            tipStyle: $scope.ngVerify.tipStyle>=0 ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
+            tipStyle: $scope.ngVerify.tipStyle >= 0 ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
         }
 
         // 传入错误参数警告并做容错处理
@@ -301,10 +322,10 @@
             // 创建tip容器
             var errtip = angular.element(
                 '<div class="verifyTips">' +
-                    '<p class="tipStyle-' + OPTS.tipStyle + '">' +
-                        '<span class="tipMsg"></span>' +
-                        '<i></i>' +
-                    '</p>' +
+                '<p class="tipStyle-' + OPTS.tipStyle + '">' +
+                '<span class="tipMsg"></span>' +
+                '<i></i>' +
+                '</p>' +
                 '</div>'
             );
 
@@ -328,7 +349,7 @@
 
 
             // textarea改变大小时，从新定位tip
-            if (iElm[0].localName == 'textarea' && OPTS.tipStyle==1) {
+            if (iElm[0].localName == 'textarea' && OPTS.tipStyle == 1) {
                 iElm.on('click', function() {
                     iElm.ngVerify.errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
                     return false;
@@ -337,10 +358,10 @@
 
             // 绑定需要2次比对的输入验证，只对元素 input 输入生效
             if (OPTS.recheck) {
-                var orderDom = getDom(OPTS.recheck);//进行对比的参照元素，如：第一次输入的密码
+                var orderDom = getDom(OPTS.recheck); //进行对比的参照元素，如：第一次输入的密码
                 var mainDom;
 
-                angular.forEach($scope.ngVerify.elems,function (el) {
+                angular.forEach($scope.ngVerify.elems, function(el) {
                     if (el[0] === orderDom) {
                         mainDom = el;
                         return false;
@@ -349,14 +370,14 @@
 
                 if (!mainDom.ngVerify.recheck) {
                     mainDom.ngVerify.recheck = {
-                        recheckDoms:[]
+                        recheckDoms: []
                     }
                 }
                 mainDom.ngVerify.recheck.recheckDoms.push(iElm);
 
                 iElm.ngVerify.recheck = {
                     mainDom: mainDom,
-                    getValue: function () {
+                    getValue: function() {
                         return mainDom[0].value
                     }
                 };
@@ -385,7 +406,7 @@
 
         // 每个元素初始化完，重置一次表单按钮的禁用状态
         if (checkAll($scope.ngVerify.elems).hasError) {
-            DisableButtons($scope.ngVerify.subBtn,true)
+            DisableButtons($scope.ngVerify.subBtn, true)
         }
 
     }
@@ -398,7 +419,8 @@
         var $scope = iElm.ngVerify.$scope;
         var scope = iElm.ngVerify.scope;
         var iAttrs = iElm.ngVerify.iAttrs;
-        var blurEvent="",changeEvent=""; //会触发该元素校验视图改变的事件
+        var blurEvent = "",
+            changeEvent = ""; //会触发该元素校验视图改变的事件
         var checkboxOrRadio = (iAttrs.type == 'checkbox') || (iAttrs.type == 'radio');
 
         function blurTrigger() {
@@ -451,12 +473,12 @@
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
-                if (newValue!=null || oldValue!=null) {
+                if (newValue != null || oldValue != null) {
                     // 将ngModel的值写入到modelValue, 供验证使用
-                    if (newValue!=null && !isEmptyObject(newValue) ) {
+                    if (newValue != null && !isEmptyObject(newValue)) {
                         // 把watch的obj对象转为用户输入类型
-                        iElm.ngVerify.modelValue = iAttrs.type=='number' ? Number(newValue) : String(newValue);
-                    }else{
+                        iElm.ngVerify.modelValue = iAttrs.type == 'number' ? Number(newValue) : String(newValue);
+                    } else {
                         iElm.ngVerify.modelValue = null;
                     }
 
@@ -478,7 +500,7 @@
             // 非表单元素不再绑定changeEvent
 
             // 默认非表单元素是不能触发焦点事件的，这里需要它增加一个属性tabindex
-            iElm.attr('tabindex',0);
+            iElm.attr('tabindex', 0);
 
 
             // 处理该类型下，所有可能的辅助input类元素。一些第三方组件可能会在DIV内用input模拟用户输入
@@ -494,14 +516,14 @@
         }
 
         // 单选、多选
-        else if(checkboxOrRadio){
+        else if (checkboxOrRadio) {
             // blurEvent = 'blur';
             changeEvent = 'change'
 
         }
 
         // 常规表单元素
-        else{
+        else {
             blurEvent = 'blur';
             changeEvent = 'change keyup'
         }
@@ -529,7 +551,7 @@
     */
     function tipMsg(iElm, isShow) {
         var OPTS = iElm.ngVerify.OPTS;
-        if (OPTS.tipStyle==0) { //传入了不提示tip的参数
+        if (OPTS.tipStyle == 0) { //传入了不提示tip的参数
             return;
         }
         var errtip = iElm.ngVerify.errtip;
@@ -544,7 +566,7 @@
         errtip.tip.toggleClass('showTip-' + OPTS.tipStyle, isShow);
 
         // 重置tip的高度
-        if (OPTS.tipStyle==1) {
+        if (OPTS.tipStyle == 1) {
             errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
         }
     }
@@ -582,7 +604,7 @@
 
                 // disabled不能禁用 a 标签
                 if (btns[i][0].localName === 'a') {
-                    console.error(btns[i],'<a> tag has no \'disabled\' attrbute, please use <button> or <input>.')
+                    console.error(btns[i], '<a> tag has no \'disabled\' attrbute, please use <button> or <input>.')
                     btns[i].css({
                         background: '#bd3a41',
                         color: '#fff'
@@ -643,19 +665,19 @@
         // 获取需要验证的值
         if (iElm[0].value !== undefined) {
             // 有value的表单元素
-            val = iElm.val()!=null ? iElm.val() : iElm.ngVerify.modelValue;
+            val = iElm.val() != null ? iElm.val() : iElm.ngVerify.modelValue;
 
-        }else if(iAttrs.ngModel){
+        } else if (iAttrs.ngModel) {
             // 可能是非表单元素的ngModel
             val = iElm.ngVerify.modelValue
 
-        }else{
+        } else {
             // 非表单元素，比如div
             val = iElm.text()
         }
 
         if (val == null) {
-            val=''
+            val = ''
         }
 
         // 除去多余空格
@@ -716,7 +738,7 @@
                     //时间 hh:mm || hh:mm:ss   时间非必须
                     if (val.length > 10) {
                         pat = /^((\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})) (\d{2}):(\d{2})(:(\d{2}))?$/;
-                    }else {
+                    } else {
                         pat = /^(\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})$/;
                     }
                     pat.name = '日期';

@@ -11,6 +11,10 @@ m.controller('testCtrl',function ($scope, $timeout, ngVerify) {
     	ngVerify.check('loginForm',function (errEls) {
             console.info(errEls);
     	},false);
+
+        // 检测单个元素是否通过验证
+        var res = ngVerify.checkElement('#date');
+        console.log(res);
     }); */
 
     $scope.colors = [
