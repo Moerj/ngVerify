@@ -32,7 +32,7 @@
 
         <section id="main_content">
           <h1>
-<a id="ngverify-v139" class="anchor" href="#ngverify-v139" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify v1.3.9</h1>
+<a id="ngverify-v140" class="anchor" href="#ngverify-v140" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify v1.4.0</h1>
 
 <p>a easy Angular Form Validation plugin.
 简洁高效的<strong>angular表单验证插件</strong>  </p>
@@ -231,6 +231,14 @@
 <span class="pl-smi">app</span>.<span class="pl-en">controller</span>(<span class="pl-s"><span class="pl-pds">'</span>yourCtrl<span class="pl-pds">'</span></span>,<span class="pl-k">function</span>(<span class="pl-smi">ngVerify</span>){
     <span class="pl-k">...</span>
 })</pre></div>
+
+<h3>
+<a id="ngverifycheckelementelemet-draw" class="anchor" href="#ngverifycheckelementelemet-draw" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify.checkElement(elemet, draw)</h3>
+
+<p>检测一个元素是否验证通过</p>
+
+<div class="highlight highlight-source-js"><pre>element                id<span class="pl-k">/</span>name<span class="pl-k">/</span>DomObj  <span class="pl-c">//参数 id 或 name 或一个原生 dom 对象</span>
+<span class="pl-en">draw</span> (<span class="pl-k">default</span><span class="pl-k">:</span><span class="pl-c1">true</span>)    <span class="pl-c1">Boolean</span>     <span class="pl-c">//是否标记出未验证通过的元素 (可选)</span></pre></div>
 
 <h3>
 <a id="ngverifycheckformname-call_back-draw" class="anchor" href="#ngverifycheckformname-call_back-draw" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ngVerify.check('formName', call_back, draw)</h3>
