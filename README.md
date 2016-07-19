@@ -1,4 +1,4 @@
-# ngVerify v1.3.9
+# ngVerify v1.4.0
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -167,6 +167,13 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 app.controller('yourCtrl',function(ngVerify){
 	...
 })
+```
+
+### ngVerify.checkElement(elemet, draw)
+检测一个元素是否验证通过
+```javascript
+element                id/name/DomObj  //参数 id 或 name 或一个原生 dom 对象
+draw (default:true)    Boolean     //是否标记出未验证通过的元素 (可选)
 ```
 
 ### ngVerify.check('formName', call_back, draw)
