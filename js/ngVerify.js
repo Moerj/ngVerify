@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.0
+ * ngVerify v1.4.1
  *
  * @license: MIT
  * Designed and built by Moer
@@ -737,8 +737,15 @@ if (typeof angular === 'undefined') {
                     //日期 YYYY-MM-DD || YYYY/MM/DD
                     //时间 hh:mm || hh:mm:ss   时间非必须
                     if (val.length > 10) {
+                        // 带时间
                         pat = /^((\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})) (\d{2}):(\d{2})(:(\d{2}))?$/;
-                    } else {
+                    }
+                    else if(val.length === 7){
+                        // 年月
+                        pat = /^(\d{4})-(\d{2})|(\d{4})\/(\d{2})$/;
+                    }
+                    else {
+                        // 年月日
                         pat = /^(\d{4})-(\d{2})-(\d{2})|(\d{4})\/(\d{2})\/(\d{2})$/;
                     }
                     pat.name = '日期';
