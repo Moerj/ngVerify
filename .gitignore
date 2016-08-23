@@ -4,3 +4,5 @@ node_modules
 .idea/
 .vscode/
 sublime-gulp.log
+copy.js
+typings/
