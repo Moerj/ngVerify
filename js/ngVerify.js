@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.2
+ * ngVerify v1.4.3
  *
  * @license: MIT
  * Designed and built by Moer
@@ -11,8 +11,7 @@ if (typeof angular === 'undefined') {
     throw new Error('ngVerify requires angular')
 }
 
-!(function(angular) {
-
+(function() {
 
     var m = angular.module('ngVerify', []);
 
@@ -458,6 +457,9 @@ if (typeof angular === 'undefined') {
                     }
                 }
 
+            }else{
+                // 如果当前元素验证不通过，直接禁用掉表单提交按钮
+                DisableButtons($scope.ngVerify.subBtn, true)
             }
 
             // 在已标红时，重新设置 tip/标红
@@ -795,4 +797,4 @@ if (typeof angular === 'undefined') {
 
 
 
-})(angular)
+})()
