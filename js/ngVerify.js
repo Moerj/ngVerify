@@ -226,7 +226,7 @@ if (typeof angular === 'undefined') {
         }
 
         if (el == null) {
-            return console.error('param:\'' + some + '\' cant find dom element');
+            return console.error('param:\'' + some + '\' can not find dom element');
         }
 
         return el;
