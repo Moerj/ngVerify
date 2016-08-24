@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.3
+ * ngVerify v1.4.4
  *
  * @license: MIT
  * Designed and built by Moer
@@ -11,13 +11,13 @@ if (typeof angular === 'undefined') {
     throw new Error('ngVerify requires angular')
 }
 
-(function() {
+(function () {
 
     var m = angular.module('ngVerify', []);
 
-    m.service('ngVerify', function() {
+    m.service('ngVerify', function () {
         return {
-            scope: function(formName) {
+            scope: function (formName) {
                 var forms = document.getElementsByName(formName);
                 var obj; //获取一个对象，它是form上的scope作用域
 
@@ -35,13 +35,13 @@ if (typeof angular === 'undefined') {
              * call_back    Function    检测完成后的回调，可接受参数errEls，所有未验证通过的元素
              * darw         blooean     默认为true，是否标红未验证通过的元素
              */
-            check: function(formName, call_back, draw) {
+            check: function (formName, call_back, draw) {
                 var forms = document.getElementsByName(formName);
                 var checkAllData; //绑定在nodelist上的方法，即 @function checkAll()
                 var self = this;
 
                 // 延时执行是为了确保: checkAll() 在 $watch ngModel 之后执行
-                setTimeout(function() {
+                setTimeout(function () {
                     for (var i = 0; i < forms.length; i++) {
                         if (forms[i]._verifyScope) {
                             var scope = self.scope(forms[i].name);
@@ -70,8 +70,12 @@ if (typeof angular === 'undefined') {
              *
              * @return  Boolean       是否验证通过
              */
-            checkElement: function(some, draw) {
+            checkElement: function (some, draw) {
                 var el = getDom(some);
+                if (el._verifyCheckElement === undefined) {
+                    console.error(el, 'You checked element not a ngVerify\'s element');
+                    return false;
+                }
                 return el._verifyCheckElement(draw);
             },
             /** 强制将带有ng-verify的元素标记为未验证通过
@@ -79,7 +83,7 @@ if (typeof angular === 'undefined') {
              * some     String/DomObj    DomObj/id/name
              * errmsg   String           错误消息
              */
-            setError: function(some, errmsg) {
+            setError: function (some, errmsg) {
                 var el = getDom(some);
 
                 // 强制错误消息绑定在原生dom对象上
@@ -87,7 +91,7 @@ if (typeof angular === 'undefined') {
 
                 // 触发元素标记
                 el.focus();
-                setTimeout(function() {
+                setTimeout(function () {
                     el.blur()
                 })
             }
@@ -95,11 +99,11 @@ if (typeof angular === 'undefined') {
     });
 
     // 父指令，写在form标签上
-    m.directive('verifyScope', function() {
+    m.directive('verifyScope', function () {
         return {
             scope: {},
-            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
-                this.getscope = function() {
+            controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+                this.getscope = function () {
                     return $scope;
                 };
 
@@ -113,7 +117,7 @@ if (typeof angular === 'undefined') {
                     tipStyle: formatOpt($attrs.verifyScope, $element).tipStyle,
 
                     // 验证整个表单，错误的将标红
-                    submit: function() {
+                    submit: function () {
                         var els = $scope.ngVerify.elems;
                         var re = checkAll(els);
                         for (var i = 0; i < re.errEls.length; i++) {
@@ -126,18 +130,18 @@ if (typeof angular === 'undefined') {
                 $element[0]._verifyScope = $scope;
 
             }],
-            link: function(scope, iElm) {
+            link: function (scope, iElm) {
                 iElm.attr('novalidate', 'novalidate') //禁用HTML5自带验证
             }
         }
     })
 
     // 子指令，写在需要校验的表单元素和表单提交按钮上
-    m.directive('ngVerify', ['ngVerify', function(ngVerify) {
+    m.directive('ngVerify', ['ngVerify', function (ngVerify) {
         return {
             require: "?^verifyScope",
             scope: false,
-            link: function(scope, iElm, iAttrs, pCtrl) {
+            link: function (scope, iElm, iAttrs, pCtrl) {
                 var pScope; //父指令的$scope
 
                 // 获取传入的配置参数
@@ -150,7 +154,7 @@ if (typeof angular === 'undefined') {
 
                     // 给当前元素的 dom 绑定方法
                     // 检测当前 dom 是否验证通过
-                    iElm[0]._verifyCheckElement = function(draw) {
+                    iElm[0]._verifyCheckElement = function (draw) {
                         makeError(iElm, draw);
                         return ISVALID(iElm);
                     }
@@ -195,7 +199,7 @@ if (typeof angular === 'undefined') {
      * @param   some    String    id || name
      * @return  DomObj
      */
-    var getDom = function(some) {
+    var getDom = function (some) {
         var el;
 
         if (typeof some === 'object') { //已经是dom
@@ -211,7 +215,7 @@ if (typeof angular === 'undefined') {
 
             } else {
                 //name方式获取
-                angular.forEach(document.getElementsByName(some), function(dom) {
+                angular.forEach(document.getElementsByName(some), function (dom) {
                     if (angular.element(dom).attr('ng-verify') !== undefined) {
                         el = dom;
                         return false;
@@ -308,7 +312,7 @@ if (typeof angular === 'undefined') {
             $scope.ngVerify.subBtn.push(iElm);
 
             //提交时检测所有表单
-            iElm.on('click', function() {
+            iElm.on('click', function () {
                 $scope.ngVerify.submit();
             })
 
@@ -349,7 +353,7 @@ if (typeof angular === 'undefined') {
 
             // textarea改变大小时，从新定位tip
             if (iElm[0].localName == 'textarea' && OPTS.tipStyle == 1) {
-                iElm.on('click', function() {
+                iElm.on('click', function () {
                     iElm.ngVerify.errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
                     return false;
                 })
@@ -360,7 +364,7 @@ if (typeof angular === 'undefined') {
                 var orderDom = getDom(OPTS.recheck); //进行对比的参照元素，如：第一次输入的密码
                 var mainDom;
 
-                angular.forEach($scope.ngVerify.elems, function(el) {
+                angular.forEach($scope.ngVerify.elems, function (el) {
                     if (el[0] === orderDom) {
                         mainDom = el;
                         return false;
@@ -376,7 +380,7 @@ if (typeof angular === 'undefined') {
 
                 iElm.ngVerify.recheck = {
                     mainDom: mainDom,
-                    getValue: function() {
+                    getValue: function () {
                         return mainDom[0].value
                     }
                 };
@@ -394,7 +398,7 @@ if (typeof angular === 'undefined') {
                             /* .on('blur', function() {
                                 iElm.triggerHandler('blur')
                             }) */
-                            .on('change', function() {
+                            .on('change', function () {
                                 iElm.triggerHandler('change')
                             })
                     }
@@ -457,7 +461,7 @@ if (typeof angular === 'undefined') {
                     }
                 }
 
-            }else{
+            } else {
                 // 如果当前元素验证不通过，直接禁用掉表单提交按钮
                 DisableButtons($scope.ngVerify.subBtn, true)
             }
@@ -474,7 +478,7 @@ if (typeof angular === 'undefined') {
 
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
-            scope.$watch(iAttrs.ngModel, function(newValue, oldValue) {
+            scope.$watch(iAttrs.ngModel, function (newValue, oldValue) {
                 if (newValue != null || oldValue != null) {
                     // 将ngModel的值写入到modelValue, 供验证使用
                     if (newValue != null && !isEmptyObject(newValue)) {
@@ -507,10 +511,10 @@ if (typeof angular === 'undefined') {
 
             // 处理该类型下，所有可能的辅助input类元素。一些第三方组件可能会在DIV内用input模拟用户输入
             iElm.ngVerify.triggerInput = angular.element(iElm[0].querySelector('input'));
-            iElm.ngVerify.triggerInput.on('blur', function() {
-                    blurTrigger()
-                })
-                .on('change', function() {
+            iElm.ngVerify.triggerInput.on('blur', function () {
+                blurTrigger()
+            })
+                .on('change', function () {
                     changeTrigger()
                 })
 
@@ -532,13 +536,13 @@ if (typeof angular === 'undefined') {
 
 
         // 绑定触发验证的事件
-        iElm.on(blurEvent, function() {
-                blurTrigger()
-            })
-            .on(changeEvent, function() {
+        iElm.on(blurEvent, function () {
+            blurTrigger()
+        })
+            .on(changeEvent, function () {
                 changeTrigger()
             })
-            .on('focus', function() {
+            .on('focus', function () {
                 // 已经标红时获取焦点，显示tip
                 if (iElm.ngVerify.invalid) {
                     tipMsg(iElm, true);
@@ -742,7 +746,7 @@ if (typeof angular === 'undefined') {
                         // 带时间
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29) (\d{2}):(\d{2})(:(\d{2}))?$/;
                     }
-                    else if(val.length === 7){
+                    else if (val.length === 7) {
                         // 年月
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])))$/;
                     }
