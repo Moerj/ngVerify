@@ -392,9 +392,6 @@ if (typeof angular === 'undefined') {
                 for (var i = 0; i < iElms.length; i++) {
                     if (iElms[i] != iElm[0]) {
                         angular.element(iElms[i])
-                            /* .on('blur', function() {
-                                iElm.triggerHandler('blur')
-                            }) */
                             .on('change', function () {
                                 iElm.triggerHandler('change')
                             })
