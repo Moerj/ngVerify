@@ -1,4 +1,4 @@
-# ngVerify v1.4.4
+# ngVerify v1.4.5
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -209,7 +209,7 @@ draw (default:true)    Boolean     //是否标记出未验证通过的元素 (�
 
 ### setError
 ngVerify.setError(element, errmsg)  
-将一个表单元素强制标记为未验证通过
+将一个表单元素强制标记为未验证通过，第二参数不传时取消标记。
 - element 需要标记的元素，可传入dom、id或者name,id需要带#
 - errmsg tip提示错误时显示的消息，其优先级高于其他错误消息
 
