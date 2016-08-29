@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.4
+ * ngVerify v1.4.5
  *
  * @license: MIT
  * Designed and built by Moer
@@ -90,10 +90,7 @@ if (typeof angular === 'undefined') {
                 el._verifySetError = errmsg;
 
                 // 触发元素标记
-                el.focus();
-                setTimeout(function () {
-                    el.blur()
-                })
+                el._verifyCheckElement(true);
             }
         }
     });
