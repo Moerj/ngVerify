@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.5
+ * ngVerify v1.4.6
  *
  * @license: MIT
  * Designed and built by Moer
