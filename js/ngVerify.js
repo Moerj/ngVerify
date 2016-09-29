@@ -470,6 +470,15 @@ if (typeof angular === 'undefined') {
 
         }
 
+        // input[number] 禁止输入16进制的e
+        if (iAttrs.type == 'number') {
+            iElm.on('keypress',function(e){
+                if (e.key === 'e') {
+                    e.preventDefault();
+                }
+            })
+        }
+
         if (iAttrs.ngModel) {
             // 元素上有ng-module, 监听它的值
             scope.$watch(iAttrs.ngModel, function (newValue, oldValue) {
@@ -506,8 +515,8 @@ if (typeof angular === 'undefined') {
             // 处理该类型下，所有可能的辅助input类元素。一些第三方组件可能会在DIV内用input模拟用户输入
             iElm.ngVerify.triggerInput = angular.element(iElm[0].querySelector('input'));
             iElm.ngVerify.triggerInput.on('blur', function () {
-                blurTrigger()
-            })
+                    blurTrigger()
+                })
                 .on('change', function () {
                     changeTrigger()
                 })
@@ -531,8 +540,8 @@ if (typeof angular === 'undefined') {
 
         // 绑定触发验证的事件
         iElm.on(blurEvent, function () {
-            blurTrigger()
-        })
+                blurTrigger()
+            })
             .on(changeEvent, function () {
                 changeTrigger()
             })
@@ -739,12 +748,10 @@ if (typeof angular === 'undefined') {
                     if (val.length > 10) {
                         // 带时间
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29) (\d{2}):(\d{2})(:(\d{2}))?$/;
-                    }
-                    else if (val.length === 7) {
+                    } else if (val.length === 7) {
                         // 年月
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])))$/;
-                    }
-                    else {
+                    } else {
                         // 年月日
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/;
                     }
