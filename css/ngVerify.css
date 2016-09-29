@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify v1.4.6 for style version
+ * ngVerify style version v1.4.7
  *
  * License: MIT
  * Designed and built by Moer
@@ -46,8 +46,6 @@
     padding: 5px 10px;
     margin: 0;
     background-color: #fff;
-    -webkit-transition: .4s;
-    transition: .4s;
     position: absolute; }
     .verifyTips .tipStyle i, .verifyTips .tipStyle-1 i, .verifyTips .tipStyle-2 i {
       border-color: transparent transparent #d9534f transparent;
@@ -73,7 +71,9 @@
     right: 0;
     margin-top: -8px;
     -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
-            transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
+            transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
+    -webkit-transition: .4s;
+    transition: .4s; }
     .verifyTips .tipStyle-1 i {
       border-color: #d9534f transparent transparent transparent;
       -webkit-transform: translate3d(0, 14px, 0);
@@ -88,7 +88,9 @@
     left: 0;
     margin-top: 9px;
     -webkit-transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
-            transform: translate3d(0, -20px, 0) scale3d(0, 0, 1); }
+            transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
+    -webkit-transition: 0s;
+    transition: 0s; }
     .verifyTips .tipStyle-2 i {
       top: -14px;
       left: 10px; }
@@ -105,4 +107,6 @@
     opacity: .8;
     -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
             transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-    position: static; }
+    position: static;
+    -webkit-transition: .3s;
+    transition: .3s; }

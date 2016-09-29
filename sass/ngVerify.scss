@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.6 for style version
+ * ngVerify style version v1.4.7
  *
  * License: MIT
  * Designed and built by Moer
@@ -55,7 +55,6 @@ $errorColor: #d9534f;
         padding: 5px 10px;
         margin: 0;
         background-color: #fff;
-        transition: .4s;
         position: absolute;
         i{
             border-color: transparent transparent $errorColor transparent;
@@ -89,6 +88,7 @@ $errorColor: #d9534f;
         right: 0; //气泡的出现位置
         margin-top: -8px;
         transform: translate3d(0,0,0) scale3d(0,0,1);
+        transition: .4s;
         // 气泡角标的位置
         i{
             border-color: $errorColor transparent transparent transparent;
@@ -108,6 +108,7 @@ $errorColor: #d9534f;
         left: 0;
         margin-top: 9px;
         transform: translate3d(0,-20px,0) scale3d(0,0,1);
+        transition: 0s;
         // 气泡角标的位置
         i{
             top: -14px;
@@ -130,6 +131,7 @@ $errorColor: #d9534f;
         opacity: .8;
         transform: translate3d(0,0,0) scale3d(1,1,1);
         position: static;
+        transition: .3s;
     }
 
 }
