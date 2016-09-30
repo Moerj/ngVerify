@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify style version v1.4.7
+ * ngVerify v1.4.5 last updated
  *
  * License: MIT
  * Designed and built by Moer
@@ -23,18 +23,13 @@
 .verifyTips {
   position: relative;
   z-index: 9999;
-  display: inline;
-  float: right; }
-  .verifyTips::after {
-    content: '';
-    clear: both; }
+  display: block; }
   .verifyTips .tipMsg {
     color: #333;
     font-weight: normal;
     font-size: 14px;
     padding: 0;
-    margin: 0;
-    white-space: nowrap; }
+    margin: 0; }
   .verifyTips .tipStyle, .verifyTips .tipStyle-1, .verifyTips .tipStyle-2 {
     display: inline-block;
     visibility: hidden;
@@ -46,6 +41,8 @@
     padding: 5px 10px;
     margin: 0;
     background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
     position: absolute; }
     .verifyTips .tipStyle i, .verifyTips .tipStyle-1 i, .verifyTips .tipStyle-2 i {
       border-color: transparent transparent #d9534f transparent;
@@ -71,9 +68,7 @@
     right: 0;
     margin-top: -8px;
     -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
-            transform: translate3d(0, 0, 0) scale3d(0, 0, 1);
-    -webkit-transition: .4s;
-    transition: .4s; }
+            transform: translate3d(0, 0, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-1 i {
       border-color: #d9534f transparent transparent transparent;
       -webkit-transform: translate3d(0, 14px, 0);
@@ -88,9 +83,7 @@
     left: 0;
     margin-top: 9px;
     -webkit-transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
-            transform: translate3d(0, -20px, 0) scale3d(0, 0, 1);
-    -webkit-transition: 0s;
-    transition: 0s; }
+            transform: translate3d(0, -20px, 0) scale3d(0, 0, 1); }
     .verifyTips .tipStyle-2 i {
       top: -14px;
       left: 10px; }
@@ -107,6 +100,4 @@
     opacity: .8;
     -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
             transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-    position: static;
-    -webkit-transition: .3s;
-    transition: .3s; }
+    position: static; }
