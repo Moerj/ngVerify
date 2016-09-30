@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify v1.4.5 last updated
+ * ngVerify style version v1.4.6
  *
  * License: MIT
  * Designed and built by Moer
@@ -29,7 +29,8 @@
     font-weight: normal;
     font-size: 14px;
     padding: 0;
-    margin: 0; }
+    margin: 0;
+    white-space: nowrap; }
   .verifyTips .tipStyle, .verifyTips .tipStyle-1, .verifyTips .tipStyle-2 {
     display: inline-block;
     visibility: hidden;
