@@ -1,4 +1,4 @@
-# ngVerify v1.4.5
+# ngVerify v1.4.7
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -178,7 +178,7 @@ app.controller('yourCtrl',function(ngVerify){
 
 ### check
 ngVerify.check('formName', call_back, draw)  
-检测一个verify表单是否验证通过  
+检测一个verify表单是否验证通过，并刷新一次提交按钮的状态  
 ```javascript
 'formName'             String      //指定检测form的name值 (必须)
 call_back              Function    //检测完成后的回调 (可选)

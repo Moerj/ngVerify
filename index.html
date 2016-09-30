@@ -28,79 +28,10 @@
 		<form name="loginForm" verify-scope >
 			<div class="form-group">
 				<label>Time picker </label>
-				<input ng-verify="tipStyle:0" type="dates" class="form-control" date-time ng-model="date.mon" id="date" name="date"
+				<input ng-verify="tipStyle:0" type="dates" class="form-control" date-time ng-model="date.mon"  name="date"
 					min-date="minDate" view="date" min-view="hours" placeholder="click here input">
 			</div>
-			<div class="form-group">
-			    <label>Email address </label>
-				<!-- 只需要写上 ng-verify -->
-			    <input ng-verify type="email" class="form-control" placeholder="input your email" >
-			</div>
-			<div class="form-group">
-			    <label>Password </label>
-				<!-- 自定义字符长度 -->
-			    <input ng-verify="min:3, max:10" name="password" type="password" class="form-control" placeholder="3 to 10 chars">
-			</div>
-			<div class="form-group">
-			    <label>Password reCheck </label>
-				<!-- 自定义字符长度 -->
-			    <input ng-verify="{recheck:'password'}" type="password" class="form-control" placeholder="3 to 10 chars">
-			</div>
-			<div class="form-group">
-		    	<label>Number </label>
-				<!-- 默认支持的type类型 -->
-			    <input ng-verify type="number" class="form-control" placeholder="input number">
-			</div>
-			<div class="form-group">
-			    <label>select </label>
-			    <select ng-verify class="form-control" ng-model="myColor" ng-options="color.name for color in colors">
-			    	<option value=""> choose color </option>
-			    </select>
-			</div>
-			<div class="form-group">
-				<label >checkbox</label>
-				<!-- checkbox多选，请确保所有checkbox被一个div包起 -->
-				<!-- 如果要用label修饰checkbox请统一所有都用 -->
-				<!-- 确保每组checkbox的name属性相同，ng-verify指令只需要在任意一个checkbox上 -->
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox" > Captain America
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox" > Iron Man
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox"  ng-verify="least:2"> Hulk
-				</label>
-			</div>
-			<div class="form-group">
-				<label >radio</label>
-				<label class="radio-inline">
-					<input type="radio" name="radio" > Batman
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="radio" > Superman
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="radio" ng-verify> Me
-				</label>
-			</div>
-			<div class="form-group">
-			    <label>pattern </label>
-				<!-- 自定义正则,并自定义错误消息 -->
-			    <textarea ng-verify=" pattern:/[\u4e00-\u9fa5]/, required:false, errmsg:'需要输入中文' " type="text" class="form-control" placeholder="输入中文（非必填）"></textarea>
-			</div>
-			<div class="form-group">
-				<label>Third party plugins </label>
-				<!-- ui-select组件 -->
-				<ui-select multiple ng-model="selected.value" ng-verify>
-					<ui-select-match>
-						<span ng-bind="$item.name"></span>
-					</ui-select-match>
-					<ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
-						<span ng-bind="item.name"></span>
-					</ui-select-choices>
-				</ui-select>
-			</div>
+			
 
 			<!-- 表单范围内的提交按钮, 当type="submit"时，可以不写control:'loginForm' -->
 			<button class="btn btn-block btn-primary" type="submit" ng-verify ng-click="submit()">Submit</button>
@@ -109,6 +40,7 @@
 
 		<!-- 绑定表单范围外的按钮, control:'loginForm', 设置 disabled:false 可以使他可以不会因为校验失败而禁用 -->
 		<button type="button" class="btn btn-warning outsideBtn" ng-verify="control:'loginForm', disabled:false" >vaild form</button>
+		<button type="button" class="btn btn-warning outsideBtn" ng-click="test()" style="top:10px">删除日期</button>
 
 	</div>
 

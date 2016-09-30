@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.6
+ * ngVerify v1.4.7
  *
  * @license: MIT
  * Designed and built by Moer
@@ -46,6 +46,15 @@ if (typeof angular === 'undefined') {
                         if (forms[i]._verifyScope) {
                             var scope = self.scope(forms[i].name);
                             var els = scope.ngVerify.elems;
+
+                            // 将已经不存在的dom剔除
+                            for (var j = 0; j < els.length; j++) {
+                                if (!isElementExist(els[j])) {
+                                    els.splice(j, 1);
+                                }
+                            }
+
+                            // 获取所有检测结果
                             checkAllData = checkAll(els);
 
                             // 没有callback时，draw可作为第2参数
@@ -55,8 +64,13 @@ if (typeof angular === 'undefined') {
                                     makeError(errEls[n], true);
                                 }
                             }
+
+                            // 重置一次表单按钮
+                            DisableButtons(scope.ngVerify.subBtn, checkAllData.hasError)
+
                         }
                     }
+
                     // check的结果以call_back形式返回
                     if (typeof call_back == 'function') {
                         call_back(checkAllData.errEls);
@@ -279,7 +293,7 @@ if (typeof angular === 'undefined') {
             min: iAttrs.minlength,
             max: iAttrs.maxlength,
             errorClass: 'verifyError',
-            disabled: true, //校验为成功时是否锁定提交按钮
+            disabled: true, //校验不成功时是否锁定提交按钮
             least: 1, //checkbox默认最少勾选数
             tipStyle: $scope.ngVerify.tipStyle >= 0 ? $scope.ngVerify.tipStyle : 1 //tip提示样式, 0禁用 1 右上浮动  2 左下占位
         }
@@ -399,6 +413,18 @@ if (typeof angular === 'undefined') {
                 }
             }
 
+            // 绑定元素销毁事件
+            // iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
+            //     var els = $scope.ngVerify.elems;
+
+            //     // 将已经不存在的dom剔除
+            //     for (var i = 0; i < els.length; i++) {
+            //         if (els[i] == iElm) {
+            //             els.splice(i, 1);
+            //         }
+            //     }
+            // })
+
         }
 
         // 每个元素初始化完，重置一次表单按钮的禁用状态
@@ -472,7 +498,7 @@ if (typeof angular === 'undefined') {
 
         // input[number] 禁止输入16进制的e
         if (iAttrs.type == 'number') {
-            iElm.on('keypress',function(e){
+            iElm.on('keypress', function (e) {
                 if (e.key === 'e') {
                     e.preventDefault();
                 }
@@ -609,7 +635,6 @@ if (typeof angular === 'undefined') {
         for (var i = 0; i < btns.length; i++) {
             if (btns[i].ngVerify.OPTS.disabled) {
                 btns[i].prop('disabled', isDisable);
-                // btns[i].attr('disabled', isDisable);
 
                 // disabled不能禁用 a 标签
                 if (btns[i][0].localName === 'a') {
@@ -798,6 +823,17 @@ if (typeof angular === 'undefined') {
         }
         RE.hasError = !!RE.errEls.length;
         return RE;
+    }
+
+    function isElementExist(iElm) {
+        // 判断该dom是否存在于页面上 (已删除的dom会留在内存上)
+        if (!iElm.attr('id')) {
+            iElm.attr('id', Math.random())
+        }
+        var temp = document.getElementById(iElm.attr('id'))
+            // var els = iElm.ngVerify.$scope.ngVerify.elems;
+
+        return !!temp;
     }
 
 
