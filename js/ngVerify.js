@@ -423,6 +423,10 @@ if (typeof angular === 'undefined') {
                     els.splice(i, 1);
                 }
             }
+
+            // 刷新一次表单按钮状态
+            var hasError = checkAll($scope.ngVerify.elems).hasError;
+            DisableButtons($scope.ngVerify.subBtn, hasError);
         })
 
         // 每个元素初始化完，重置一次表单按钮的禁用状态
