@@ -723,7 +723,7 @@ if (typeof angular === 'undefined') {
             // 没有传入正则，按类型计算正则
             switch (iAttrs.type) {
                 case 'number':
-                    pat = /^[0-9]*$/; //纯数字
+                    pat = /^[-+]?\d+(\.\d+)?$/; //纯数字
                     pat.name = '数字';
                     break;
                 case 'email':
