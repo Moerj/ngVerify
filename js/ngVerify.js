@@ -47,13 +47,6 @@ if (typeof angular === 'undefined') {
                             var scope = self.scope(forms[i].name);
                             var els = scope.ngVerify.elems;
 
-                            // 将已经不存在的dom剔除
-                            for (var j = 0; j < els.length; j++) {
-                                if (!isElementExist(els[j])) {
-                                    els.splice(j, 1);
-                                }
-                            }
-
                             // 获取所有检测结果
                             checkAllData = checkAll(els);
 
@@ -413,19 +406,24 @@ if (typeof angular === 'undefined') {
                 }
             }
 
-            // 绑定元素销毁事件
-            // iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
-            //     var els = $scope.ngVerify.elems;
-
-            //     // 将已经不存在的dom剔除
-            //     for (var i = 0; i < els.length; i++) {
-            //         if (els[i] == iElm) {
-            //             els.splice(i, 1);
-            //         }
-            //     }
-            // })
-
         }
+
+        // 绑定元素销毁事件
+        iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
+            var els
+            if (OPTS.control || iAttrs.type == 'submit') {
+                els = $scope.ngVerify.subBtn;
+            } else {
+                els = $scope.ngVerify.elems;
+            }
+
+            // 将已经不存在的dom从元素组中剔除
+            for (var i = 0; i < els.length; i++) {
+                if (els[i] == iElm) {
+                    els.splice(i, 1);
+                }
+            }
+        })
 
         // 每个元素初始化完，重置一次表单按钮的禁用状态
         if (checkAll($scope.ngVerify.elems).hasError) {
@@ -824,18 +822,6 @@ if (typeof angular === 'undefined') {
         RE.hasError = !!RE.errEls.length;
         return RE;
     }
-
-    function isElementExist(iElm) {
-        // 判断该dom是否存在于页面上 (已删除的dom会留在内存上)
-        if (!iElm.attr('id')) {
-            iElm.attr('id', Math.random())
-        }
-        var temp = document.getElementById(iElm.attr('id'))
-            // var els = iElm.ngVerify.$scope.ngVerify.elems;
-
-        return !!temp;
-    }
-
 
 
 })()
