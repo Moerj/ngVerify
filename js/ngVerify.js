@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.7
+ * ngVerify v1.4.8
  *
  * @license: MIT
  * Designed and built by Moer
@@ -519,8 +519,9 @@ if (typeof angular === 'undefined') {
                         iElm.ngVerify.modelValue = null;
                     }
 
-                    // 非表单元素
-                    if (iElm[0].value === undefined) {
+                    // 非表单元素，在改变moudel时确保有焦点，以便于触发失焦验证
+                    // 例如在ui-select组件上绑定verify验证时，不这么做再删除最后一个select项后不会触发失焦验证
+                    if (iElm[0].value === undefined && isEmptyObject(newValue)) {
                         iElm[0].focus()
                     }
 
