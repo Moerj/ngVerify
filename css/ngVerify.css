@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * ngVerify style version v1.4.6
+ * ngVerify style version v1.4.8
  *
  * License: MIT
  * Designed and built by Moer
@@ -23,7 +23,9 @@
 .verifyTips {
   position: relative;
   z-index: 9999;
-  display: block; }
+  display: block;
+  -ms-flex-item-align: end;
+      align-self: flex-end; }
   .verifyTips .tipMsg {
     color: #333;
     font-weight: normal;

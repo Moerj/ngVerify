@@ -1,5 +1,5 @@
 /**
- * ngVerify style version v1.4.6
+ * ngVerify style version v1.4.8
  *
  * License: MIT
  * Designed and built by Moer
@@ -29,6 +29,7 @@ $errorColor: #d9534f;
     position: relative;
     z-index: 9999;
     display: block;
+    align-self: flex-end;//防止外容器为flex时，tip容器定位不靠底部
 
     .tipMsg{
         color: #333;
