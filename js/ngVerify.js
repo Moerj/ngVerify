@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.8
+ * ngVerify v1.4.9
  *
  * @license: MIT
  * Designed and built by Moer
@@ -409,25 +409,28 @@ if (typeof angular === 'undefined') {
         }
 
         // 绑定元素销毁事件
-        iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
-            var els
-            if (OPTS.control || iAttrs.type == 'submit') {
-                els = $scope.ngVerify.subBtn;
-            } else {
-                els = $scope.ngVerify.elems;
-            }
-
-            // 将已经不存在的dom从元素组中剔除
-            for (var i = 0; i < els.length; i++) {
-                if (els[i] == iElm) {
-                    els.splice(i, 1);
+        // timeout解决在某些路由页面导致渲染完页面直接触发DOMNodeRemovedFromDocument
+        setTimeout(function() {
+            iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
+                var els
+                if (OPTS.control || iAttrs.type == 'submit') {
+                    els = $scope.ngVerify.subBtn;
+                } else {
+                    els = $scope.ngVerify.elems;
                 }
-            }
 
-            // 刷新一次表单按钮状态
-            var hasError = checkAll($scope.ngVerify.elems).hasError;
-            DisableButtons($scope.ngVerify.subBtn, hasError);
-        })
+                // 将已经不存在的dom从元素组中剔除
+                for (var i = 0; i < els.length; i++) {
+                    if (els[i] == iElm) {
+                        els.splice(i, 1);
+                    }
+                }
+
+                // 刷新一次表单按钮状态
+                var hasError = checkAll($scope.ngVerify.elems).hasError;
+                DisableButtons($scope.ngVerify.subBtn, hasError);
+            })
+        });
 
         // 每个元素初始化完，重置一次表单按钮的禁用状态
         if (checkAll($scope.ngVerify.elems).hasError) {

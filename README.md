@@ -1,4 +1,4 @@
-# ngVerify v1.4.8
+# ngVerify v1.4.9
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -253,3 +253,8 @@ ngVerify.scope('formName')
 ## Support
 - IE 9+
 - angular 1.x
+
+
+<br>
+## Recent update
+- 修正特定路由页面表单提交按钮不能触发检测的问题。
