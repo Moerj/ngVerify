@@ -1,11 +1,17 @@
 {
   "name": "ng-verify",
-  "version": "1.4.9",
+  "version": "1.4.9b",
   "description": "Angularjs form validation component",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keyword":[
+    "angularjs",
+    "plugin",
+    "validation",
+    "verify"
+  ],
   "author": "Moer",
   "license": "ISC",
   "devDependencies": {
