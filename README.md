@@ -43,13 +43,13 @@ var app = angular.module('APP',['ngVerify']);//注册组件
   
 <br>
 ## How to use
-1. 标记一个表单范围 <a href="#step1">verify-scope</a>
-2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
-3. 绑定提交按钮 <a href="#step3">control</a>
+1. 标记一个表单范围 verify-scope
+2. 标记需要验证的元素 ng-verify
+3. 绑定提交按钮 control
   
 
 <br>
-<h2 id="step1">verify-scope</h2>
+## verify-scope
 入口指令，规定组件所控制的表单范围
 
 ```html
@@ -71,7 +71,7 @@ __defualt: 1__
 
   
 <br>
-<h2 id="step2">ng-verify</h2>
+## ng-verify
 元素指令，定义验证规则
 
 ### defualt
@@ -143,7 +143,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 <input type="password" ng-verify="{recheck:'password-1'}">
 ```
 
-<h3 id="step3">control</h3>
+### control
 绑定一个表单提交按钮, control:'formName'
 ```html
 <form name="myform" verify>
