@@ -6,3 +6,4 @@ node_modules
 sublime-gulp.log
 copy.js
 typings/
+npm-debug.log*
