@@ -1,4 +1,4 @@
-# ngVerify v1.4.0
+# ngVerify v1.5.0
 
 a easy Angular Form Validation plugin.
 简洁高效的__angular表单验证插件__  
@@ -17,34 +17,40 @@ See how powerful it.
 
 
 <br>
+
 ## Show
 [HOME - 首页](http://moerj.github.io/ngVerify/)  
 [DEMO - 示例](http://moerj.com/Github/ngVerify/)  
   
 <br>
+
 ## Getting Started
-在使用前，你需要引入angular
+
+```cmd
+npm install ng-verify
+```
 
 ```javascript
 
-require('angular');
+require('angular');//在使用前，你需要引入angular
 
-require('ngVerify');
+require('ngVerify');//引入verify组件
 
-var app = angular.module('APP',['ngVerify']);
+var app = angular.module('APP',['ngVerify']);//注册组件
 
 ```
   
   
 <br>
 ## How to use
-1. 标记一个表单范围 <a href="#step1">verify-scope</a>
-2. 标记需要验证的元素 <a href="#step2">ng-verify</a>
-3. 绑定提交按钮 <a href="#step3">control</a>
+
+1. 标记一个表单范围 verify-scope
+2. 标记需要验证的元素 ng-verify
+3. 绑定提交按钮 control
   
 
 <br>
-<h2 id="step1">verify-scope</h2>
+## verify-scope
 入口指令，规定组件所控制的表单范围
 
 ```html
@@ -53,7 +59,8 @@ var app = angular.module('APP',['ngVerify']);
 </form>
 ```
 
-### tipStyle (defualt: 1)
+### tipStyle
+__defualt: 1__    
 设置整个表单的错误消息样式
 - 0 禁用tip提示
 - 1 气泡浮动提示，在元素右上角浮出
@@ -65,7 +72,7 @@ var app = angular.module('APP',['ngVerify']);
 
   
 <br>
-<h2 id="step2">ng-verify</h2>
+## ng-verify
 元素指令，定义验证规则
 
 ### defualt
@@ -75,13 +82,15 @@ var app = angular.module('APP',['ngVerify']);
 <input type="email" ng-verify >
 ```
 
-### required (defualt: true)
+### required
+__defualt: true__  
 false允许空值通过校验
 ```html
 <input type="number" ng-verify="required: false" >
 ```
 
-### length (min,max)
+### length
+__min,max__    
 定制校验字符长度
 ```html
 <input type="text" ng-verify="{min:3,max:6}" >
@@ -99,7 +108,8 @@ false允许空值通过校验
 <input type="text" ng-verify="{errmsg:'其实这里没有错，我是在逗你玩'}" >
 ```
 
-### option (defualt: 0)
+### option
+__defualt: 0__  
 select下拉菜单属性，指定的option表示选中会校验不通过
 ```html
 <select ng-verify="option:0" >
@@ -110,7 +120,8 @@ select下拉菜单属性，指定的option表示选中会校验不通过
 </select>
 ```
 
-### least (defualt: 1)
+### least
+__defualt: 1__  
 checkbox最少勾选数，指定至少勾选几项才会通过验证
 ```html
 <div>
@@ -133,7 +144,7 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 <input type="password" ng-verify="{recheck:'password-1'}">
 ```
 
-<h3 id="step3">control</h3>
+### control
 绑定一个表单提交按钮, control:'formName'
 ```html
 <form name="myform" verify>
@@ -147,14 +158,16 @@ checkbox最少勾选数，指定至少勾选几项才会通过验证
 <button ng-verify="{control:'myform'}" >提交</button> <!--表单外的按钮-->
 ```
 
-### disabled (defualt: true)
+### disabled
+__defualt: true__  
 设置 disabled:false 提交按钮在表单未校验通过时不会禁用，并且会自动绑定一个click事件，点击时标记所有错误表单。  
 注意：a 标签是没有 disabled 属性的，所以请使用 button 或者 input 来做按钮。
 ```html
 	<button ng-verify="disabled:false" >按钮</button>
 ```
 
-### tipStyle (defualt: form verify-scope)
+### tipStyle
+__defualt: form verify-scope__  
 同上，设置单个元素提示样式
   
 
@@ -169,15 +182,9 @@ app.controller('yourCtrl',function(ngVerify){
 })
 ```
 
-### ngVerify.checkElement(elemet, draw)
-检测一个元素是否验证通过
-```javascript
-element                id/name/DomObj  //参数 id 或 name 或一个原生 dom 对象
-draw (default:true)    Boolean     //是否标记出未验证通过的元素 (可选)
-```
-
-### ngVerify.check('formName', call_back, draw)
-检测一个verify表单是否验证通过  
+### check
+ngVerify.check('formName', call_back, draw)  
+检测一个verify表单是否验证通过，并刷新一次提交按钮的状态  
 ```javascript
 'formName'             String      //指定检测form的name值 (必须)
 call_back              Function    //检测完成后的回调 (可选)
@@ -198,8 +205,17 @@ ngVerify.check('formName',function (errEls) {
 },false);
 ```
 
-### ngVerify.setError(element, errmsg)
-将一个表单元素强制标记为未验证通过
+### checkElement
+ngVerify.checkElement(elemet, draw)  
+检测一个元素是否验证通过
+```javascript
+element                id/name/DomObj  //参数 id 或 name 或一个原生 dom 对象
+draw (default:true)    Boolean     //是否标记出未验证通过的元素 (可选)
+```
+
+### setError
+ngVerify.setError(element, errmsg)  
+将一个表单元素强制标记为未验证通过，第二参数不传时取消标记。
 - element 需要标记的元素，可传入dom、id或者name,id需要带#
 - errmsg tip提示错误时显示的消息，其优先级高于其他错误消息
 
@@ -208,7 +224,8 @@ ngVerify.setError('#id','这里有错') //以id标记错误
 ngVerify.setError('name') //以name取消标记错误
 ```
 
-### ngVerify.scope()
+### scope
+ngVerify.scope()  
 获取一个verify表单的$scope作用域
 ```javascript
 ngVerify.scope('formName')
@@ -226,11 +243,12 @@ ngVerify.scope('formName')
 - checkbox
 - select
 - char (字母加下划线)
-- date/dates (yyyy-mm-dd || yyyy/mm/dd) (hh:mm || hh:mm:ss) 时间部分非必须
+- date/dates (yyyy-mm-dd || yyyy-mm ) (hh:mm || hh:mm:ss) 时间部分非必须
 - file
    
 <br>
 ## tips
+
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
 - checkbox、radio组绑定验证最好绑在最后一个
 - errmsg参数通常不需要你设置
@@ -240,5 +258,12 @@ ngVerify.scope('formName')
    
 <br>
 ## Support
+
 - IE 9+
 - angular 1.x
+
+
+<br>
+## Recent update
+
+- 去掉某些错误日志
