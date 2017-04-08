@@ -248,6 +248,7 @@ ngVerify.scope('formName')
    
 <br>
 ## tips
+
 - 传入的参数字符串都必须是对象参数"{key1: value1, key2: value2}"，可以不写大括号 { }
 - checkbox、radio组绑定验证最好绑在最后一个
 - errmsg参数通常不需要你设置
@@ -257,10 +258,12 @@ ngVerify.scope('formName')
    
 <br>
 ## Support
+
 - IE 9+
 - angular 1.x
 
 
 <br>
 ## Recent update
-- 修正特定路由页面表单提交按钮不能触发检测的问题。
+
+- 去掉某些错误日志
