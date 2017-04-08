@@ -43,6 +43,7 @@ var app = angular.module('APP',['ngVerify']);//注册组件
   
 <br>
 ## How to use
+
 1. 标记一个表单范围 verify-scope
 2. 标记需要验证的元素 ng-verify
 3. 绑定提交按钮 control
