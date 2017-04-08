@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.4.9
+ * ngVerify v1.5.0
  *
  * @license: MIT
  * Designed and built by Moer
@@ -152,8 +152,7 @@ if (typeof angular === 'undefined') {
                 var OPTS = formatOpt(iAttrs.ngVerify, iElm);
 
 
-                // 在作用于内
-                if (pCtrl != undefined) {
+                if (pCtrl != undefined) { // 在作用于内
                     pScope = pCtrl.getscope();
 
                     // 给当前元素的 dom 绑定方法
@@ -162,13 +161,11 @@ if (typeof angular === 'undefined') {
                         makeError(iElm, draw);
                         return ISVALID(iElm);
                     }
-                }
 
-                //在作用域外（按钮）
-                else {
+                } else { //在作用域外
+
                     if (!OPTS.control) {
-                        console.error('ngVerify need control option to form.name:');
-                        console.error(iElm);
+                        // 可能的动态表单元素,它放入form时再手动编译才生效
                         return;
                     }
 
@@ -410,7 +407,7 @@ if (typeof angular === 'undefined') {
 
         // 绑定元素销毁事件
         // timeout解决在某些路由页面导致渲染完页面直接触发DOMNodeRemovedFromDocument
-        setTimeout(function() {
+        setTimeout(function () {
             iElm[0].addEventListener('DOMNodeRemovedFromDocument', function () {
                 var els
                 if (OPTS.control || iAttrs.type == 'submit') {
