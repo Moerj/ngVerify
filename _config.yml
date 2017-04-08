@@ -1,0 +1,8 @@
+title: ngVerify
+description: Angular Form Validation plugin. 高效的表单验证
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
