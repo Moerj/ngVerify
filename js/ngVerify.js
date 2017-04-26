@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.5.0
+ * ngVerify v1.5.2
  *
  * @license: MIT
  * Designed and built by Moer
@@ -605,7 +605,15 @@ if (typeof angular === 'undefined') {
 
         // 重置tip的高度
         if (OPTS.tipStyle == 1) {
-            errtip.tip.css('top', iElm[0].offsetHeight * -1 + 'px');
+            var tipHeight
+            if (iElm.attr('type') === 'radio' || iElm.attr('type')==='checkbox') {
+                // 此类型元素dom无高度,取外层容器高度
+                tipHeight = iElm.parent()[0].offsetHeight
+            }else{
+                tipHeight = iElm[0].offsetHeight
+            }
+
+            errtip.tip.css('top', tipHeight * -1 + 'px');
         }
     }
 
@@ -776,7 +784,11 @@ if (typeof angular === 'undefined') {
                     if (val.length > 10) {
                         // 带时间
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29) (\d{2}):(\d{2})(:(\d{2}))?$/;
-                    } else if (val.length === 7) {
+                    } else if(val.length === 4){
+                        // 年
+                        pat = /(?!0000)[0-9]{4}/;
+                    }
+                     else if (val.length === 7) {
                         // 年月
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])))$/;
                     } else {
