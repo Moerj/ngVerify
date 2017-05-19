@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.5.2
+ * ngVerify v1.5.3
  *
  * @license: MIT
  * Designed and built by Moer
@@ -173,8 +173,8 @@ if (typeof angular === 'undefined') {
                     pScope = ngVerify.scope(OPTS.control)
 
                     if (pScope == undefined) {
-                        console.error('ngVerify button cant be find parent form:');
-                        console.error(iElm);
+                        console.warn('ngVerify button cant be find parent form:');
+                        console.warn(iElm);
                         return;
                     }
                 }
