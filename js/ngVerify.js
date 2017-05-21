@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.5.3
+ * ngVerify v1.5.4
  *
  * @license: MIT
  * Designed and built by Moer
@@ -146,50 +146,55 @@ if (typeof angular === 'undefined') {
             require: "?^verifyScope",
             scope: false,
             link: function (scope, iElm, iAttrs, pCtrl) {
-                var pScope; //父指令的$scope
 
-                // 获取传入的配置参数
-                var OPTS = formatOpt(iAttrs.ngVerify, iElm);
+                // 确保verifyScope初始化完
+                setTimeout(function () {
+
+                    var pScope; //父指令的$scope
+
+                    // 获取传入的配置参数
+                    var OPTS = formatOpt(iAttrs.ngVerify, iElm);
+
+                    if (pCtrl != undefined) { // 在作用于内
+                        pScope = pCtrl.getscope();
+
+                        // 给当前元素的 dom 绑定方法
+                        // 检测当前 dom 是否验证通过
+                        iElm[0]._verifyCheckElement = function (draw) {
+                            makeError(iElm, draw);
+                            return ISVALID(iElm);
+                        }
+
+                    } else { //在作用域外
+
+                        if (!OPTS.control) {
+                            // 可能的动态表单元素,它放入form时再手动编译才生效
+                            return;
+                        }
+
+                        //获取对应的父指令作用域$scope
+                        pScope = ngVerify.scope(OPTS.control)
+
+                        if (pScope == undefined) {
+                            console.error('ngVerify button cant be find parent form:');
+                            console.error(iElm);
+                            return;
+                        }
 
 
-                if (pCtrl != undefined) { // 在作用于内
-                    pScope = pCtrl.getscope();
-
-                    // 给当前元素的 dom 绑定方法
-                    // 检测当前 dom 是否验证通过
-                    iElm[0]._verifyCheckElement = function (draw) {
-                        makeError(iElm, draw);
-                        return ISVALID(iElm);
                     }
 
-                } else { //在作用域外
-
-                    if (!OPTS.control) {
-                        // 可能的动态表单元素,它放入form时再手动编译才生效
-                        return;
+                    // 元素绑定相关参数
+                    iElm.ngVerify = {
+                        $scope: pScope,
+                        scope: scope,
+                        iAttrs: iAttrs,
+                        OPTS: OPTS
                     }
 
-                    //获取对应的父指令作用域$scope
-                    pScope = ngVerify.scope(OPTS.control)
-
-                    if (pScope == undefined) {
-                        console.warn('ngVerify button cant be find parent form:');
-                        console.warn(iElm);
-                        return;
-                    }
-                }
-
-
-                // 元素绑定相关参数
-                iElm.ngVerify = {
-                    $scope: pScope,
-                    scope: scope,
-                    iAttrs: iAttrs,
-                    OPTS: OPTS
-                }
-
-                // 初始化元素
-                Init(iElm);
+                    // 初始化元素
+                    Init(iElm);
+                });
 
             }
         }
@@ -606,10 +611,10 @@ if (typeof angular === 'undefined') {
         // 重置tip的高度
         if (OPTS.tipStyle == 1) {
             var tipHeight
-            if (iElm.attr('type') === 'radio' || iElm.attr('type')==='checkbox') {
+            if (iElm.attr('type') === 'radio' || iElm.attr('type') === 'checkbox') {
                 // 此类型元素dom无高度,取外层容器高度
                 tipHeight = iElm.parent()[0].offsetHeight
-            }else{
+            } else {
                 tipHeight = iElm[0].offsetHeight
             }
 
@@ -784,11 +789,10 @@ if (typeof angular === 'undefined') {
                     if (val.length > 10) {
                         // 带时间
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29) (\d{2}):(\d{2})(:(\d{2}))?$/;
-                    } else if(val.length === 4){
+                    } else if (val.length === 4) {
                         // 年
                         pat = /(?!0000)[0-9]{4}/;
-                    }
-                     else if (val.length === 7) {
+                    } else if (val.length === 7) {
                         // 年月
                         pat = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])))$/;
                     } else {
