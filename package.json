@@ -1,6 +1,6 @@
 {
   "name": "ng-verify",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Angularjs form validation component",
   "main": "js/ngVerify.js",
   "scripts": {
