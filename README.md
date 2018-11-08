@@ -1,7 +1,7 @@
 # ngVerify v1.5.5
 
-a easy Angular Form Validation plugin.
-简洁高效的__angular表单验证插件__  
+a easy AngularJS Form Validation plugin.
+简洁高效的__表单验证插件__  
   
 See how powerful it.
 看看它有多强大
@@ -14,6 +14,13 @@ See how powerful it.
 - 提供 type 类型校验模板，你几乎不需要定校验规则
 - 提供自定义规则
 - 支持第三方组件校验
+
+
+<br>
+## Support
+
+- IE 9+
+- angularjs 1.5+
 
 
 <br>
@@ -256,13 +263,6 @@ ngVerify.scope('formName')
 - 带有 ngModel 的元素，其数据模型具有较高的校验优先级
 - 不支持form嵌套
    
-<br>
-## Support
-
-- IE 9+
-- angular 1.x
-
-
 <br>
 ## Recent update
 
