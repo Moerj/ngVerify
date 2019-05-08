@@ -1,5 +1,5 @@
 /**
- * ngVerify v1.5.5
+ * ngVerify v1.5.6
  *
  * @license: MIT
  * Designed and built by Moer
@@ -305,12 +305,6 @@ if (typeof angular === 'undefined') {
 
         // 给元素绑定合并后的参数
         iElm.ngVerify.OPTS = OPTS;
-
-        // 增加属性，控制输入长短
-        iElm.attr({
-            maxlength: OPTS.max,
-            minlength: OPTS.min
-        })
 
         // 元素初始化数据
         if (OPTS.control || iAttrs.type == 'submit') {

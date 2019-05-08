@@ -1,4 +1,4 @@
-# ngVerify v1.5.5
+# ngVerify v1.5.6
 
 a easy AngularJS Form Validation plugin.
 简洁高效的__表单验证插件__  
@@ -262,8 +262,3 @@ ngVerify.scope('formName')
 - 表单范围内的按钮，只要type="submit"则不需要设置control参数
 - 带有 ngModel 的元素，其数据模型具有较高的校验优先级
 - 不支持form嵌套
-   
-<br>
-## Recent update
-
-- 去掉某些错误日志
